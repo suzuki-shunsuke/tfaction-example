@@ -1,0 +1,40 @@
+---
+name: scaffold working directory
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'target'
+        required: true
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aquaproj/aqua-installer@v0.6.0
+        with:
+          aqua_version: v0.10.0
+
+      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@main
+        id: scaffold-working-dir
+        with:
+          target: ${{github.event.inputs.target}}
+
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@main
+        with:
+          target: ${{ github.event.inputs.target }}
+          working_directory: ${{steps.scaffold-working-dir.outputs.working_directory}}
+          github_app_token: ${{ steps.generate_token.outputs.token }}

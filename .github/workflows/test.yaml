@@ -1,0 +1,109 @@
+---
+name: test
+on:
+  pull_request:
+    # branches: [main]
+    branches: [dummy] # Disabled
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  RENOVATE_LOGIN: "renovate[bot]" # TODO move to tfaction.yaml
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      tfmigrate_targets: ${{ steps.list-targets.outputs.tfmigrate_targets }}
+      terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aquaproj/aqua-installer@v0.6.0
+        with:
+          aqua_version: v0.10.0
+      - uses: suzuki-shunsuke/tfaction/list-targets@main
+        id: list-targets
+
+  tfmigrate:
+    runs-on: ubuntu-latest
+    needs: setup
+    # if services is empty, the build job is skipped
+    if: "join(fromJSON(needs.setup.outputs.tfmigrate_targets), '') != ''"
+    strategy:
+      matrix:
+        target: ${{fromJSON(needs.setup.outputs.tfmigrate_targets)}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - uses: aquaproj/aqua-installer@v0.6.0
+        with:
+          aqua_version: v0.10.0
+
+      - uses: suzuki-shunsuke/tfaction/setup@main
+        id: setup
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
+
+      - uses: suzuki-shunsuke/tfaction/test@main
+        with:
+          target: ${{ matrix.target }}
+          working_directory: ${{ steps.setup.outputs.working_directory }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@main
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          s3_bucket_name_tfmigrate_history: ${{ steps.setup.outputs.s3_bucket_name_tfmigrate_history }}
+          s3_bucket_name_plan_file: ${{ steps.setup.outputs.s3_bucket_name_plan_file }}
+          working_directory: ${{ steps.setup.outputs.working_directory }}
+
+  terraform:
+    runs-on: ubuntu-latest
+    needs: setup
+    # if services is empty, the build job is skipped
+    if: "join(fromJSON(needs.setup.outputs.terraform_targets), '') != ''"
+    strategy:
+      matrix:
+        target: ${{fromJSON(needs.setup.outputs.terraform_targets)}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - uses: aquaproj/aqua-installer@v0.6.0
+        with:
+          aqua_version: v0.10.0
+
+      - uses: suzuki-shunsuke/tfaction/setup@main
+        id: setup
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
+
+      - uses: suzuki-shunsuke/tfaction/test@main
+        with:
+          target: ${{ matrix.target }}
+          working_directory: ${{ steps.setup.outputs.working_directory }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@main
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          s3_bucket_name_plan_file: ${{ steps.setup.outputs.s3_bucket_name_plan_file }}
+          working_directory: ${{ steps.setup.outputs.working_directory }}

@@ -1,0 +1,46 @@
+---
+# https://github.com/suzuki-shunsuke/github-comment
+templates:
+  header: '{{env "TARGET"}} {{template "link" .}}'
+  exec_default: |
+    {{template "status" .}} {{template "header" .}}
+
+    {{template "join_command" .}}
+
+    {{template "hidden_combined_output" .}}
+hide:
+  default: |
+    Comment.HasMeta && Comment.Meta.SHA1 != Commit.SHA1 && ! (Comment.Meta.Program == "tfcmt" && Comment.Meta.Command == "apply")
+post:
+  renovate-plan-change:
+    template: |
+      ## :x: Renovate's PR must be `No change`
+      {{template "link" .}}
+
+      In the pull request created by Renovate, the result of `terraform plan` must be `No change` to enable automerge safely.
+      If you allow changes, please set the pull request label `renovate-change` and rerun CI.
+
+exec:
+  default:
+  - when: ExitCode != 0
+    template: |
+      {{template "exec_default" .}}
+  tfmigrate-plan:
+  - when: true
+    template: |
+      {{template "exec_default" .}}
+  tfmigrate-apply:
+  - when: true
+    template: |
+      {{template "exec_default" .}}
+
+  conftest:
+  - when: ExitCode != 0
+    template: |
+      ## :x: Violate Conftest Policy ({{Env "TARGET"}})
+
+      {{template "link" .}} 
+
+      {{template "join_command" .}}
+
+      {{.CombinedOutput | AvoidHTMLEscape}}
