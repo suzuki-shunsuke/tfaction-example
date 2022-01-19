@@ -1,0 +1,11 @@
+templates:
+  guide_apply_failure: |
+    @{{.Vars.author}} Please check the error
+  guide_apply_parse_error: |
+    @{{.Vars.author}} Please check the error
+terraform:
+  plan:
+    when_add_or_update_only:
+      label: "{{.Vars.target}}/update"
+    when_no_changes:
+      label: "{{.Vars.target}}/no-change"

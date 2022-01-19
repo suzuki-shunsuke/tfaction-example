@@ -1,0 +1,6 @@
+*.backup
+.terraform
+tfplan.out
+tfplan.json
+node_modules
+*.log

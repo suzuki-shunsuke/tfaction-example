@@ -1,0 +1,98 @@
+---
+name: apply
+on:
+  push:
+    # branches: [main]
+    branches: [dummy] # Disabled
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+permissions:
+  id-token: write
+  contents: read
+  issues: read # this is required to `gh pr list`'s `-l` option
+  pull-requests: write
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      tfmigrate_targets: ${{ steps.list-targets.outputs.tfmigrate_targets }}
+      terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aquaproj/aqua-installer@v0.6.0
+        with:
+          aqua_version: v0.10.0
+
+      - uses: suzuki-shunsuke/tfaction/list-targets@main
+        id: list-targets
+
+  tfmigrate-apply:
+    runs-on: ubuntu-latest
+    needs: setup
+    # if services is empty, the build job is skipped
+    if: "join(fromJSON(needs.setup.outputs.tfmigrate_targets), '') != ''"
+    strategy:
+      matrix:
+        target: ${{fromJSON(needs.setup.outputs.tfmigrate_targets)}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - uses: aquaproj/aqua-installer@v0.6.0
+        with:
+          aqua_version: v0.10.0
+
+      - uses: suzuki-shunsuke/tfaction/setup@main
+        id: setup
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
+          is_apply: 'true'
+
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@main
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          working_directory: ${{ steps.setup.outputs.working_directory }}
+
+  terraform-apply:
+    runs-on: ubuntu-latest
+    needs: setup
+    # if services is empty, the build job is skipped
+    if: "join(fromJSON(needs.setup.outputs.terraform_targets), '') != ''"
+    strategy:
+      matrix:
+        target: ${{fromJSON(needs.setup.outputs.terraform_targets)}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - uses: aquaproj/aqua-installer@v0.6.0
+        with:
+          aqua_version: v0.10.0
+
+      - uses: suzuki-shunsuke/tfaction/setup@main
+        id: setup
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
+          is_apply: 'true'
+
+      - uses: suzuki-shunsuke/tfaction/terraform-apply@main
+        with:
+          target: ${{ matrix.target }}
+          github_app_token: ${{ steps.generate_token.outputs.token }}
+          working_directory: ${{ steps.setup.outputs.working_directory }}
+          s3_bucket_name_plan_file: ${{ steps.setup.outputs.s3_bucket_name_plan_file }}
