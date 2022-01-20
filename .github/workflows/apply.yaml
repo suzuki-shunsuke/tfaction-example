@@ -34,6 +34,9 @@ jobs:
     strategy:
       matrix:
         target: ${{fromJSON(needs.setup.outputs.tfmigrate_targets)}}
+    env:
+      TFACTION_TARGET: ${{matrix.target}}
+      TFACTION_IS_APPLY: 'true'
     steps:
       - uses: actions/checkout@v2
       - name: Generate token
@@ -50,16 +53,12 @@ jobs:
       - uses: suzuki-shunsuke/tfaction/setup@main
         id: setup
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
-          is_apply: 'true'
 
       - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@main
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
-          working_directory: ${{ steps.setup.outputs.working_directory }}
 
   terraform-apply:
     runs-on: ubuntu-latest
@@ -69,6 +68,9 @@ jobs:
     strategy:
       matrix:
         target: ${{fromJSON(needs.setup.outputs.terraform_targets)}}
+    env:
+      TFACTION_TARGET: ${{matrix.target}}
+      TFACTION_IS_APPLY: 'true'
     steps:
       - uses: actions/checkout@v2
       - name: Generate token
@@ -85,14 +87,9 @@ jobs:
       - uses: suzuki-shunsuke/tfaction/setup@main
         id: setup
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
-          is_apply: 'true'
 
       - uses: suzuki-shunsuke/tfaction/terraform-apply@main
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
-          working_directory: ${{ steps.setup.outputs.working_directory }}
-          s3_bucket_name_plan_file: ${{ steps.setup.outputs.s3_bucket_name_plan_file }}
