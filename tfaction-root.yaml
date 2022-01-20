@@ -25,6 +25,4 @@ targets:
     terraform_apply: arn:aws:iam::000000000000:role/GitHubActionsTerraformMainGitHub
 
 label_prefixes:
-  target: "target:"
   tfmigrate: "migrate:"
-  ignore: "ignore:"
