@@ -6,7 +6,6 @@ on:
     branches: [dummy] # Disabled
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  RENOVATE_LOGIN: "renovate[bot]" # TODO move to tfaction.yaml
 permissions:
   id-token: write
   contents: read
@@ -33,6 +32,9 @@ jobs:
     strategy:
       matrix:
         target: ${{fromJSON(needs.setup.outputs.tfmigrate_targets)}}
+    env:
+      TFACTION_TARGET: ${{matrix.target}}
+      TFACTION_IS_APPLY: 'false'
     steps:
       - uses: actions/checkout@v2
       - name: Generate token
@@ -49,23 +51,16 @@ jobs:
       - uses: suzuki-shunsuke/tfaction/setup@main
         id: setup
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
 
       - uses: suzuki-shunsuke/tfaction/test@main
         with:
-          target: ${{ matrix.target }}
-          working_directory: ${{ steps.setup.outputs.working_directory }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
       - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@main
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
-          s3_bucket_name_tfmigrate_history: ${{ steps.setup.outputs.s3_bucket_name_tfmigrate_history }}
-          s3_bucket_name_plan_file: ${{ steps.setup.outputs.s3_bucket_name_plan_file }}
-          working_directory: ${{ steps.setup.outputs.working_directory }}
 
   terraform:
     runs-on: ubuntu-latest
@@ -75,6 +70,9 @@ jobs:
     strategy:
       matrix:
         target: ${{fromJSON(needs.setup.outputs.terraform_targets)}}
+    env:
+      TFACTION_TARGET: ${{matrix.target}}
+      TFACTION_IS_APPLY: 'false'
     steps:
       - uses: actions/checkout@v2
       - name: Generate token
@@ -91,19 +89,13 @@ jobs:
       - uses: suzuki-shunsuke/tfaction/setup@main
         id: setup
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
 
       - uses: suzuki-shunsuke/tfaction/test@main
         with:
-          target: ${{ matrix.target }}
-          working_directory: ${{ steps.setup.outputs.working_directory }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
       - uses: suzuki-shunsuke/tfaction/terraform-plan@main
         with:
-          target: ${{ matrix.target }}
           github_app_token: ${{ steps.generate_token.outputs.token }}
-          s3_bucket_name_plan_file: ${{ steps.setup.outputs.s3_bucket_name_plan_file }}
-          working_directory: ${{ steps.setup.outputs.working_directory }}
