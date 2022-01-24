@@ -10,5 +10,4 @@ packages:
 - name: reviewdog/reviewdog@v0.13.1
 - name: suzuki-shunsuke/ci-info@v2.0.3
 - name: suzuki-shunsuke/github-comment@v4.1.0
-- name: suzuki-shunsuke/matchfile@v1.0.0
 - name: suzuki-shunsuke/tfcmt@v3.0.1
