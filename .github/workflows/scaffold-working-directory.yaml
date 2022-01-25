@@ -8,6 +8,7 @@ on:
         required: true
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TFACTION_TARGET: ${{github.event.inputs.target}}
 permissions:
   id-token: write
   contents: read
@@ -21,10 +22,8 @@ jobs:
         with:
           aqua_version: v0.10.1
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@main
+      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@v0.1.4
         id: scaffold-working-dir
-        with:
-          target: ${{github.event.inputs.target}}
 
       - name: Generate token
         id: generate_token
@@ -33,8 +32,6 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@main
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@v0.1.4
         with:
-          target: ${{ github.event.inputs.target }}
-          working_directory: ${{steps.scaffold-working-dir.outputs.working_directory}}
           github_app_token: ${{ steps.generate_token.outputs.token }}
