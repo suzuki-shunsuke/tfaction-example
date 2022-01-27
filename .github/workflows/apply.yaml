@@ -19,7 +19,7 @@ jobs:
       terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
     steps:
       - uses: actions/checkout@v2
-      - uses: aquaproj/aqua-installer@v0.6.0
+      - uses: aquaproj/aqua-installer@v0.7.0
         with:
           aqua_version: v0.10.2
 
@@ -46,7 +46,7 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: aquaproj/aqua-installer@v0.6.0
+      - uses: aquaproj/aqua-installer@v0.7.0
         with:
           aqua_version: v0.10.2
 
@@ -80,7 +80,7 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: aquaproj/aqua-installer@v0.6.0
+      - uses: aquaproj/aqua-installer@v0.7.0
         with:
           aqua_version: v0.10.2
 
