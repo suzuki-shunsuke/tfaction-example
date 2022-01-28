@@ -30,6 +30,7 @@ jobs:
     # if services is empty, the build job is skipped
     if: "join(fromJSON(needs.setup.outputs.tfmigrate_targets), '') != ''"
     strategy:
+      fail-fast: false
       matrix:
         target: ${{fromJSON(needs.setup.outputs.tfmigrate_targets)}}
     env:
@@ -68,6 +69,7 @@ jobs:
     # if services is empty, the build job is skipped
     if: "join(fromJSON(needs.setup.outputs.terraform_targets), '') != ''"
     strategy:
+      fail-fast: false
       matrix:
         target: ${{fromJSON(needs.setup.outputs.terraform_targets)}}
     env:
