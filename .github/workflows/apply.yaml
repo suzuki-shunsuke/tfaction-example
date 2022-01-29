@@ -24,7 +24,7 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.2.0
+      - uses: suzuki-shunsuke/tfaction/list-targets@v0.2.1
         id: list-targets
 
   tfmigrate-apply:
@@ -51,17 +51,17 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.2.0
+      - uses: suzuki-shunsuke/tfaction/setup@v0.2.1
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.2.0
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.2.1
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.2.0
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.2.1
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
@@ -90,17 +90,17 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.2.0
+      - uses: suzuki-shunsuke/tfaction/setup@v0.2.1
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.2.0
+      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.2.1
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.2.0
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.2.1
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
