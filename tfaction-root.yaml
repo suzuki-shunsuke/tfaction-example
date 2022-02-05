@@ -1,4 +1,7 @@
 ---
+label_prefixes:
+  tfmigrate: "migrate:"
+
 target_groups:
 - working_directory: aws/
   target: aws/
@@ -30,6 +33,3 @@ target_groups:
     aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply
   tfmigrate_apply_config:
     aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply
-
-label_prefixes:
-  tfmigrate: "migrate:"
