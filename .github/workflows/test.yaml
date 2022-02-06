@@ -59,7 +59,7 @@ jobs:
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
+          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
       - uses: suzuki-shunsuke/tfaction/test@v0.4.5
         with:
@@ -103,7 +103,7 @@ jobs:
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }}
+          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
       - uses: suzuki-shunsuke/tfaction/test@v0.4.5
         with:
