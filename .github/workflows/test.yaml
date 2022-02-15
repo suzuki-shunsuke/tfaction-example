@@ -22,7 +22,7 @@ jobs:
       - uses: aquaproj/aqua-installer@v0.7.0
         with:
           aqua_version: v0.10.2
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/list-targets@v0.4.10
         id: list-targets
 
   tfmigrate-plan:
@@ -55,17 +55,17 @@ jobs:
         with:
           secrets: ${{ toJSON(secrets) }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/setup@v0.4.10
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/test@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/test@v0.4.10
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@v0.4.10
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
@@ -95,21 +95,21 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.4.10
         with:
           secrets: ${{ toJSON(secrets) }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/setup@v0.4.10
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/test@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/test@v0.4.10
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@v0.4.9
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@v0.4.10
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
