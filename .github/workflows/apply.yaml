@@ -24,7 +24,7 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/list-targets@v0.4.11
         id: list-targets
 
   tfmigrate-apply:
@@ -53,21 +53,21 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.4.11
         with:
           secrets: ${{ toJSON(secrets) }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/setup@v0.4.11
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.4.11
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.4.11
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
@@ -98,21 +98,21 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.4.11
         with:
           secrets: ${{ toJSON(secrets) }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/setup@v0.4.11
         id: setup
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.4.11
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.4.10
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.4.11
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}

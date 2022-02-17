@@ -1,16 +1,18 @@
 ---
-name: scaffold working directory
+name: scaffold tfmigrate
 on:
   workflow_dispatch:
     inputs:
       target:
         description: 'target'
         required: true
+      migration_name:
+        description: 'migration name. e.g. "import_foo"'
+        required: true
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TFACTION_TARGET: ${{github.event.inputs.target}}
+  TFACTION_TARGET: ${{ github.event.inputs.target }}
 permissions:
-  id-token: write
   contents: read
   pull-requests: write
 jobs:
@@ -22,9 +24,6 @@ jobs:
         with:
           aqua_version: v0.10.2
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@v0.4.11
-        id: scaffold-working-dir
-
       - name: Generate token
         id: generate_token
         uses: tibdex/github-app-token@v1
@@ -32,6 +31,8 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@v0.4.11
+      - uses: suzuki-shunsuke/tfaction/scaffold-tfmigrate@main
+        id: scaffold-working-dir
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
+          migration_name: ${{ github.event.inputs.migration_name }}
