@@ -9,7 +9,8 @@ Example usage of [tfaction](https://github.com/suzuki-shunsuke/tfaction)
 * Main
   * [apply](.github/workflows/apply.yaml): Run `terraform apply` or `tfmigrate apply`
   * [test](.github/workflows/apply.yaml): Run `terraform apply` or `tfmigrate apply`
-  * [scaffold-working-directory](.github/workflows/scaffold-working-directory.yaml): Scaffold a working directory
+  * [scaffold-working-directory](.github/workflows/scaffold-working-directory.yaml): [Scaffold a working directory](https://suzuki-shunsuke.github.io/tfaction/docs/feature/scaffold-working-dir)
+  * [scaffold-tfmigrate](.github/workflows/scaffold-tfmigrate.yaml): Scaffold tfmigrate migration
   * [hide_comment](.github/workflows/hide_comment.yaml): Hide old Pull Request comments
 * Others
   * [actionlint](.github/workflows/actionlint.yaml): Lint GitHub Actions Workflows with [actionlint](https://github.com/rhysd/actionlint)
