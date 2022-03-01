@@ -17,13 +17,45 @@ jobs:
     outputs:
       tfmigrate_targets: ${{ steps.list-targets.outputs.tfmigrate_targets }}
       terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
+      modules: ${{ steps.list-targets.outputs.modules }}
     steps:
       - uses: actions/checkout@v2
       - uses: aquaproj/aqua-installer@v1.0.0
         with:
           aqua_version: v1.1.0
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.4.12
+      - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.0-1
         id: list-targets
+
+  test-module:
+    name: "test-module (${{matrix.target}})"
+    runs-on: ubuntu-latest
+    needs: setup
+    # if services is empty, the build job is skipped
+    if: "join(fromJSON(needs.setup.outputs.modules), '') != ''"
+    env:
+      TFACTION_TARGET: ${{matrix.target}}
+    strategy:
+      fail-fast: true
+      matrix:
+        target: ${{fromJSON(needs.setup.outputs.modules)}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - uses: aquaproj/aqua-installer@v1.0.0
+        with:
+          aqua_version: v1.1.0
+          aqua_opts: -l -a
+          working_directory: ${{ matrix.target }}
+
+      - uses: suzuki-shunsuke/tfaction/test-module@v0.5.0-1
+        with:
+          github_app_token: ${{ steps.generate_token.outputs.token }}
 
   tfmigrate-plan:
     name: "tfmigrate-plan (${{matrix.target.target}})"
