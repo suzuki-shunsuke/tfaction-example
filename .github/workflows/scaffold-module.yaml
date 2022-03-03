@@ -1,29 +1,22 @@
 ---
-name: scaffold working directory
+name: Scaffold Terraform Module
 on:
   workflow_dispatch:
     inputs:
-      target:
-        description: 'target'
+      module_path:
+        description: 'module path'
         required: true
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TFACTION_TARGET: ${{github.event.inputs.target}}
 permissions:
-  id-token: write
   contents: read
   pull-requests: write
 jobs:
   scaffold:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: aquaproj/aqua-installer@v1.0.0
         with:
           aqua_version: v1.1.0
-
-      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@v0.5.0-2
-        id: scaffold-working-dir
 
       - name: Generate token
         id: generate_token
@@ -32,6 +25,7 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@v0.5.0-2
+      - uses: suzuki-shunsuke/tfaction/scaffold-module@v0.5.0-2
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_token: ${{ steps.generate_token.outputs.token }}
+          module_path: ${{ github.event.inputs.module_path }}

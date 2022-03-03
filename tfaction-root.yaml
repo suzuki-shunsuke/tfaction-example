@@ -1,6 +1,7 @@
 ---
 label_prefixes:
   tfmigrate: "migrate:"
+skip_create_pr: true
 
 target_groups:
 - working_directory: aws/
