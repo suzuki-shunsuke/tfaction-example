@@ -23,7 +23,7 @@ jobs:
       - uses: aquaproj/aqua-installer@v1.0.0
         with:
           aqua_version: v1.1.0
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.4
         id: list-targets
 
   test-module:
@@ -53,7 +53,7 @@ jobs:
           aqua_opts: -l -a
           working_directory: ${{ matrix.target }}
 
-      - uses: suzuki-shunsuke/tfaction/test-module@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/test-module@v0.5.4
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
@@ -83,7 +83,7 @@ jobs:
         with:
           aqua_version: v1.1.0
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.4
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -92,16 +92,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/setup@v0.5.4
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/test@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/test@v0.5.4
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@v0.5.4
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
@@ -131,7 +131,7 @@ jobs:
         with:
           aqua_version: v1.1.0
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.4
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -140,16 +140,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/setup@v0.5.4
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/test@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/test@v0.5.4
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@v0.5.3
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@v0.5.4
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
