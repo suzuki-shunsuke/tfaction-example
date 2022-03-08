@@ -24,7 +24,7 @@ jobs:
         with:
           aqua_version: v1.1.0
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.5
         id: list-targets
 
   tfmigrate-apply:
@@ -53,7 +53,7 @@ jobs:
         with:
           aqua_version: v1.1.0
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.5
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -62,16 +62,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/setup@v0.5.5
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.5.5
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.5.5
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
@@ -102,7 +102,7 @@ jobs:
         with:
           aqua_version: v1.1.0
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.5
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -111,16 +111,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/setup@v0.5.5
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.5.5
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.5.4
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.5.5
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
