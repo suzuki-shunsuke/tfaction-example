@@ -1,6 +1,6 @@
 registries:
 - type: standard
-  ref: v3.6.0 # renovate: depName=aquaproj/aqua-registry
+  ref: v3.7.0 # renovate: depName=aquaproj/aqua-registry
 packages:
 - name: open-policy-agent/conftest@v0.32.1
 - name: hashicorp/terraform@v1.2.4
