@@ -3,7 +3,7 @@ registries:
   ref: v3.12.0 # renovate: depName=aquaproj/aqua-registry
 packages:
 - import: aqua/*.yaml
-- name: cli/cli@v2.14.1
+- name: cli/cli@v2.14.2
 - name: int128/ghcp@v1.13.1
 - name: minamijoyo/tfmigrate@v0.3.4
 - name: reviewdog/reviewdog@v0.14.1
