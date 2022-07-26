@@ -22,7 +22,7 @@ jobs:
         with:
           aqua_version: v1.14.1
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@v0.5.12
+      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@v0.5.13
         id: scaffold-working-dir
 
       - name: Generate token
@@ -32,6 +32,6 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@v0.5.12
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@v0.5.13
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
