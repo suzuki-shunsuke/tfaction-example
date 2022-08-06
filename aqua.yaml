@@ -7,7 +7,7 @@ packages:
 - name: int128/ghcp@v1.13.1
 - name: minamijoyo/tfmigrate@v0.3.5
 - name: reviewdog/reviewdog@v0.14.1
-- name: suzuki-shunsuke/ci-info@v2.0.3
+- name: suzuki-shunsuke/ci-info@v2.1.1
 - name: suzuki-shunsuke/github-comment@v4.4.0
 - name: suzuki-shunsuke/tfcmt@v3.3.0
 - name: terraform-docs/terraform-docs@v0.16.0
