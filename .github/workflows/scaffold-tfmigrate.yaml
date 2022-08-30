@@ -32,7 +32,7 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - uses: suzuki-shunsuke/tfaction/scaffold-tfmigrate@main
-        id: scaffold-working-dir
+        id: scaffold-tfmigrate
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           migration_name: ${{ github.event.inputs.migration_name }}
