@@ -3,6 +3,6 @@ registries:
   ref: v3.77.0 # renovate: depName=aquaproj/aqua-registry
 packages:
 - name: open-policy-agent/conftest@v0.34.0
-- name: hashicorp/terraform@v1.3.2
+- name: hashicorp/terraform@v1.3.3
 - name: terraform-linters/tflint@v0.41.0
 - name: aquasecurity/tfsec@v1.28.0
