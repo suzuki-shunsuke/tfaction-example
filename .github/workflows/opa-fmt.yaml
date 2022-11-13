@@ -7,6 +7,8 @@ on:
     - '**.rego'
     - .github/workflows/opa-fmt.yaml
     - aqua/opa.yaml
+env:
+  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
 jobs:
   build:
     runs-on: ubuntu-latest

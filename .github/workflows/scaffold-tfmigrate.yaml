@@ -12,6 +12,7 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TFACTION_TARGET: ${{ github.event.inputs.target }}
+  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
 permissions:
   contents: read
   pull-requests: write

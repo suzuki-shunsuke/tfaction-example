@@ -9,6 +9,8 @@ on:
 permissions:
   contents: read
   pull-requests: write
+env:
+  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
 jobs:
   scaffold:
     runs-on: ubuntu-latest
