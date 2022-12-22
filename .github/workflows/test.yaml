@@ -28,7 +28,7 @@ jobs:
       modules: ${{ steps.list-targets.outputs.modules }}
     steps:
       - uses: actions/checkout@v3
-      - uses: aquaproj/aqua-installer@v1.1.2
+      - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.25.0
       - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.20
@@ -55,7 +55,7 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: aquaproj/aqua-installer@v1.1.2
+      - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.25.0
           aqua_opts: -l -a
@@ -87,7 +87,7 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: aquaproj/aqua-installer@v1.1.2
+      - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.25.0
 
@@ -135,7 +135,7 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: aquaproj/aqua-installer@v1.1.2
+      - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.25.0
 
