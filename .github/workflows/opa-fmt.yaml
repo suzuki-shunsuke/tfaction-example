@@ -22,7 +22,7 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: aquaproj/aqua-installer@v1.2.0
         with:
-          aqua_version: v1.26.2
+          aqua_version: v1.27.0
       - uses: suzuki-shunsuke/github-action-opa-fmt@v0.1.0
         with:
           github_token: ${{ steps.generate_token.outputs.token }}
