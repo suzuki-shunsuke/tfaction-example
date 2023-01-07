@@ -4,7 +4,7 @@ registries:
 packages:
 - import: aqua/*.yaml
 - name: cli/cli@v2.21.2
-- name: int128/ghcp@v1.13.1
+- name: int128/ghcp@v1.13.2
 - name: minamijoyo/tfmigrate@v0.3.10
 - name: reviewdog/reviewdog@v0.14.1
 - name: suzuki-shunsuke/ci-info@v2.1.1
