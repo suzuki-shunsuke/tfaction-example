@@ -34,3 +34,21 @@ target_groups:
     aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply
   tfmigrate_apply_config:
     aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply
+
+- working_directory: gcp/
+  target: gcp/
+  gcs_bucket_name_plan_file: '<GCS Bucket Name for Terraform Plan File>'
+  gcs_bucket_name_tfmigrate_history: '<GCS Bucket Name for tfmigrate history files>'
+  template_dir: templates/gcp
+  terraform_plan_config:
+    gcp_service_account: terraform-plan@example.iam.gserviceaccount.com
+    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
+  tfmigrate_plan_config:
+    gcp_service_account: terraform-plan@example.iam.gserviceaccount.com
+    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
+  terraform_apply_config:
+    gcp_service_account: terraform-apply@example.iam.gserviceaccount.com
+    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
+  tfmigrate_apply_config:
+    gcp_service_account: terraform-apply@example.iam.gserviceaccount.com
+    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
