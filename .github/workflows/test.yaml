@@ -1,43 +1,157 @@
 ---
 name: test
-on:
-  pull_request:
-    # branches: [main]
-    branches: [dummy] # Disabled
+
+on: pull_request
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TFACTION_IS_APPLY: 'false'
-  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
+  TFACTION_IS_APPLY: "false"
+  AQUA_POLICY_CONFIG: ${{github.workspace}}/aqua-policy.yaml
 
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
+permissions: {}
 
 concurrency:
-  group: ${{ github.workflow }}--${{ github.ref }}
+  group: ${{github.workflow}}--${{github.ref}}
   cancel-in-progress: true
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
+  path-filter:
+    # Get changed files to filter jobs
     outputs:
-      tfmigrate_targets: ${{ steps.list-targets.outputs.tfmigrate_targets }}
-      terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
-      modules: ${{ steps.list-targets.outputs.modules }}
+      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
+      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            update-aqua-checksums:
+              - aqua.yaml
+              - aqua/*.yaml
+              - aqua-checksums.json
+            renovate-config-validator:
+              - renovate.json5
+            conftest-verify:
+              - "**.rego"
+              - aqua/conftest.yaml
+            opa-fmt:
+              - "**.rego"
+              - aqua/opa.yaml
+
+  conftest-verify:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # For github-comment
     steps:
       - uses: actions/checkout@v3
       - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.32.0
+      - run: github-comment exec -- conftest verify --no-color -p policy/terraform
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+
+  opa-fmt:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push commits
+    steps:
+      - uses: actions/checkout@v3
+      - id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
+      - uses: aquaproj/aqua-installer@v1.2.0
+        with:
+          aqua_version: v1.32.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+      - uses: suzuki-shunsuke/github-action-opa-fmt@v0.1.0
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+
+  hide-comments:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # For github-comment
+    steps:
+      - uses: actions/checkout@v3
+      - uses: aquaproj/aqua-installer@v1.2.0
+        with:
+         aqua_version: v1.32.0
+      - run: github-comment exec -- github-comment hide
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+
+  update-aqua-checksums:
+    # Update aqua-checksums.json and push a commit
+    runs-on: ubuntu-latest
+    needs: path-filter
+    permissions: {}
+    if: |
+      needs.path-filter.outputs.update-aqua-checksums == 'true'
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - id: generate_token
+        if: "! github.event.pull_request.head.repo.fork"
+        uses: tibdex/github-app-token@021a2405c7f990db57f5eae5397423dcc554159c # v1
+        with:
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
+      - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
+        # Install ghcp
+        with:
+          aqua_version: v1.32.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+      - uses: aquaproj/update-checksum-action@2413c534a7d2cd2ce7a0dfb5a686e5142e565ce3 # v0.1.3
+        with:
+          prune: true
+          skip_push: ${{github.event.pull_request.head.repo.fork}}
+        env:
+          # To trigger GitHub Actions Workflow by pushing a commit, GitHub App token is required.
+          # github.token doesn't trigger GitHub Actions Workflow.
+          # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+          # > When you use the repository's GITHUB_TOKEN to perform tasks, events triggered by the GITHUB_TOKEN, with the exception of workflow_dispatch and repository_dispatch, will not create a new workflow run.
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+
+  renovate-config-validator:
+    # Validate Renovate Configuration by renovate-config-validator.
+    uses: suzuki-shunsuke/renovate-config-validator-workflow/.github/workflows/validate.yaml@1a2fd7b15d99b1c434124b0bd2d8bd55b54ed869 # v0.2.0
+    needs: path-filter
+    if: needs.path-filter.outputs.renovate-config-validator == 'true'
+    permissions:
+      contents: read
+
+  setup:
+    permissions: {}
+    runs-on: ubuntu-latest
+    outputs:
+      tfmigrate_targets: ${{steps.list-targets.outputs.tfmigrate_targets}}
+      terraform_targets: ${{steps.list-targets.outputs.terraform_targets}}
+      modules: ${{steps.list-targets.outputs.modules}}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: aquaproj/aqua-installer@v1.2.0
+        with:
+          aqua_version: v1.32.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
       - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.21
         id: list-targets
+        env:
+          GITHUB_TOKEN: ${{github.token}}
 
   test-module:
     name: "test-module (${{matrix.target}})"
     runs-on: ubuntu-latest
     needs: setup
+    permissions:
+      pull-requests: write # For github-comment and reviewdog
+      contents: write # To push commits
+      id-token: write # For OIDC
     # if services is empty, the build job is skipped
     if: "join(fromJSON(needs.setup.outputs.modules), '') != ''"
     env:
@@ -52,22 +166,30 @@ jobs:
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
 
       - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.32.0
           aqua_opts: -l -a
-          working_directory: ${{ matrix.target }}
+          working_directory: ${{matrix.target}}
+        env:
+          GITHUB_TOKEN: ${{github.token}}
 
       - uses: suzuki-shunsuke/tfaction/test-module@v0.5.21
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{github.token}}
 
   tfmigrate-plan:
     name: "tfmigrate-plan (${{matrix.target.target}})"
     runs-on: ${{matrix.target.runs_on}}
+    permissions:
+      id-token: write # For OIDC
+      contents: write # To push commits
+      pull-requests: write # For tfcmt and github-comment and reviewdog
     needs: setup
     # if services is empty, the build job is skipped
     if: "join(fromJSON(needs.setup.outputs.tfmigrate_targets), '') != ''"
@@ -84,39 +206,51 @@ jobs:
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
 
       - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.32.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
 
       - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.21
         with:
-          secrets: ${{ toJSON(secrets) }}
+          secrets: ${{toJSON(secrets)}}
 
       # This is required to download private modules in `terraform init`
       - run: gh auth setup-git
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
       - uses: suzuki-shunsuke/tfaction/setup@v0.5.21
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
+          github_app_token: ${{steps.generate_token.outputs.token}}
+          ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
+        env:
+          GITHUB_TOKEN: ${{github.token}} # For GitHub Provider
 
       - uses: suzuki-shunsuke/tfaction/test@v0.5.21
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{github.token}} # For GitHub Provider
 
       - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@v0.5.21
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{github.token}} # For GitHub Provider
 
   terraform-plan:
     name: "terraform-plan (${{matrix.target.target}})"
     runs-on: ${{matrix.target.runs_on}}
     needs: setup
+    permissions:
+      pull-requests: write # For tfcmt and github-comment and reviewdog
+      id-token: write # For OIDC
+      contents: write # To push commits
     # if services is empty, the build job is skipped
     if: "join(fromJSON(needs.setup.outputs.terraform_targets), '') != ''"
     strategy:
@@ -132,40 +266,82 @@ jobs:
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
 
       - uses: aquaproj/aqua-installer@v1.2.0
         with:
           aqua_version: v1.32.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
 
       - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.21
         with:
-          secrets: ${{ toJSON(secrets) }}
+          secrets: ${{toJSON(secrets)}}
 
       # This is required to download private modules in `terraform init`
       - run: gh auth setup-git
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
       - uses: suzuki-shunsuke/tfaction/setup@v0.5.21
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{github.token}} # For GitHub Provider
 
       - uses: suzuki-shunsuke/tfaction/test@v0.5.21
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{github.token}} # For GitHub Provider and reviewdog and github-comment
 
       - uses: suzuki-shunsuke/tfaction/terraform-plan@v0.5.21
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{github.token}} # For GitHub Provider and tfcmt and github-comment
+
+  enable-automerge:
+    # Enable automerge to merge pull requests from Renovate automatically.
+    runs-on: ubuntu-latest
+    needs:
+      - update-aqua-checksums
+      - renovate-config-validator
+      - terraform-plan
+      - tfmigrate-plan
+      - setup
+      - test-module
+    permissions:
+      contents: write # For enable automerge
+      pull-requests: write # For enable automerge
+    # "! failure()" is required. success() returns false if dependent jobs are skipped. https://github.com/community/community/discussions/45058
+    # By default success() is used so we have to override success() by "! failure()"
+    if: |
+      ! failure() && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@021a2405c7f990db57f5eae5397423dcc554159c # v1
+        with:
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
+      - run: gh -R "$GITHUB_REPOSITORY" pr merge --merge --auto --delete-branch "$PR_NUMBER"
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # Use GitHub App to trigger GitHub Actions Workflow by merge commit.
+          PR_NUMBER: ${{github.event.pull_request.number}}
 
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
   status-check:
     runs-on: ubuntu-latest
-    needs: [terraform-plan, tfmigrate-plan, setup, test-module]
+    needs:
+      - update-aqua-checksums
+      - renovate-config-validator
+      - terraform-plan
+      - tfmigrate-plan
+      - setup
+      - test-module
     if: failure()
     steps:
       - run: exit 1
