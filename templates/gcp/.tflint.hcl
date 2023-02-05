@@ -1,7 +1,7 @@
 # https://github.com/terraform-linters/tflint-ruleset-google#installation
 plugin "google" {
   enabled = true
-  version = "0.22.1" # renovate: depName=terraform-linters/tflint-ruleset-google
+  version = "0.22.2" # renovate: depName=terraform-linters/tflint-ruleset-google
   source  = "github.com/terraform-linters/tflint-ruleset-google"
 }
 
