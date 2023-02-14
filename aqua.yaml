@@ -8,6 +8,6 @@ packages:
 - name: minamijoyo/tfmigrate@v0.3.10
 - name: reviewdog/reviewdog@v0.14.1
 - name: suzuki-shunsuke/ci-info@v2.1.2
-- name: suzuki-shunsuke/github-comment@v5.0.2
+- name: suzuki-shunsuke/github-comment@v5.0.3
 - name: suzuki-shunsuke/tfcmt@v4.1.0
 - name: terraform-docs/terraform-docs@v0.16.0
