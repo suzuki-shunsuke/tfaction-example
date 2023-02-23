@@ -2,7 +2,7 @@ registries:
 - type: standard
   ref: v3.136.1 # renovate: depName=aquaproj/aqua-registry
 packages:
-- name: open-policy-agent/conftest@v0.39.0
+- name: open-policy-agent/conftest@v0.39.1
 - name: hashicorp/terraform@v1.3.9
 - name: terraform-linters/tflint@v0.45.0
 - name: aquasecurity/tfsec@v1.28.1
