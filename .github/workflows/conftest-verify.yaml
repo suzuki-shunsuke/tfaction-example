@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: aquaproj/aqua-installer@v1.2.0
         with:
-          aqua_version: v1.34.0
+          aqua_version: v1.34.1
       - run: github-comment exec -- conftest verify --no-color -p policy/terraform
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
