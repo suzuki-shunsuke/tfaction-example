@@ -2,9 +2,8 @@
   "extends": [
     "config:base",
     "github>aquaproj/aqua-renovate-config#1.5.2",
-    "github>aquaproj/aqua-renovate-config:file#1.5.2(^.*/aqua\\.ya?ml$)",
-    "github>aquaproj/aqua-renovate-config:file#1.5.2(^.*/aqua/[^/]*\\.ya?ml$)",
-    "github>suzuki-shunsuke/renovate-config:tflint#0.1.2",
+    "github>aquaproj/aqua-renovate-config:file#1.5.2(^(.*/)?aqua/[^/]*\\.ya?ml$)",
+    "github>suzuki-shunsuke/renovate-config:tflint#2.0.0",
   ],
   "labels": [
     "renovate:{{depName}}", "renovate:{{depName}}/{{newVersion}}",
