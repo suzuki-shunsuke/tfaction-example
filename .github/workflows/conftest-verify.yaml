@@ -7,8 +7,6 @@ on:
     - '**.rego'
     - .github/workflows/conftest-verify.yaml
     - aqua/conftest.yaml
-env:
-  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -8,7 +8,6 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TFACTION_IS_APPLY: 'false'
-  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
 
 permissions:
   id-token: write
