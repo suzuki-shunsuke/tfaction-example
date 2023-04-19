@@ -13,7 +13,6 @@ permissions:
   contents: write
 env:
   TFACTION_TARGET: ${{github.event.inputs.module_path}}
-  AQUA_POLICY_CONFIG: ${{ github.workspace }}/aqua-policy.yaml
 jobs:
   release-module:
     name: "release-module (${{github.event.inputs.module_path}})"
