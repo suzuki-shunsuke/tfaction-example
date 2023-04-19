@@ -1,0 +1,18 @@
+name: Create drift issues
+on:
+  workflow_dispatch:
+    inputs: {}
+  # schedule:
+  #   # daily
+  #   - cron: '0 0 * * *'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.0
+      - uses: aquaproj/aqua-installer@v2.1.1
+        with:
+          aqua_version: v2.3.6
+      - run: tfaction create-drift-issues
+        env:
+          GITHUB_TOKEN: ${{github.token}}

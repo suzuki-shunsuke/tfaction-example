@@ -24,7 +24,7 @@ jobs:
         with:
           aqua_version: v2.3.6
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.22
+      - uses: suzuki-shunsuke/tfaction/list-targets@v0.6.0-1
         id: list-targets
 
   tfmigrate-apply:
@@ -53,7 +53,7 @@ jobs:
         with:
           aqua_version: v2.3.6
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.22
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.6.0-1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -62,19 +62,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.22
+      - run: tfaction get-or-create-drift-issue
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/setup@v0.6.0-1
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.5.22
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@v0.6.0-1
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.5.22
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.6.0-1
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@v0.6.0-1
+        if: always()
+        with:
+          status: ${{job.status}}
+          github_token: ${{steps.generate_token.outputs.token}}
 
   terraform-apply:
     name: "terraform-apply (${{matrix.target.target}})"
@@ -102,7 +113,7 @@ jobs:
         with:
           aqua_version: v2.3.6
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.22
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.6.0-1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -111,16 +122,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.22
+      - run: tfaction get-or-create-drift-issue
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/setup@v0.6.0-1
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.5.22
+      - uses: suzuki-shunsuke/tfaction/terraform-apply@v0.6.0-1
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.5.22
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@v0.6.0-1
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@v0.6.0-1
+        if: always()
+        with:
+          status: ${{job.status}}
+          github_token: ${{steps.generate_token.outputs.token}}

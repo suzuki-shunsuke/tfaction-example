@@ -3,6 +3,12 @@ label_prefixes:
   tfmigrate: "migrate:"
 skip_create_pr: true
 
+drift_detection:
+  # issue_repo_owner:
+  # issue_repo_name:
+  duration: 5 # 5 days. By default 7 days.
+  num_of_issues: 3 # 3 working directories are checked per workflow run. By default 1 working directory is checked.
+
 target_groups:
 - working_directory: aws/
   target: aws/
