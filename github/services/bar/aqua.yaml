@@ -4,5 +4,5 @@ registries:
 packages:
 - name: open-policy-agent/conftest@v0.41.0
 - name: hashicorp/terraform@v1.4.5
-- name: terraform-linters/tflint@v0.46.0
+- name: terraform-linters/tflint@v0.46.1
 - name: aquasecurity/tfsec@v1.28.1
