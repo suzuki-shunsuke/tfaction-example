@@ -31,6 +31,7 @@ jobs:
       id-token: write # For OIDC
     if: fromJSON(needs.pick-out-drift-issues.outputs.has_issues)
     strategy:
+      fail-fast: false
       matrix:
         issue: ${{fromJSON(needs.pick-out-drift-issues.outputs.issues)}}
     steps:
