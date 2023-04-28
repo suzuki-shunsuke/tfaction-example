@@ -23,7 +23,7 @@ jobs:
 
   detect-drift:
     name: "detect-drift (${{matrix.issue.target}})"
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.issue.runs_on}}
     needs: pick-out-drift-issues
     permissions:
       issues: write # For github-comment and tfcmt
