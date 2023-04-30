@@ -10,6 +10,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  path-filter:
+    # Get changed files to filter jobs
+    outputs:
+      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
+      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
+      conftest-verify: ${{steps.changes.outputs.conftest-verify}}
+      opa-fmt: ${{steps.changes.outputs.opa-fmt}}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read # To get pull requests of the private repository
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            update-aqua-checksums:
+              - aqua.yaml
+              - aqua/*.yaml
+              - aqua-checksums.json
+              - .github/workflows/test.yaml
+            renovate-config-validator:
+              - renovate.json5
+              - .github/workflows/test.yaml
+            conftest-verify:
+              - "**.rego"
+              - aqua/conftest.yaml
+              - .github/workflows/wc-conftest-verify.yaml
+              - .github/workflows/test.yaml
+            opa-fmt:
+              - "**.rego"
+              - aqua/opa.yaml
+
   test:
     uses: ./.github/workflows/wc-test.yaml
     permissions:
@@ -21,6 +53,18 @@ jobs:
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
       terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
       secrets: ${{toJSON(secrets)}}
+
+  conftest-verify:
+    uses: ./.github/workflows/wc-conftest-verify.yaml
+    needs: path-filter
+    if: |
+      needs.path-filter.outputs.conftest-verify == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
