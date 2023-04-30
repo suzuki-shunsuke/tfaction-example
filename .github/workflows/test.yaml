@@ -5,166 +5,29 @@ on:
     # branches: [main]
     branches: [dummy] # Disabled
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TFACTION_IS_APPLY: 'false'
-
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
-
 concurrency:
   group: ${{ github.workflow }}--${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      tfmigrate_targets: ${{ steps.list-targets.outputs.tfmigrate_targets }}
-      terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
-      modules: ${{ steps.list-targets.outputs.modules }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: aquaproj/aqua-installer@v2.1.1
-        with:
-          aqua_version: v2.3.6
-      - uses: suzuki-shunsuke/tfaction/list-targets@v0.5.23
-        id: list-targets
-
-  test-module:
-    name: "test-module (${{matrix.target}})"
-    runs-on: ubuntu-latest
-    needs: setup
-    # if services is empty, the build job is skipped
-    if: "join(fromJSON(needs.setup.outputs.modules), '') != ''"
-    env:
-      TFACTION_TARGET: ${{matrix.target}}
-    strategy:
-      fail-fast: true
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.modules)}}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - uses: aquaproj/aqua-installer@v2.1.1
-        with:
-          aqua_version: v2.3.6
-          aqua_opts: -l -a
-          working_directory: ${{ matrix.target }}
-
-      - uses: suzuki-shunsuke/tfaction/test-module@v0.5.23
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-  tfmigrate-plan:
-    name: "tfmigrate-plan (${{matrix.target.target}})"
-    runs-on: ${{matrix.target.runs_on}}
-    needs: setup
-    # if services is empty, the build job is skipped
-    if: "join(fromJSON(needs.setup.outputs.tfmigrate_targets), '') != ''"
-    strategy:
-      fail-fast: true
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.tfmigrate_targets)}}
-    env:
-      TFACTION_TARGET: ${{matrix.target.target}}
-      TFACTION_JOB_TYPE: tfmigrate
-    steps:
-      - uses: actions/checkout@v3
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - uses: aquaproj/aqua-installer@v2.1.1
-        with:
-          aqua_version: v2.3.6
-
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.23
-        with:
-          secrets: ${{ toJSON(secrets) }}
-
-      # This is required to download private modules in `terraform init`
-      - run: gh auth setup-git
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.23
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-
-      - uses: suzuki-shunsuke/tfaction/test@v0.5.23
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@v0.5.23
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-  terraform-plan:
-    name: "terraform-plan (${{matrix.target.target}})"
-    runs-on: ${{matrix.target.runs_on}}
-    needs: setup
-    # if services is empty, the build job is skipped
-    if: "join(fromJSON(needs.setup.outputs.terraform_targets), '') != ''"
-    strategy:
-      fail-fast: true
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.terraform_targets)}}
-    env:
-      TFACTION_TARGET: ${{matrix.target.target}}
-      TFACTION_JOB_TYPE: terraform
-    steps:
-      - uses: actions/checkout@v3
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - uses: aquaproj/aqua-installer@v2.1.1
-        with:
-          aqua_version: v2.3.6
-
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.5.23
-        with:
-          secrets: ${{ toJSON(secrets) }}
-
-      # This is required to download private modules in `terraform init`
-      - run: gh auth setup-git
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/setup@v0.5.23
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-
-      - uses: suzuki-shunsuke/tfaction/test@v0.5.23
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@v0.5.23
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+  test:
+    uses: ./.github/workflows/wc-test.yaml
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
+      secrets: ${{toJSON(secrets)}}
 
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
   status-check:
     runs-on: ubuntu-latest
-    needs: [terraform-plan, tfmigrate-plan, setup, test-module]
+    needs:
+      - test
     if: failure()
     steps:
       - run: exit 1
