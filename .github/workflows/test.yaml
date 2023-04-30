@@ -40,6 +40,8 @@ jobs:
               - .github/workflows/test.yaml
             opa-fmt:
               - "**.rego"
+              - .github/workflows/wc-opa-fmt.yaml
+              - .github/workflows/test.yaml
               - aqua/opa.yaml
 
   test:
@@ -66,12 +68,26 @@ jobs:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
+  opa-fmt:
+    uses: ./.github/workflows/wc-opa-fmt.yaml
+    needs: path-filter
+    if: |
+      needs.path-filter.outputs.opa-fmt == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
   status-check:
     runs-on: ubuntu-latest
     needs:
       - test
+      - conftest-verify
+      - opa-fmt
     if: failure()
     steps:
       - run: exit 1
