@@ -30,6 +30,7 @@ jobs:
               - aqua/*.yaml
               - aqua-checksums.json
               - .github/workflows/test.yaml
+              - .github/workflows/wc-update-aqua-checksums.yaml
             renovate-config-validator:
               - renovate.json5
               - .github/workflows/test.yaml
@@ -55,6 +56,7 @@ jobs:
       - opa-fmt
       - hide-comment
       - renovate-config-validator
+      - update-aqua-checksums
     if: failure()
     steps:
       - run: exit 1
@@ -110,3 +112,13 @@ jobs:
     if: needs.path-filter.outputs.renovate-config-validator == 'true'
     permissions:
       contents: read
+
+  update-aqua-checksums:
+    uses: ./.github/workflows/wc-update-aqua-checksums.yaml
+    needs: path-filter
+    if: needs.path-filter.outputs.update-aqua-checksums == 'true'
+    permissions:
+      contents: read
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
