@@ -14,6 +14,7 @@ Example usage of [tfaction](https://github.com/suzuki-shunsuke/tfaction)
     * [conftest-verify](.github/workflows/wc-conftest-verify.yaml): Conftest's Policy Testing
     * [opa-fmt](.github/workflows/wc-opa-fmt.yaml): Auto Format Rego Files with `opa fmt`
     * [renovate-config-validator](.github/workflows/wc-renovate-config-validator.yaml): Validate Renovate Configuration with `renovate-config-validator`
+    * [update-aqua-checksums](.github/workflows/wc-update-aqua-checksums.yaml): Update aqua-checksums.json
   * [actionlint](.github/workflows/actionlint.yaml): Lint GitHub Actions Workflows with [actionlint](https://github.com/rhysd/actionlint)
 * push
   * [apply](.github/workflows/apply.yaml): Run `terraform apply` or `tfmigrate apply`
