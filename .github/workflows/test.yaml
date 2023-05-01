@@ -33,6 +33,7 @@ jobs:
             renovate-config-validator:
               - renovate.json5
               - .github/workflows/test.yaml
+              - .github/workflows/wc-renovate-config-validator.yaml
             conftest-verify:
               - "**.rego"
               - aqua/conftest.yaml
@@ -43,6 +44,20 @@ jobs:
               - .github/workflows/wc-opa-fmt.yaml
               - .github/workflows/test.yaml
               - aqua/opa.yaml
+
+  # This job is used for branch protection rule
+  # Add this job to `Status checks that are required`
+  status-check:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - conftest-verify
+      - opa-fmt
+      - hide-comment
+      - renovate-config-validator
+    if: failure()
+    steps:
+      - run: exit 1
 
   test:
     uses: ./.github/workflows/wc-test.yaml
@@ -89,15 +104,9 @@ jobs:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
-  # This job is used for branch protection rule
-  # Add this job to `Status checks that are required`
-  status-check:
-    runs-on: ubuntu-latest
-    needs:
-      - test
-      - conftest-verify
-      - opa-fmt
-      - hide-comment
-    if: failure()
-    steps:
-      - run: exit 1
+  renovate-config-validator:
+    uses: ./.github/workflows/wc-renovate-config-validator.yaml
+    needs: path-filter
+    if: needs.path-filter.outputs.renovate-config-validator == 'true'
+    permissions:
+      contents: read
