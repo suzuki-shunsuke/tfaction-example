@@ -80,6 +80,15 @@ jobs:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
+  hide-comment:
+    uses: ./.github/workflows/wc-hide-comment.yaml
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
   status-check:
@@ -88,6 +97,7 @@ jobs:
       - test
       - conftest-verify
       - opa-fmt
+      - hide-comment
     if: failure()
     steps:
       - run: exit 1
