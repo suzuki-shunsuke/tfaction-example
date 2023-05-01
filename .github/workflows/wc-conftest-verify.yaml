@@ -1,0 +1,34 @@
+---
+name: conftest-verify
+on:
+  workflow_call:
+    secrets:
+      gh_token:
+        required: false
+      gh_app_id:
+        required: false
+      gh_app_private_key:
+        required: false
+jobs:
+  conftest-verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
+        id: token
+        with:
+          github_token: ${{secrets.gh_token}}
+          github_app_id: ${{secrets.gh_app_id}}
+          github_app_private_key: ${{secrets.gh_app_private_key}}
+          default_github_token: ${{github.token}}
+      - uses: aquaproj/aqua-installer@v2.1.1
+        with:
+          aqua_version: v2.3.6
+        env:
+          AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
+      - run: github-comment exec -- conftest verify --no-color -p policy/terraform
+        env:
+          GITHUB_TOKEN: ${{steps.token.outputs.token}}
