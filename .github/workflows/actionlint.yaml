@@ -4,8 +4,8 @@ on:
   pull_request:
     branches: [main]
     paths:
-    - .github/**
-    - aqua/actionlint.yaml
+      - .github/**
+      - aqua/actionlint.yaml
 jobs:
   actionlint:
     runs-on: ubuntu-latest
@@ -13,8 +13,8 @@ jobs:
       pull-requests: write
       contents: read
     steps:
-    - uses: actions/checkout@v3
-    - uses: aquaproj/aqua-installer@v2.1.1
+    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+    - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
       with:
         aqua_version: v2.3.6
-    - uses: suzuki-shunsuke/github-action-actionlint@v0.1.2
+    - uses: suzuki-shunsuke/github-action-actionlint@764a394381fb91f87ca8a8ad022bbeb49232df8b # v0.1.2

@@ -18,7 +18,7 @@ jobs:
     permissions:
       pull-requests: read # To get pull requests of the private repository
     steps:
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
         id: changes
         with:
           filters: |
