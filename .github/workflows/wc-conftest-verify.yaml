@@ -16,7 +16,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -24,7 +24,7 @@ jobs:
           github_app_id: ${{secrets.gh_app_id}}
           github_app_private_key: ${{secrets.gh_app_private_key}}
           default_github_token: ${{github.token}}
-      - uses: aquaproj/aqua-installer@v2.1.1
+      - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
         with:
           aqua_version: v2.3.6
         env:
