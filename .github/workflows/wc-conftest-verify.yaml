@@ -26,7 +26,7 @@ jobs:
           default_github_token: ${{github.token}}
       - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
         with:
-          aqua_version: v2.3.6
+          aqua_version: v2.5.2
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
       - run: github-comment exec -- conftest verify --no-color -p policy/terraform
