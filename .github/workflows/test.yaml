@@ -1,26 +1,14 @@
 ---
 name: test
-on:
-  pull_request:
-    # branches: [main]
-    branches: [dummy] # Disabled
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TFACTION_IS_APPLY: 'false'
-
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
+on: pull_request
 
 concurrency:
   group: ${{ github.workflow }}--${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
+  path-filter:
+    # Get changed files to filter jobs
     outputs:
       tfmigrate_targets: ${{ steps.list-targets.outputs.tfmigrate_targets }}
       terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
@@ -126,17 +114,12 @@ jobs:
       TFACTION_TARGET: ${{matrix.target.target}}
       TFACTION_JOB_TYPE: terraform
     steps:
-      - uses: actions/checkout@v3
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
+      - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
+        id: token
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - uses: aquaproj/aqua-installer@v2.1.1
-        with:
-          aqua_version: v2.3.6
+          github_token: ${{github.token}}
+          github_app_id: ${{secrets.APP_ID}}
+          github_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
       - uses: suzuki-shunsuke/tfaction/export-secrets@v0.6.0
         with:
@@ -164,7 +147,76 @@ jobs:
   # Add this job to `Status checks that are required`
   status-check:
     runs-on: ubuntu-latest
-    needs: [terraform-plan, tfmigrate-plan, setup, test-module]
+    needs:
+      - test
+      - conftest-verify
+      - opa-fmt
+      - hide-comment
+      - renovate-config-validator
+      - update-aqua-checksums
     if: failure()
     steps:
       - run: exit 1
+
+  test:
+    uses: ./.github/workflows/wc-test.yaml
+    if: 'false' # TODO Please remove this.
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
+      secrets: ${{toJSON(secrets)}}
+
+  conftest-verify:
+    uses: ./.github/workflows/wc-conftest-verify.yaml
+    needs: path-filter
+    if: |
+      needs.path-filter.outputs.conftest-verify == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+
+  opa-fmt:
+    uses: ./.github/workflows/wc-opa-fmt.yaml
+    needs: path-filter
+    if: |
+      needs.path-filter.outputs.opa-fmt == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+
+  hide-comment:
+    uses: ./.github/workflows/wc-hide-comment.yaml
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+
+  renovate-config-validator:
+    uses: ./.github/workflows/wc-renovate-config-validator.yaml
+    needs: path-filter
+    if: needs.path-filter.outputs.renovate-config-validator == 'true'
+    permissions:
+      contents: read
+
+  update-aqua-checksums:
+    uses: ./.github/workflows/wc-update-aqua-checksums.yaml
+    needs: path-filter
+    if: needs.path-filter.outputs.update-aqua-checksums == 'true'
+    permissions:
+      contents: read
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}

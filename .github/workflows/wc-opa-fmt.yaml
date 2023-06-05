@@ -1,0 +1,34 @@
+---
+name: opa-fmt
+on:
+  workflow_call:
+    secrets:
+      gh_token:
+        required: false
+      gh_app_id:
+        required: false
+      gh_app_private_key:
+        required: false
+jobs:
+  opa-fmt:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
+        id: token
+        with:
+          github_token: ${{secrets.gh_token}}
+          github_app_id: ${{secrets.gh_app_id}}
+          github_app_private_key: ${{secrets.gh_app_private_key}}
+          default_github_token: ${{github.token}}
+      - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
+        with:
+          aqua_version: v2.5.2
+        env:
+          AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
+      - uses: suzuki-shunsuke/github-action-opa-fmt@59d2b3726741e2aeb3fc96ba2cbdfd05ae879f28 # v0.1.0
+        with:
+          github_token: ${{steps.token.outputs.token}}
