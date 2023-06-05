@@ -24,7 +24,7 @@ jobs:
         with:
           aqua_version: v2.5.2
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - uses: suzuki-shunsuke/tfaction/list-targets@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         id: list-targets
 
   tfmigrate-apply:
@@ -53,7 +53,7 @@ jobs:
         with:
           aqua_version: v2.5.2
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - uses: suzuki-shunsuke/tfaction/export-secrets@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -62,19 +62,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - run: tfaction get-or-create-drift-issue
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/setup@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
+        if: always()
+        with:
+          status: ${{job.status}}
+          github_token: ${{steps.generate_token.outputs.token}}
 
   terraform-apply:
     name: "terraform-apply (${{matrix.target.target}})"
@@ -102,7 +113,7 @@ jobs:
         with:
           aqua_version: v2.5.2
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - uses: suzuki-shunsuke/tfaction/export-secrets@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -111,16 +122,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - run: tfaction get-or-create-drift-issue
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/setup@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/terraform-apply@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - uses: suzuki-shunsuke/tfaction/terraform-apply@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@971c6b68d49a5ec446cf8d2c2e22793c9c06ac72 # v0.5.23
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
+
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
+        if: always()
+        with:
+          status: ${{job.status}}
+          github_token: ${{steps.generate_token.outputs.token}}

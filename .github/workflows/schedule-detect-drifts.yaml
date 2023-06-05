@@ -1,0 +1,81 @@
+name: Detect drift
+on:
+  workflow_dispatch:
+    inputs: {}
+  # schedule:
+  #   # hourly
+  #   - cron: '0 * * * *'
+jobs:
+  pick-out-drift-issues:
+    runs-on: ubuntu-latest
+    outputs:
+      issues: ${{steps.pick-out-drift-issues.outputs.issues}}
+      has_issues: ${{steps.pick-out-drift-issues.outputs.has_issues}}
+    steps:
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
+        with:
+          aqua_version: v2.3.6
+      - run: tfaction pick-out-drift-issues
+        id: pick-out-drift-issues
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+
+  detect-drift:
+    name: "detect-drift (${{matrix.issue.target}})"
+    runs-on: ${{matrix.issue.runs_on}}
+    needs: pick-out-drift-issues
+    permissions:
+      issues: write # For github-comment and tfcmt
+      contents: write # To push commits
+      id-token: write # For OIDC
+    if: fromJSON(needs.pick-out-drift-issues.outputs.has_issues)
+    strategy:
+      fail-fast: false
+      matrix:
+        issue: ${{fromJSON(needs.pick-out-drift-issues.outputs.issues)}}
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
+        with:
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
+
+      - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
+        with:
+          aqua_version: v2.3.6
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+
+      - uses: suzuki-shunsuke/tfaction/set-drift-env@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
+        with:
+          issue: ${{toJSON(matrix.issue)}}
+
+      - uses: suzuki-shunsuke/tfaction/setup@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+
+      - uses: suzuki-shunsuke/tfaction/test@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+          github_app_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
+        if: always()
+        with:
+          status: ${{job.status}}
+          github_token: ${{steps.generate_token.outputs.token}}
