@@ -10,109 +10,48 @@ jobs:
   path-filter:
     # Get changed files to filter jobs
     outputs:
-      tfmigrate_targets: ${{ steps.list-targets.outputs.tfmigrate_targets }}
-      terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
-      modules: ${{ steps.list-targets.outputs.modules }}
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
-        with:
-          aqua_version: v2.3.6
-      - uses: suzuki-shunsuke/tfaction/list-targets@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        id: list-targets
-
-  test-module:
-    name: "test-module (${{matrix.target}})"
+      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
+      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
+      conftest-verify: ${{steps.changes.outputs.conftest-verify}}
+      opa-fmt: ${{steps.changes.outputs.opa-fmt}}
     runs-on: ubuntu-latest
-    needs: setup
-    # if services is empty, the build job is skipped
-    if: "join(fromJSON(needs.setup.outputs.modules), '') != ''"
-    env:
-      TFACTION_TARGET: ${{matrix.target}}
-    strategy:
-      fail-fast: true
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.modules)}}
+    permissions:
+      pull-requests: read # To get pull requests of the private repository
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          filters: |
+            update-aqua-checksums:
+              - aqua.yaml
+              - aqua/*.yaml
+              - aqua-checksums.json
+              - .github/workflows/test.yaml
+              - .github/workflows/wc-update-aqua-checksums.yaml
+            renovate-config-validator:
+              - renovate.json5
+              - .github/workflows/test.yaml
+              - .github/workflows/wc-renovate-config-validator.yaml
+            conftest-verify:
+              - "**.rego"
+              - aqua/conftest.yaml
+              - .github/workflows/wc-conftest-verify.yaml
+              - .github/workflows/test.yaml
+            opa-fmt:
+              - "**.rego"
+              - .github/workflows/wc-opa-fmt.yaml
+              - .github/workflows/test.yaml
+              - aqua/opa.yaml
 
-      - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
-        with:
-          aqua_version: v2.3.6
-          aqua_opts: -l -a
-          working_directory: ${{ matrix.target }}
-
-      - uses: suzuki-shunsuke/tfaction/test-module@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-  tfmigrate-plan:
-    name: "tfmigrate-plan (${{matrix.target.target}})"
-    runs-on: ${{matrix.target.runs_on}}
-    needs: setup
-    # if services is empty, the build job is skipped
-    if: "join(fromJSON(needs.setup.outputs.tfmigrate_targets), '') != ''"
-    strategy:
-      fail-fast: true
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.tfmigrate_targets)}}
-    env:
-      TFACTION_TARGET: ${{matrix.target.target}}
-      TFACTION_JOB_TYPE: tfmigrate
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - uses: aquaproj/aqua-installer@294926f94b4233f202a2f03875c604f840cfed70 # v2.1.1
-        with:
-          aqua_version: v2.3.6
-
-      - uses: suzuki-shunsuke/tfaction/export-secrets@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          secrets: ${{ toJSON(secrets) }}
-
-      # This is required to download private modules in `terraform init`
-      - run: gh auth setup-git
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/setup@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-
-      - uses: suzuki-shunsuke/tfaction/test@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-  terraform-plan:
-    name: "terraform-plan (${{matrix.target.target}})"
-    runs-on: ${{matrix.target.runs_on}}
-    needs: setup
-    # if services is empty, the build job is skipped
-    if: "join(fromJSON(needs.setup.outputs.terraform_targets), '') != ''"
-    strategy:
-      fail-fast: true
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.terraform_targets)}}
-    env:
-      TFACTION_TARGET: ${{matrix.target.target}}
-      TFACTION_JOB_TYPE: terraform
+  enable-automerge:
+    # This job is used for main branch's branch protection rule's status check.
+    # If all dependent jobs succeed or are skipped this job succeeds.
+    runs-on: ubuntu-latest
+    needs:
+      - status-check
+    permissions: {}
+    if: |
+      ! failure() && ! cancelled() && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
     steps:
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
@@ -121,27 +60,10 @@ jobs:
           github_app_id: ${{secrets.APP_ID}}
           github_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          secrets: ${{ toJSON(secrets) }}
-
-      # This is required to download private modules in `terraform init`
-      - run: gh auth setup-git
+      - run: gh -R "$GITHUB_REPOSITORY" pr merge --merge --auto --delete-branch "$PR_NUMBER"
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/setup@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-
-      - uses: suzuki-shunsuke/tfaction/test@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
-
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@1b7a1eb05956931c1977350c2fe389f9e0a6e335 # v0.6.0
-        with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{steps.token.outputs.token}} # Use GitHub App to trigger GitHub Actions Workflow by merge commit.
+          PR_NUMBER: ${{github.event.pull_request.number}}
 
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
