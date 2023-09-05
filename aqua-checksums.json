@@ -261,6 +261,36 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.1/tfaction_darwin_amd64.tar.gz",
+      "checksum": "DA3E2483C4541686B4716DCCCFD45FBF5A1E36F07AB366AB838ED19762CB75CF",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.1/tfaction_darwin_arm64.tar.gz",
+      "checksum": "4CC29CCD315A4A8D6C42704F1BC1FB38666DBA8CE677C6255D6C05C3C9AE949B",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.1/tfaction_linux_amd64.tar.gz",
+      "checksum": "3C571F4C287D1090B0A98BD8657F22BB882E0E228CB64FE5E7EAE74FDC2E296A",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.1/tfaction_linux_arm64.tar.gz",
+      "checksum": "33AC9D560029D712D17EB1CA13BBFF136E101930C551C43C67C63348163449EE",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.1/tfaction_windows_amd64.tar.gz",
+      "checksum": "58DC9AD8601B7EE9B3526248A534B34C6872900241761B6559D1AEEC392454EB",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.1/tfaction_windows_arm64.tar.gz",
+      "checksum": "CCD4BA5E0935ECC4C24CC7EE8CF8A8729EF30509EEECAB3BB793E547CF9F5F5A",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v4.3.0/tfcmt_darwin_amd64.tar.gz",
       "checksum": "16FFD26633F5AC6DCA1B4ACFFD3FBA76688747EE946CC95C570375B53A14C51B",
       "algorithm": "sha256"
