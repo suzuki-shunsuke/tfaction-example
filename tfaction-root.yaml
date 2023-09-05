@@ -9,6 +9,11 @@ drift_detection:
   minimum_detection_interval: 5 # 5 days. By default 7 days.
   num_of_issues: 3 # 3 working directories are checked per workflow run. By default 1 working directory is checked.
 
+tfsec:
+  enable: false
+trivy:
+  enable: true
+
 target_groups:
 - working_directory: aws/
   target: aws/
