@@ -25,7 +25,7 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-module@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/scaffold-module@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         with:
           github_token: ${{ steps.generate_token.outputs.token }}
           module_path: ${{ github.event.inputs.module_path }}

@@ -24,7 +24,7 @@ jobs:
         with:
           aqua_version: v2.12.0
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/list-targets@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         id: list-targets
 
   tfmigrate-apply:
@@ -53,7 +53,7 @@ jobs:
         with:
           aqua_version: v2.12.0
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/export-secrets@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -67,21 +67,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/setup@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-apply@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         if: always()
         with:
           status: ${{job.status}}
@@ -113,7 +113,7 @@ jobs:
         with:
           aqua_version: v2.12.0
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/export-secrets@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -127,21 +127,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/setup@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/setup@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/terraform-apply@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/terraform-apply@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         if: failure()
         with:
           github_app_token: ${{ steps.generate_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@b3f379ec4442ff1653b02a00fd99389ba8502bef # v0.6.7
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@0cc5a3def9efd283a68665d32ea3310d22123ec2 # v0.6.8
         if: always()
         with:
           status: ${{job.status}}
