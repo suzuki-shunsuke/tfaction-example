@@ -1,5 +1,6 @@
 ---
-name: scaffold tfmigrate
+name: Scaffold tfmigrate
+run-name: Scaffold tfmigrate (${{inputs.target}})
 on:
   workflow_dispatch:
     inputs:

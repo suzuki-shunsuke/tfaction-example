@@ -1,5 +1,6 @@
 ---
 name: Scaffold Terraform Module
+run-name: Scaffold Terraform Module (${{inputs.module_path}})
 on:
   workflow_dispatch:
     inputs:

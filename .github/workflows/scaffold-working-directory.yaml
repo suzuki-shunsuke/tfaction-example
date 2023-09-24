@@ -1,14 +1,14 @@
 ---
-name: scaffold working directory
+name: Scaffold a working directory
+run-name: Scaffold a working directory (${{inputs.working_dir}})
 on:
   workflow_dispatch:
     inputs:
-      target:
-        description: 'target'
+      working_dir:
+        description: working directory
         required: true
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TFACTION_TARGET: ${{github.event.inputs.target}}
+  TFACTION_WORKING_DIR: ${{github.event.inputs.working_dir}}
 permissions:
   id-token: write
   contents: read
