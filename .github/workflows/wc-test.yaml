@@ -30,7 +30,7 @@ jobs:
       terraform_targets: ${{ steps.list-targets.outputs.terraform_targets }}
       modules: ${{ steps.list-targets.outputs.modules }}
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -60,7 +60,7 @@ jobs:
       matrix:
         target: ${{fromJSON(needs.setup.outputs.modules)}}
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -94,7 +94,7 @@ jobs:
       TFACTION_TARGET: ${{matrix.target.target}}
       TFACTION_JOB_TYPE: tfmigrate
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -145,7 +145,7 @@ jobs:
       TFACTION_TARGET: ${{matrix.target.target}}
       TFACTION_JOB_TYPE: terraform
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
