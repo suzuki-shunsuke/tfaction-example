@@ -49,32 +49,32 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction/set-drift-env@4185ff21a55d4e4300857b2b8410d428c2d60825 # v0.6.9
+      - uses: suzuki-shunsuke/tfaction/set-drift-env@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         with:
           issue: ${{toJSON(matrix.issue)}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@4185ff21a55d4e4300857b2b8410d428c2d60825 # v0.6.9
+      - uses: suzuki-shunsuke/tfaction/setup@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
           github_app_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/test@4185ff21a55d4e4300857b2b8410d428c2d60825 # v0.6.9
+      - uses: suzuki-shunsuke/tfaction/test@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
           github_app_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@4185ff21a55d4e4300857b2b8410d428c2d60825 # v0.6.9
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
           github_app_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@4185ff21a55d4e4300857b2b8410d428c2d60825 # v0.6.9
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         if: always()
         with:
           status: ${{job.status}}
