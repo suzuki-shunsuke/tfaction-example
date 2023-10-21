@@ -56,7 +56,6 @@ jobs:
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
-          github_token: ${{github.token}}
           github_app_id: ${{secrets.APP_ID}}
           github_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 

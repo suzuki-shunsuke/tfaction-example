@@ -1,4 +1,5 @@
 ---
+plan_workflow_name: test # Mandatory
 label_prefixes:
   tfmigrate: "migrate:"
 skip_create_pr: true
@@ -13,6 +14,16 @@ tfsec:
   enable: false
 trivy:
   enable: true
+
+scaffold_working_directory:
+  skip_adding_aqua_packages: true
+
+aqua:
+  update_checksum:
+    # Update aqua-checksums.json in `setup` action
+    enabled: true # default is false
+    skip_push: false # default is false
+    prune: true # default is false
 
 target_groups:
 - working_directory: aws/
