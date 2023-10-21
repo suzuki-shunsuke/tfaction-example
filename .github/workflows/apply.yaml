@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
-          aqua_version: v2.15.0
+          aqua_version: v2.15.1
 
       - uses: suzuki-shunsuke/tfaction/list-targets@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         id: list-targets
@@ -51,7 +51,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
-          aqua_version: v2.15.0
+          aqua_version: v2.15.1
 
       - uses: suzuki-shunsuke/tfaction/export-secrets@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         with:
@@ -111,7 +111,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
-          aqua_version: v2.15.0
+          aqua_version: v2.15.1
 
       - uses: suzuki-shunsuke/tfaction/export-secrets@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
         with:
