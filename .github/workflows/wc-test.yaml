@@ -45,7 +45,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/list-targets@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         id: list-targets
 
   test-module:
@@ -77,7 +77,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/test-module@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/test-module@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
@@ -109,7 +109,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/export-secrets@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           secrets: ${{secrets.secrets}}
 
@@ -118,16 +118,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/setup@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           github_app_token: ${{steps.token.outputs.token}}
           ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/test@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/test@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/tfmigrate-plan@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
@@ -160,7 +160,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/export-secrets@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           secrets: ${{secrets.secrets}}
 
@@ -169,15 +169,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/setup@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           github_app_token: ${{steps.token.outputs.token}}
           ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/test@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/test@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@9bfff5dadf98a3e5a34812e0456604511baf7e52 # v0.7.0
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@dd5d3c93289b37eacd68647017a83acc92f3e47b # v0.7.1
         with:
           github_app_token: ${{steps.token.outputs.token}}
