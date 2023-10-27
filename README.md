@@ -30,7 +30,7 @@ Note that in this repository some GitHub Actions Workflows are configured not to
 
 ## Getting Started
 
-[Getting Started](docs/getting-started.md)
+[Getting Started](https://suzuki-shunsuke.github.io/tfaction/docs/getting-started)
 
 ## LICENSE
 
