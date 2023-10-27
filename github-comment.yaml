@@ -1,18 +1,16 @@
 ---
 # https://github.com/suzuki-shunsuke/github-comment
-templates:
-  header: '{{env "TFACTION_TARGET"}} {{template "link" .}}'
-  exec_default: |
-    {{template "status" .}} {{template "header" .}}
-
-    {{template "join_command" .}}
-
-    {{template "hidden_combined_output" .}}
 hide:
   default: |
-    Comment.HasMeta && Comment.Meta.SHA1 != Commit.SHA1 && Comment.Meta.Program != "tfcmt"
+    Comment.HasMeta && Comment.Meta.SHA1 != Commit.SHA1 && ! (Comment.Meta.Program == "tfcmt" && Comment.Meta.Command == "apply")
 exec:
   default:
   - when: ExitCode != 0
     template: |
-      {{template "exec_default" .}}
+      ## :x: Failed {{if .Vars.target}}({{.Vars.target}}){{end}}
+
+      {{template "link" .}}
+
+      {{template "join_command" .}}
+
+      {{template "hidden_combined_output" .}}
