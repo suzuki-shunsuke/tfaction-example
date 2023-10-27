@@ -2,8 +2,7 @@
 name: apply
 on:
   push:
-    # branches: [main]
-    branches: [dummy] # Disabled
+    branches: [dummy] # Disabled. CHANGEME Replace dummy with main
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TFACTION_IS_APPLY: 'true'

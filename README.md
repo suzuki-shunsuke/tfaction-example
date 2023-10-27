@@ -28,22 +28,9 @@ Example usage of [tfaction](https://github.com/suzuki-shunsuke/tfaction)
 
 Note that in this repository some GitHub Actions Workflows are configured not to be launched intentionally, because these workflows require the access to AWS.
 
-.github/workflows/test.yaml
+## Getting Started
 
-```yaml
-  test:
-    uses: ./.github/workflows/wc-test.yaml
-    if: 'false' # TODO Please remove this.
-```
-
-.github/workflows/apply.yaml
-
-```yaml
-on:
-  push:
-    # branches: [main]
-    branches: [dummy] # Disabled
-```
+[Getting Started](https://suzuki-shunsuke.github.io/tfaction/docs/getting-started)
 
 ## LICENSE
 

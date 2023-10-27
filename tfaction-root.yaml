@@ -2,13 +2,13 @@
 plan_workflow_name: test # Mandatory
 label_prefixes:
   tfmigrate: "migrate:"
-skip_create_pr: true
+# skip_create_pr: true
 
-drift_detection:
-  # issue_repo_owner:
-  # issue_repo_name:
-  minimum_detection_interval: 5 # 5 days. By default 7 days.
-  num_of_issues: 3 # 3 working directories are checked per workflow run. By default 1 working directory is checked.
+# drift_detection:
+#   # issue_repo_owner:
+#   # issue_repo_name:
+#   minimum_detection_interval: 5 # 5 days. By default 7 days.
+#   num_of_issues: 3 # 3 working directories are checked per workflow run. By default 1 working directory is checked.
 
 tfsec:
   enable: false
@@ -44,18 +44,18 @@ target_groups:
 
 - working_directory: github/services/
   target: github/
-  aws_region: ap-northeast-1
-  s3_bucket_name_plan_file: '<S3 Bucket Name for Terraform Plan File>'
-  s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>'
+  aws_region: ap-northeast-1 # CHANGEME Fix the region if necessary
+  s3_bucket_name_plan_file: '<S3 Bucket Name for Terraform Plan File>' # CHANGEME
+  s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>' # CHANGEME
   template_dir: templates/github
   terraform_plan_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_plan
+    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_plan # CHANGEME
   tfmigrate_plan_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_plan
+    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_plan # CHANGEME
   terraform_apply_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply
+    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply # CHANGEME
   tfmigrate_apply_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply
+    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply # CHANGEME
 
 - working_directory: gcp/
   target: gcp/

@@ -81,7 +81,7 @@ jobs:
 
   test:
     uses: ./.github/workflows/wc-test.yaml
-    if: 'false' # TODO Please remove this.
+    if: 'false' # CHANGEME Please remove this.
     permissions:
       id-token: write
       contents: read
