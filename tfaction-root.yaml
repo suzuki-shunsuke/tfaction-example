@@ -11,9 +11,9 @@ label_prefixes:
 #   num_of_issues: 3 # 3 working directories are checked per workflow run. By default 1 working directory is checked.
 
 tfsec:
-  enable: false
+  enabled: false
 trivy:
-  enable: true
+  enabled: true
 
 scaffold_working_directory:
   skip_adding_aqua_packages: true
