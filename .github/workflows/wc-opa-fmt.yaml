@@ -26,7 +26,7 @@ jobs:
           default_github_token: ${{github.token}}
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
-          aqua_version: v2.16.3
+          aqua_version: v2.16.4
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
       - uses: suzuki-shunsuke/github-action-opa-fmt@59d2b3726741e2aeb3fc96ba2cbdfd05ae879f28 # v0.1.0
