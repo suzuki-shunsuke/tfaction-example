@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
-          aqua_version: v2.16.3
+          aqua_version: v2.16.4
 
       - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
 
