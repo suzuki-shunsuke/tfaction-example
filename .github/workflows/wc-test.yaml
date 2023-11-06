@@ -123,6 +123,23 @@ jobs:
           github_app_token: ${{steps.token.outputs.token}}
           ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
+      - uses: suzuki-shunsuke/tfaction/get-target-config@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
+        id: target-config
+
+      - run: |
+          set -euo pipefail
+          tfprovidercheck -v
+          github-comment exec -- terraform version -json | github-comment exec -- tfprovidercheck
+        working-directory: ${{ steps.target-config.outputs.working_directory }}
+        env:
+          TFPROVIDERCHECK_CONFIG_BODY: |
+            providers:
+              - name: registry.terraform.io/hashicorp/google
+              - name: registry.terraform.io/hashicorp/aws
+              - name: registry.terraform.io/hashicorp/null
+              - name: registry.terraform.io/integrations/github
+          GITHUB_TOKEN: ${{steps.token.outputs.token}} # For github-comment
+
       - uses: suzuki-shunsuke/tfaction/test@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
         with:
           github_app_token: ${{steps.token.outputs.token}}
@@ -173,6 +190,23 @@ jobs:
         with:
           github_app_token: ${{steps.token.outputs.token}}
           ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
+
+      - uses: suzuki-shunsuke/tfaction/get-target-config@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
+        id: target-config
+
+      - run: |
+          set -euo pipefail
+          tfprovidercheck -v
+          github-comment exec -- terraform version -json | github-comment exec -- tfprovidercheck
+        working-directory: ${{ steps.target-config.outputs.working_directory }}
+        env:
+          TFPROVIDERCHECK_CONFIG_BODY: |
+            providers:
+              - name: registry.terraform.io/hashicorp/google
+              - name: registry.terraform.io/hashicorp/aws
+              - name: registry.terraform.io/hashicorp/null
+              - name: registry.terraform.io/integrations/github
+          GITHUB_TOKEN: ${{steps.token.outputs.token}} # For github-comment
 
       - uses: suzuki-shunsuke/tfaction/test@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
         with:

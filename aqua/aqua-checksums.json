@@ -321,6 +321,36 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v0.2.0/tfprovidercheck_darwin_amd64.tar.gz",
+      "checksum": "925946B23ACF2284F7C16A21FB9222F00BED30A000270FA9804B168102E386CF",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v0.2.0/tfprovidercheck_darwin_arm64.tar.gz",
+      "checksum": "2642EF830F55B239DA3E39B0C945C3F8404101448CE3B8133EFBE009A059C340",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v0.2.0/tfprovidercheck_linux_amd64.tar.gz",
+      "checksum": "8830574F4DB9BCE9DD5CBBCE31E512BABD405DA0D7EC1B80555FAACABC5C87E9",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v0.2.0/tfprovidercheck_linux_arm64.tar.gz",
+      "checksum": "3AE5BE3649AA8486D85268E01298CBEB5F092719AC2B40EE3FBC5EA3D87A0B56",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v0.2.0/tfprovidercheck_windows_amd64.zip",
+      "checksum": "B2EC6975A98E5EFA9AA65C43DAF1C86DB2DF72F98515B0F7F7C5EBA94D5BCBAC",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v0.2.0/tfprovidercheck_windows_arm64.zip",
+      "checksum": "D11BB3ED8D8AC06262D7ABC621BE1FC82F9FA4E2D4DCEF70D43898AAD4A3BACB",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/terraform-docs/terraform-docs/v0.16.0/terraform-docs-v0.16.0-darwin-amd64.tar.gz",
       "checksum": "F48422E2E3C4A30852992177DB17CB37B18810A3E8392401BA69E875C8BB1090",
       "algorithm": "sha256"
