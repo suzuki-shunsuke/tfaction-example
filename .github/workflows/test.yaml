@@ -46,23 +46,15 @@ jobs:
   enable-automerge:
     # This job is used for main branch's branch protection rule's status check.
     # If all dependent jobs succeed or are skipped this job succeeds.
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/wc-enable-automerge.yaml
     needs:
       - status-check
     permissions: {}
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
     if: |
       ! failure() && ! cancelled() && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
-    steps:
-      - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
-        id: token
-        with:
-          github_app_id: ${{secrets.APP_ID}}
-          github_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-      - run: gh -R "$GITHUB_REPOSITORY" pr merge --squash --auto --delete-branch "$PR_NUMBER"
-        env:
-          GITHUB_TOKEN: ${{steps.token.outputs.token}} # Use GitHub App to trigger GitHub Actions Workflow by merge commit.
-          PR_NUMBER: ${{github.event.pull_request.number}}
 
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
