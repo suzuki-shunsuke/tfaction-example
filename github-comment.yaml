@@ -7,7 +7,7 @@ exec:
   default:
   - when: ExitCode != 0
     template: |
-      ## :x: Failed {{if .Vars.target}}({{.Vars.target}}){{end}}
+      ## :x: Failed {{if .Vars.tfaction_target}}({{.Vars.tfaction_target}}){{end}}
 
       {{template "link" .}}
 
