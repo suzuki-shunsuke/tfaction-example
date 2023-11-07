@@ -128,8 +128,8 @@ jobs:
 
       - run: |
           set -euo pipefail
-          tfprovidercheck -v
-          github-comment exec -- terraform version -json | github-comment exec -- tfprovidercheck
+          github-comment exec -var "tfaction_target:$TFACTION_TARGET" -- tfprovidercheck -v
+          github-comment exec -var "tfaction_target:$TFACTION_TARGET" -- terraform version -json | github-comment exec -- tfprovidercheck
         working-directory: ${{ steps.target-config.outputs.working_directory }}
         env:
           TFPROVIDERCHECK_CONFIG_BODY: |
