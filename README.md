@@ -1,37 +1,76 @@
-# tfaction-example
+# Automating Terraform with tfactions and GitOps
 
-Example usage of [tfaction](https://github.com/suzuki-shunsuke/tfaction)
+This guide provides instructions on how to set up a Terraform infrastructure monorepo using tfactions for GitOps automation. 
 
-## Example Workflows
+## Introduction to Terms
 
-[All](.github/workflows)
+**Stack**: In the context of Terraform, a 'stack' refers to a collection of Terraform resources that are managed and applied together.
 
-* pull_request
-  * [test](.github/workflows/test.yaml)
-    * [test](.github/workflows/wc-test.yaml): Run `terraform plan` or `tfmigrate plan`
-    * [hide-comment](.github/workflows/wc-hide-comment.yaml): Hide old Pull Request comments
-    Others
-    * [conftest-verify](.github/workflows/wc-conftest-verify.yaml): Conftest's Policy Testing
-    * [opa-fmt](.github/workflows/wc-opa-fmt.yaml): Auto Format Rego Files with `opa fmt`
-    * [renovate-config-validator](.github/workflows/wc-renovate-config-validator.yaml): Validate Renovate Configuration with `renovate-config-validator`
-    * [update-aqua-checksums](.github/workflows/wc-update-aqua-checksums.yaml): Update aqua-checksums.json
-  * [actionlint](.github/workflows/actionlint.yaml): Lint GitHub Actions Workflows with [actionlint](https://github.com/rhysd/actionlint)
-* push
-  * [apply](.github/workflows/apply.yaml): Run `terraform apply` or `tfmigrate apply`
-* workflow_dispatch
-  * [scaffold-working-directory](.github/workflows/scaffold-working-directory.yaml): [Scaffold a working directory](https://suzuki-shunsuke.github.io/tfaction/docs/feature/scaffold-working-dir)
-  * [scaffold-tfmigrate](.github/workflows/scaffold-tfmigrate.yaml): Scaffold tfmigrate migration
-  * [scaffold-module](.github/workflows/scaffold-module.yaml): Scaffold Terraform Modules
-  * [release-module](.github/workflows/release-module.yaml): Release Terraform Modules
+## Repository Structure
 
-## :warning: Note
+This repository is structured to help you automate your Terraform pipeline with GitHub Actions. It contains the following key directories:
 
-Note that in this repository some GitHub Actions Workflows are configured not to be launched intentionally, because these workflows require the access to AWS.
+- `.github/workflows/`: Contains example GitHub Actions workflows to set up your pipelines.
+- `aqua/`: Uses [aquaproj/aqua](https://github.com/aquaproj/aqua) to install and manage versions of required tools.
+- `templates/`: Holds templates for your target Terraform stacks.
+- `policy/`: Stores policy definitions for [Conftest](https://www.conftest.dev/) to test and enforce custom policies against your Terraform configurations.
+- `tfaction-root.yaml`: A configuration file for tfactions. Notable fields include:
+  - `plan_workflow_name`: A required field to name your plan workflow.
+  - `target_groups`: Allows grouping of stacks with specific permission boundaries and associated service accounts.
 
-## Getting Started
+## Setting Up
 
-[Getting Started](https://suzuki-shunsuke.github.io/tfaction/docs/getting-started)
+To use this setup:
 
-## LICENSE
+1. Clone this repository as a starting point for your infrastructure code.
+2. Define your initial stack groups in `target_groups:`. Full Terraform configuration for each isn't required initially.
+   ```yaml:
+   target_groups:
+    - working_directory: gcp/dev/
+      target: gcp/dev/
+      template_dir: templates/gcp
+   - working_directory: gcp/networking/
+      target: gcp/networking/
+      template_dir: templates/gcp
+   ```
+3. Run the workflow Scaffold a working directory (scaffold-working-directory) to build the stacks you want to add. This will generate you an dir to add your terraform config.
+   For example:
+    run workflow for target: `gcp/dev/vm`
+    will create a PR with that folders created and add in the dirs/files `template_dir: templates/gcp` as mentioned above.
+4. If the groups does not have a service accounts already create service accounts for each group defined and link them in `target_groups:`.
+5. Once you have added there service accounts with proper permissions and scoffolding done you can start adding stacks.
 
-[MIT](LICENSE)
+## Workflows to Enable
+
+These are the workflows you need to set up:
+
+- **On pull request:**
+  - `test`: Runs `terraform plan` or `tfmigrate plan` and uploads the plan as a GitHub Actions artifact.
+  - `hide-comment`: Hides outdated pull request comments from previous runs.
+  - `conftest-verify`: Executes policy tests using Conftest.
+  - `opa-fmt`: Automatically formats Rego files with `opa fmt`.
+  - `renovate-config-validator`: Validates the Renovate configuration.
+  - `update-aqua-checksums`: Updates the `aqua-checksums.json` file.
+  - `actionlint`: Lints your GitHub Actions workflows.
+
+- **On push:**
+  - `apply`: Executes `terraform apply` or `tfmigrate apply`, using the plan artifact from pull requests.
+
+- **On workflow_dispatch:**
+  - `scaffold-working-directory`: Sets up a new working directory from templates.
+  - `scaffold-tfmigrate`: Initializes a new tfmigrate migration setup.
+  - `scaffold-module`: Sets up a new Terraform module.
+  - `release-module`: Manages the release of Terraform modules.
+
+## Features of tfactions
+
+- Supports a Monorepo setup with multiple Terraform configurations in a single repository.
+- Runs Terraform operations in parallel using the GitHub Actions build matrix.
+- Communicates the results of `plan` and `apply` operations to users on pull requests.
+- Ensures safe application by using Terraform Plan files created during pull requests.
+- Handles Terraform apply failures by automatically creating a pull request with an empty commit to trigger a re-run.
+- Manages and updates `.terraform.lock.hcl` automatically.
+- Periodically checks for configuration drift and tracks it using GitHub Issues.
+- Includes several linters in the test GitHub Action to ensure code quality.
+
+Feel free to contribute to the repository or suggest enhancements to this automation process.
