@@ -2,6 +2,10 @@
 name: conftest-verify
 on:
   workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
     secrets:
       gh_token:
         required: false
@@ -9,6 +13,8 @@ on:
         required: false
       gh_app_private_key:
         required: false
+env:
+  GH_COMMENT_SHA1: ${{inputs.ref}}
 jobs:
   conftest-verify:
     runs-on: ubuntu-latest
@@ -17,6 +23,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
