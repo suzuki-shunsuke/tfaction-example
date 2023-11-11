@@ -2,6 +2,10 @@
 name: test
 on:
   workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
     secrets:
       gh_token:
         required: false
@@ -16,6 +20,8 @@ on:
 
 env:
   TFACTION_IS_APPLY: 'false'
+  GH_COMMENT_SHA1: ${{inputs.ref}}
+  TFCMT_SHA: ${{inputs.ref}}
 
 permissions:
   id-token: write
@@ -30,6 +36,8 @@ jobs:
       modules: ${{ steps.list-targets.outputs.modules }}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -60,6 +68,8 @@ jobs:
         target: ${{fromJSON(needs.setup.outputs.modules)}}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -76,7 +86,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/test-module@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
+      - uses: suzuki-shunsuke/tfaction/test-module@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
@@ -95,6 +105,8 @@ jobs:
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -109,7 +121,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
+      - uses: suzuki-shunsuke/tfaction/export-secrets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           secrets: ${{secrets.secrets}}
 
@@ -118,12 +130,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
+      - uses: suzuki-shunsuke/tfaction/setup@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           github_app_token: ${{steps.token.outputs.token}}
           ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
+      - uses: suzuki-shunsuke/tfaction/get-target-config@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         id: target-config
 
       - run: |
@@ -140,7 +152,7 @@ jobs:
               - name: registry.terraform.io/integrations/github
           GITHUB_TOKEN: ${{steps.token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@26effa08b92b77b5cfe04e2a25c15845fd00b04f # v0.7.2
+      - uses: suzuki-shunsuke/tfaction/test@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
