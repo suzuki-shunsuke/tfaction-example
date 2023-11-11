@@ -2,6 +2,10 @@
 name: test
 on:
   workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
     secrets:
       gh_token:
         required: false
@@ -16,6 +20,8 @@ on:
 
 env:
   TFACTION_IS_APPLY: 'false'
+  GH_COMMENT_SHA1: ${{inputs.ref}}
+  TFCMT_SHA: ${{inputs.ref}}
 
 permissions:
   id-token: write
@@ -30,6 +36,8 @@ jobs:
       modules: ${{ steps.list-targets.outputs.modules }}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -60,6 +68,8 @@ jobs:
         target: ${{fromJSON(needs.setup.outputs.modules)}}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
@@ -95,6 +105,8 @@ jobs:
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
       - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
