@@ -18,10 +18,10 @@ jobs:
         with:
           app_id: ${{secrets.gh_app_id}}
           private_key: ${{secrets.gh_app_private_key}}
-          # permissions: >-
-          #   {"pull_requests": "write", "contents": "write"}
-          repositories: >-
-            ["${{github.repository}}"]
+          permissions: >-
+            {"pull_requests": "write", "contents": "write"}
+          # repositories: >-
+          #   ["${{github.repository}}"]
 
       - run: gh -R "$GITHUB_REPOSITORY" pr merge --squash --auto --delete-branch "$PR_NUMBER"
         env:
