@@ -18,8 +18,8 @@ jobs:
         with:
           app_id: ${{secrets.gh_app_id}}
           private_key: ${{secrets.gh_app_private_key}}
-          permissions: >-
-            {"pull_requests": "write", "contents": "write"}
+          # permissions: >-
+          #   {"pull_requests": "write", "contents": "write"}
           repositories: >-
             ["${{github.repository}}"]
 
