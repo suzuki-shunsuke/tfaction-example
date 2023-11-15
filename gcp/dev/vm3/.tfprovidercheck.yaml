@@ -1,0 +1,3 @@
+providers:
+  - name: registry.terraform.io/hashicorp/google
+  - name: registry.terraform.io/hashicorp/random

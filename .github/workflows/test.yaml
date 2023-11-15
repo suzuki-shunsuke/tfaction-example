@@ -10,14 +10,14 @@ jobs:
   path-filter:
     # Get changed files to filter jobs
     outputs:
+      merge_commit_sha: ${{steps.pr.outputs.merge_commit_sha}}
       update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
-      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
-      conftest-verify: ${{steps.changes.outputs.conftest-verify}}
-      opa-fmt: ${{steps.changes.outputs.opa-fmt}}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read # To get pull requests of the private repository
     steps:
+      - uses: suzuki-shunsuke/get-pr-action@b002e41164d7a39586b41f17f9caca4e98a1efe4 # v0.1.0
+        id: pr
       - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
         id: changes
         with:
@@ -28,33 +28,6 @@ jobs:
               - aqua-checksums.json
               - .github/workflows/test.yaml
               - .github/workflows/wc-update-aqua-checksums.yaml
-            renovate-config-validator:
-              - renovate.json5
-              - .github/workflows/test.yaml
-              - .github/workflows/wc-renovate-config-validator.yaml
-            conftest-verify:
-              - "**.rego"
-              - aqua/conftest.yaml
-              - .github/workflows/wc-conftest-verify.yaml
-              - .github/workflows/test.yaml
-            opa-fmt:
-              - "**.rego"
-              - .github/workflows/wc-opa-fmt.yaml
-              - .github/workflows/test.yaml
-              - aqua/opa.yaml
-
-  enable-automerge:
-    # This job is used for main branch's branch protection rule's status check.
-    # If all dependent jobs succeed or are skipped this job succeeds.
-    uses: ./.github/workflows/wc-enable-automerge.yaml
-    needs:
-      - status-check
-    permissions: {}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-    if: |
-      ! failure() && ! cancelled() && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
 
   # This job is used for branch protection rule
   # Add this job to `Status checks that are required`
@@ -62,74 +35,48 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test
-      - conftest-verify
-      - opa-fmt
       - hide-comment
-      - renovate-config-validator
       - update-aqua-checksums
     if: failure()
     steps:
       - run: exit 1
 
   test:
-    uses: ./.github/workflows/wc-test.yaml
-    if: 'false' # CHANGEME Please remove this.
+    uses: codimite/tfaction-workflows/.github/workflows/test.yaml@main
+    needs: path-filter
     permissions:
       id-token: write
       contents: read
       pull-requests: write
+    with:
+      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-      terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
       secrets: ${{toJSON(secrets)}}
-
-  conftest-verify:
-    uses: ./.github/workflows/wc-conftest-verify.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.conftest-verify == 'true'
-    permissions:
-      contents: read
-      pull-requests: write
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-  opa-fmt:
-    uses: ./.github/workflows/wc-opa-fmt.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.opa-fmt == 'true'
-    permissions:
-      contents: read
-      pull-requests: write
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_token: ${{github.token}}
+      tfe_token: ${{secrets.TF_API_TOKEN}}
 
   hide-comment:
-    uses: ./.github/workflows/wc-hide-comment.yaml
+    uses: codimite/tfaction-workflows/.github/workflows/hide-comment.yaml@main
+    needs: path-filter
     permissions:
       contents: read
       pull-requests: write
+    with:
+      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
-  renovate-config-validator:
-    uses: ./.github/workflows/wc-renovate-config-validator.yaml
-    needs: path-filter
-    if: needs.path-filter.outputs.renovate-config-validator == 'true'
-    permissions:
-      contents: read
-
   update-aqua-checksums:
-    uses: ./.github/workflows/wc-update-aqua-checksums.yaml
+    uses: codimite/tfaction-workflows/.github/workflows/update-aqua-checksums.yaml@main 
     needs: path-filter
     if: needs.path-filter.outputs.update-aqua-checksums == 'true'
     permissions:
       contents: read
+    with:
+      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}

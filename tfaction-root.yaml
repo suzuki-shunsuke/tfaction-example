@@ -15,9 +15,6 @@ tfsec:
 trivy:
   enabled: true
 
-scaffold_working_directory:
-  skip_adding_aqua_packages: true
-
 aqua:
   update_checksum:
     # Update aqua-checksums.json in `setup` action
@@ -26,51 +23,13 @@ aqua:
     prune: true # default is false
 
 target_groups:
-- working_directory: aws/
-  target: aws/
-  aws_region: ap-northeast-1
-  s3_bucket_name_plan_file: '<S3 Bucket Name for Terraform Plan File>'
-  s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>'
-  template_dir: templates/aws
-
-  terraform_plan_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_AWS_terraform_plan
-  tfmigrate_plan_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_AWS_tfmigrate_plan
-  terraform_apply_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_AWS_terraform_apply
-  tfmigrate_apply_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_AWS_tfmigrate_apply
-
-- working_directory: github/services/
-  target: github/
-  aws_region: ap-northeast-1 # CHANGEME Fix the region if necessary
-  s3_bucket_name_plan_file: '<S3 Bucket Name for Terraform Plan File>' # CHANGEME
-  s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>' # CHANGEME
-  template_dir: templates/github
-  terraform_plan_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_plan # CHANGEME
-  tfmigrate_plan_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_plan # CHANGEME
-  terraform_apply_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply # CHANGEME
-  tfmigrate_apply_config:
-    aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply # CHANGEME
-
-- working_directory: gcp/
-  target: gcp/
-  gcs_bucket_name_plan_file: '<GCS Bucket Name for Terraform Plan File>'
-  gcs_bucket_name_tfmigrate_history: '<GCS Bucket Name for tfmigrate history files>'
+- working_directory: gcp/dev/
+  target: gcp/dev/
   template_dir: templates/gcp
-  terraform_plan_config:
-    gcp_service_account: terraform-plan@example.iam.gserviceaccount.com
-    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
-  tfmigrate_plan_config:
-    gcp_service_account: terraform-plan@example.iam.gserviceaccount.com
-    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
-  terraform_apply_config:
-    gcp_service_account: terraform-apply@example.iam.gserviceaccount.com
-    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
-  tfmigrate_apply_config:
-    gcp_service_account: terraform-apply@example.iam.gserviceaccount.com
-    gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
+  # terraform_plan_config:
+  #   gcp_service_account: terraform-plan@example.iam.gserviceaccount.com
+  #   gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
+  # terraform_apply_config:
+  #   gcp_service_account: terraform-apply@example.iam.gserviceaccount.com
+  #   gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
+

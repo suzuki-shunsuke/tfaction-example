@@ -23,7 +23,16 @@ This repository is structured to help you automate your Terraform pipeline with 
 To use this setup:
 
 1. Clone this repository as a starting point for your infrastructure code.
-2. Define your initial stack groups in `target_groups:`. Full Terraform configuration for each isn't required initially.
+2. Creat a GitHub App.
+  - The App needs following permissions.
+     | Name | Permission | Description|
+     | ------------- | ----- | --------------- |
+     | Contents	| write	| create commits and branches|
+     | Pull Requests	| write	| open pull requests|
+     | Actions	| read	| download artifacts|
+  - Generate a private key and add it as APP_PRIVATE_KEY GHA secret
+  - Add the App ID of the GitHub App as APP_ID GHA secret
+3. Define your initial stack groups in `target_groups:`. Full Terraform configuration for each isn't required initially.
    ```yaml:
    target_groups:
     - working_directory: gcp/dev/
@@ -33,12 +42,12 @@ To use this setup:
       target: gcp/networking/
       template_dir: templates/gcp
    ```
-3. Run the workflow Scaffold a working directory (scaffold-working-directory) to build the stacks you want to add. This will generate you an dir to add your terraform config.
+4. Run the workflow Scaffold a working directory (scaffold-working-directory) to build the stacks you want to add. This will generate you an dir to add your terraform config.
    For example:
     run workflow for target: `gcp/dev/vm`
     will create a PR with that folders created and add in the dirs/files `template_dir: templates/gcp` as mentioned above.
-4. If the groups does not have a service accounts already create service accounts for each group defined and link them in `target_groups:`.
-5. Once you have added there service accounts with proper permissions and scoffolding done you can start adding stacks.
+5. If the groups does not have a service accounts already create service accounts for each group defined and link them in `target_groups:`.
+6. Once you have added there service accounts with proper permissions and scoffolding done you can start adding stacks.
 
 ## Workflows to Enable
 
