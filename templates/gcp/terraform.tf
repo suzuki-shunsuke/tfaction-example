@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "prodoscore"
+    organization = "<ORGANIZATION_NAME>"
 
     workspaces {
       name = "<WORKSPACE_NAME>"
