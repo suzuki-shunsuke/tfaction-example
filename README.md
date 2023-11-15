@@ -48,19 +48,28 @@ To use this setup:
     will create a PR with that folders created and add in the dirs/files `template_dir: templates/gcp` as mentioned above.
 5. If the groups does not have a service accounts already create service accounts for each group defined and link them in `target_groups:`.
 6. Once you have added there service accounts with proper permissions and scoffolding done you can start adding stacks.
+---
+**NOTE**
 
+Use .tfprovidercheck.yaml file to allow providers for your config. Default config.
+providers:
+  - name: registry.terraform.io/hashicorp/google
+  - name: registry.terraform.io/hashicorp/random
+
+---
 ## Workflows to Enable
 
 These are the workflows you need to set up:
 
 - **On pull request:**
-  - `test`: Runs `terraform plan` or `tfmigrate plan` and uploads the plan as a GitHub Actions artifact.
-  - `hide-comment`: Hides outdated pull request comments from previous runs.
-  - `conftest-verify`: Executes policy tests using Conftest.
-  - `opa-fmt`: Automatically formats Rego files with `opa fmt`.
-  - `renovate-config-validator`: Validates the Renovate configuration.
-  - `update-aqua-checksums`: Updates the `aqua-checksums.json` file.
-  - `actionlint`: Lints your GitHub Actions workflows.
+  - test
+    - `test`: Runs `terraform plan` or `tfmigrate plan` and uploads the plan as a GitHub Actions artifact.
+    - `hide-comment`: Hides outdated pull request comments from previous runs.
+    - `conftest-verify`: Executes policy tests using Conftest.
+    - `opa-fmt`: Automatically formats Rego files with `opa fmt`.
+    - `renovate-config-validator`: Validates the Renovate configuration.
+    - `update-aqua-checksums`: Updates the `aqua-checksums.json` file.
+    - `actionlint`: Lints your GitHub Actions workflows.
 
 - **On push:**
   - `apply`: Executes `terraform apply` or `tfmigrate apply`, using the plan artifact from pull requests.
