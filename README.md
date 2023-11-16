@@ -21,7 +21,7 @@ This repository is structured to help you automate your Terraform pipeline with 
 ---
 **NOTE**
 
-Use .tfprovidercheck.yaml file to allow providers for your config. Default config.
+Use `.tfprovidercheck.yaml` file to allow providers for your config. Default config.
 providers:
   - name: registry.terraform.io/hashicorp/google
   - name: registry.terraform.io/hashicorp/random
