@@ -61,11 +61,7 @@ To use this setup:
 These are the workflows you need to set up:
 
 - **On pull request:**
-  - test
-    - `test`: Runs `terraform plan` or `tfmigrate plan` and uploads the plan as a GitHub Actions artifact.
-    - `hide-comment`: Hides outdated pull request comments from previous runs.
-    - `update-aqua-checksums`: Updates the `aqua-checksums.json` file.
-  - `actionlint`: Lints your GitHub Actions workflows.
+  - `test`: Run tests and execute `terraform plan`
 
 - **On push:**
   - `apply`: Executes `terraform apply` or `tfmigrate apply`, using the plan artifact from pull requests.
