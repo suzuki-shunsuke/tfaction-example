@@ -18,15 +18,12 @@ This repository is structured to help you automate your Terraform pipeline with 
   - `plan_workflow_name`: A required field to name your plan workflow.
   - `target_groups`: Allows grouping of stacks with specific permission boundaries and associated service accounts.
 - `.tfprovidercheck.yaml`: Contains allowed providers
----
-**NOTE**
+## :warning: Note
 
 Use `.tfprovidercheck.yaml` file to allow providers for your config. Default config.
 providers:
   - name: registry.terraform.io/hashicorp/google
   - name: registry.terraform.io/hashicorp/random
-
----
 
 ## Setting Up
 
