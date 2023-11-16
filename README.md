@@ -6,6 +6,10 @@ This guide provides instructions on how to set up a Terraform infrastructure mon
 
 **Stack**: In the context of Terraform, a 'stack' refers to a collection of Terraform resources that are managed and applied together.
 
+#### Example
+
+You can refer the example [PR](https://github.com/codimite/tfaction-template/pull/1).
+
 ## Repository Structure
 
 This repository is structured to help you automate your Terraform pipeline with GitHub Actions. It contains the following key directories:
