@@ -68,7 +68,7 @@ These are the workflows you need to set up:
   - `test`: Run tests and execute `terraform plan`
 
 - **On push:**
-  - `apply`: Executes `terraform apply` or `tfmigrate apply`, using the plan artifact from pull requests.
+  - `apply`: Executes `terraform apply`, using the plan artifact from pull requests.
 
 - **On workflow_dispatch:**
   - `scaffold-working-directory`: Sets up a new working directory from templates.
