@@ -25,7 +25,6 @@ jobs:
   setup:
     permissions:
       contents: read # For checkout a private repository
-      pull-requests: write # For ci-info and github-comment
     runs-on: ubuntu-latest
     outputs:
       targets: ${{steps.list-targets.outputs.targets}}
@@ -55,7 +54,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@pr/1291
+      - uses: suzuki-shunsuke/tfaction/list-targets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         id: list-targets
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}

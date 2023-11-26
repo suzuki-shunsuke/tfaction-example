@@ -20,10 +20,8 @@ jobs:
     name: "plan (${{matrix.target.target}})"
     runs-on: ${{fromJSON(matrix.target.runs-on)}}
     permissions:
-      pull-requests: write # For tfcmt and github-comment and reviewdog
       id-token: write # For OIDC
-      contents: write # To push commits
-    # if services is empty, the build job is skipped
+      contents: read # To checkout private repositories
     env:
       TFACTION_TARGET: ${{matrix.target.target}}
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
@@ -55,7 +53,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.aqua_installer_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.7.3
+      - uses: suzuki-shunsuke/tfaction/export-secrets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           secrets: ${{toJSON(secrets)}}
 
@@ -97,13 +95,13 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@v0.7.3
+      - uses: suzuki-shunsuke/tfaction/setup@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@v0.7.3
+      - uses: suzuki-shunsuke/tfaction/get-target-config@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         id: target-config
 
       - name: Generate token (pull request write)
@@ -133,13 +131,13 @@ jobs:
               - name: registry.terraform.io/integrations/github
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@v0.7.3
+      - uses: suzuki-shunsuke/tfaction/test@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
-      - uses: suzuki-shunsuke/tfaction/plan@v0.7.3
+      - uses: suzuki-shunsuke/tfaction/plan@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
