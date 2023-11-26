@@ -21,10 +21,7 @@ env:
   GH_COMMENT_SHA1: ${{inputs.ref}}
   TFCMT_SHA: ${{inputs.ref}}
 
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
+permissions: {}
 
 jobs:
   setup:

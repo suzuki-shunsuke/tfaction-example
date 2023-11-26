@@ -10,43 +10,11 @@ permissions: {}
 
 jobs:
   path-filter:
-    # Get changed files to filter jobs
-    outputs:
-      merge_commit_sha: ${{steps.pr.outputs.merge_commit_sha}}
-      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
-      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
-      conftest-verify: ${{steps.changes.outputs.conftest-verify}}
-      opa-fmt: ${{steps.changes.outputs.opa-fmt}}
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read # To get pull requests of the private repository
-    steps:
-      - uses: suzuki-shunsuke/get-pr-action@b002e41164d7a39586b41f17f9caca4e98a1efe4 # v0.1.0
-        id: pr
-      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
-        id: changes
-        with:
-          filters: |
-            update-aqua-checksums:
-              - aqua.yaml
-              - aqua/*.yaml
-              - aqua-checksums.json
-              - .github/workflows/test.yaml
-              - .github/workflows/wc-update-aqua-checksums.yaml
-            renovate-config-validator:
-              - renovate.json5
-              - .github/workflows/test.yaml
-              - .github/workflows/wc-renovate-config-validator.yaml
-            conftest-verify:
-              - "**.rego"
-              - aqua/conftest.yaml
-              - .github/workflows/wc-conftest-verify.yaml
-              - .github/workflows/test.yaml
-            opa-fmt:
-              - "**.rego"
-              - .github/workflows/wc-opa-fmt.yaml
-              - .github/workflows/test.yaml
-              - aqua/opa.yaml
+    uses: ./.github/workflows/wc-path-filter.yaml
+    permissions: {}
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
   enable-auto-merge:
     # This job is used for main branch's branch protection rule's status check.
@@ -83,7 +51,19 @@ jobs:
       needs.path-filter.outputs.conftest-verify == 'true'
     permissions:
       contents: read
-      pull-requests: write
+    with:
+      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+
+  ghalint:
+    uses: ./.github/workflows/wc-ghalint.yaml
+    needs: path-filter
+    if: |
+      needs.path-filter.outputs.ghalint == 'true'
+    permissions:
+      contents: read
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
@@ -95,7 +75,6 @@ jobs:
     needs: path-filter
     permissions:
       contents: read
-      pull-requests: write
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
@@ -132,7 +111,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-      pull-requests: write
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
