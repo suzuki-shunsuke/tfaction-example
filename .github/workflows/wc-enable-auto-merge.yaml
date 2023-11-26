@@ -11,9 +11,7 @@ jobs:
   enable-automerge:
     # Enable automerge to merge pull requests from Renovate automatically.
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # For enable automerge
-      pull-requests: write # For enable automerge
+    permissions: {}
     steps:
       - name: Generate token
         id: generate_token
