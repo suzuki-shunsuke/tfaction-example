@@ -40,4 +40,4 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@pr/1291
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_token: ${{ steps.generate_token.outputs.token }}
