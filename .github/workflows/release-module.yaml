@@ -10,14 +10,14 @@ on:
       version:
         description: 'Module version'
         required: true
-permissions:
-  contents: write
 env:
   TFACTION_TARGET: ${{github.event.inputs.module_path}}
 jobs:
   release-module:
     name: "release-module (${{github.event.inputs.module_path}})"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # To create a release
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0

@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - .github/**
+      - .github/workflows/**
       - aqua/actionlint.yaml
 jobs:
   actionlint:

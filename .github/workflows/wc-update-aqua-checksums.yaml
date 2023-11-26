@@ -7,8 +7,6 @@ on:
         required: false
         type: string
     secrets:
-      gh_token:
-        required: false
       gh_app_id:
         required: false
       gh_app_private_key:
@@ -24,6 +22,5 @@ jobs:
       prune: true
       ref: ${{inputs.ref}}
     secrets:
-      gh_token: ${{secrets.gh_token}}
       gh_app_id: ${{secrets.gh_app_id}}
       gh_app_private_key: ${{secrets.gh_app_private_key}}
