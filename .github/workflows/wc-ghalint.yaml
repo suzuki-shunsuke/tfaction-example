@@ -1,5 +1,5 @@
 ---
-name: Hide comments
+name: ghalint
 on:
   workflow_call:
     inputs:
@@ -14,7 +14,7 @@ on:
 env:
   GH_COMMENT_SHA1: ${{inputs.ref}}
 jobs:
-  hide-comment:
+  ghalint:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,7 +28,7 @@ jobs:
         with:
           app_id: ${{secrets.gh_app_id}}
           private_key: ${{secrets.gh_app_private_key}}
-          # pull_requests:write - Post and hide comments
+          # pull_requests:write - Post comments
           permissions: >-
             {"pull_requests": "write"}
           repositories: >-
@@ -36,10 +36,10 @@ jobs:
 
       - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
         with:
-         aqua_version: v2.21.0
+          aqua_version: v2.21.0
         env:
           AQUA_GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - run: github-comment exec -- github-comment hide
+      - run: github-comment exec -- ghalint run
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
