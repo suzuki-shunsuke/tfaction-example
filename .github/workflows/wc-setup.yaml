@@ -1,24 +1,36 @@
 ---
-name: conftest verify
+name: Set up
 on:
   workflow_call:
     inputs:
       ref:
-        required: false
+        required: true
         type: string
     secrets:
       gh_app_id:
-        required: false
+        required: true
       gh_app_private_key:
-        required: false
-env:
-  GH_COMMENT_SHA1: ${{inputs.ref}}
+        required: true
+    outputs:
+      targets:
+        description: targets
+        value: ${{jobs.setup.outputs.targets}}
+      modules:
+        description: targets
+        value: ${{jobs.setup.outputs.modules}}
+      merge_commit_sha:
+        description: targets
+        value: ${{jobs.setup.outputs.merge_commit_sha}}
 jobs:
-  conftest-verify:
-    runs-on: ubuntu-latest
+  setup:
     permissions:
-      contents: read
-      pull-requests: write
+      contents: read # For checkout a private repository
+      pull-requests: write # For ci-info and github-comment
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{steps.list-targets.outputs.targets}}
+      modules: ${{steps.list-targets.outputs.modules}}
+      merge_commit_sha: ${{inputs.ref}}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
@@ -31,7 +43,9 @@ jobs:
           private_key: ${{secrets.gh_app_private_key}}
           # pull_requests:write - Post comments
           permissions: >-
-            {"pull_requests": "write"}
+            {
+              "pull_requests": "write"
+            }
           repositories: >-
             ["${{github.event.repository.name}}"]
 
@@ -41,6 +55,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - run: github-comment exec -- conftest verify --no-color -p policy/terraform
+      - uses: suzuki-shunsuke/tfaction/list-targets@pr/1291
+        id: list-targets
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}

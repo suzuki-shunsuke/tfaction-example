@@ -7,8 +7,6 @@ on:
         required: false
         type: string
     secrets:
-      gh_token:
-        required: false
       gh_app_id:
         required: false
       gh_app_private_key:
@@ -30,132 +28,36 @@ permissions:
 
 jobs:
   setup:
-    runs-on: ubuntu-latest
-    outputs:
-      targets: ${{ steps.list-targets.outputs.targets }}
-      modules: ${{ steps.list-targets.outputs.modules }}
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        with:
-          ref: ${{inputs.ref}}
-      - uses: suzuki-shunsuke/github-token-action@350d7506222e3a0016491abe85b5c4dd475b67d1 # v0.2.1
-        id: token
-        with:
-          github_token: ${{secrets.gh_token}}
-          github_app_id: ${{secrets.gh_app_id}}
-          github_app_private_key: ${{secrets.gh_app_private_key}}
-          default_github_token: ${{github.token}}
-
-      - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
-        with:
-          aqua_version: v2.21.0
-        env:
-          AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
-
-      - uses: suzuki-shunsuke/tfaction/list-targets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
-        id: list-targets
+    uses: ./.github/workflows/wc-setup.yaml
+    permissions:
+      contents: read
+      pull-requests: write
+    with:
+      ref: ${{inputs.ref}}
+    secrets:
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
 
   test-module:
-    name: "test-module (${{matrix.target}})"
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/wc-test-module.yaml
     needs: setup
     # if services is empty, the build job is skipped
     if: "join(fromJSON(needs.setup.outputs.modules), '') != ''"
-    env:
-      TFACTION_TARGET: ${{matrix.target}}
-    strategy:
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.modules)}}
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        with:
-          ref: ${{inputs.ref}}
-      - uses: suzuki-shunsuke/github-token-action@350d7506222e3a0016491abe85b5c4dd475b67d1 # v0.2.1
-        id: token
-        with:
-          github_token: ${{secrets.gh_token}}
-          github_app_id: ${{secrets.gh_app_id}}
-          github_app_private_key: ${{secrets.gh_app_private_key}}
-          default_github_token: ${{github.token}}
-
-      - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
-        with:
-          aqua_version: v2.21.0
-          aqua_opts: -l -a
-          working_directory: ${{matrix.target}}
-        env:
-          AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
-
-      - uses: suzuki-shunsuke/tfaction/test-module@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
-        with:
-          github_app_token: ${{steps.token.outputs.token}}
+    with:
+      modules: ${{needs.setup.outputs.modules}}
+      ref: ${{inputs.ref}}
+    secrets:
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
 
   plan:
-    name: "plan (${{matrix.target.target}})"
-    runs-on: ${{matrix.target.runs_on}}
+    uses: ./.github/workflows/wc-plan.yaml
     needs: setup
     # if services is empty, the build job is skipped
     if: "join(fromJSON(needs.setup.outputs.targets), '') != ''"
-    strategy:
-      fail-fast: true
-      matrix:
-        target: ${{fromJSON(needs.setup.outputs.targets)}}
-    env:
-      TFACTION_TARGET: ${{matrix.target.target}}
-      TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        with:
-          ref: ${{inputs.ref}}
-      - uses: suzuki-shunsuke/github-token-action@350d7506222e3a0016491abe85b5c4dd475b67d1 # v0.2.1
-        id: token
-        with:
-          github_token: ${{secrets.gh_token}}
-          github_app_id: ${{secrets.gh_app_id}}
-          github_app_private_key: ${{secrets.gh_app_private_key}}
-          default_github_token: ${{github.token}}
-
-      - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
-        with:
-          aqua_version: v2.21.0
-        env:
-          AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
-
-      - uses: suzuki-shunsuke/tfaction/export-secrets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
-        with:
-          secrets: ${{secrets.secrets}}
-
-      # This is required to download private modules in `terraform init`
-      - run: gh auth setup-git
-        env:
-          GITHUB_TOKEN: ${{steps.token.outputs.token}}
-
-      - uses: suzuki-shunsuke/tfaction/setup@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
-        with:
-          github_app_token: ${{steps.token.outputs.token}}
-          ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-
-      - uses: suzuki-shunsuke/tfaction/get-target-config@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
-        id: target-config
-
-      - run: |
-          set -euo pipefail
-          github-comment exec -var "tfaction_target:$TFACTION_TARGET" -- tfprovidercheck -v
-          github-comment exec -var "tfaction_target:$TFACTION_TARGET" -- terraform version -json | github-comment exec -- tfprovidercheck
-        working-directory: ${{ steps.target-config.outputs.working_directory }}
-        env:
-          TFPROVIDERCHECK_CONFIG_BODY: |
-            providers:
-              - name: registry.terraform.io/hashicorp/google
-              - name: registry.terraform.io/hashicorp/aws
-              - name: registry.terraform.io/hashicorp/null
-              - name: registry.terraform.io/integrations/github
-          GITHUB_TOKEN: ${{steps.token.outputs.token}} # For github-comment
-
-      - uses: suzuki-shunsuke/tfaction/test@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
-        with:
-          github_app_token: ${{steps.token.outputs.token}}
-
-      - uses: suzuki-shunsuke/tfaction/plan@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
-        with:
-          github_app_token: ${{steps.token.outputs.token}}
+    with:
+      targets: ${{needs.setup.outputs.targets}}
+      ref: ${{inputs.ref}}
+    secrets:
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}

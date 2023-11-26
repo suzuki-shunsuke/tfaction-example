@@ -6,12 +6,13 @@ concurrency:
   group: ${{ github.workflow }}--${{ github.head_ref }} # github.ref is unavailable in case of pull_request_target
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
   path-filter:
     # Get changed files to filter jobs
     outputs:
       merge_commit_sha: ${{steps.pr.outputs.merge_commit_sha}}
-
       update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
       renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
       conftest-verify: ${{steps.changes.outputs.conftest-verify}}
@@ -47,10 +48,10 @@ jobs:
               - .github/workflows/test.yaml
               - aqua/opa.yaml
 
-  enable-automerge:
+  enable-auto-merge:
     # This job is used for main branch's branch protection rule's status check.
     # If all dependent jobs succeed or are skipped this job succeeds.
-    uses: ./.github/workflows/wc-enable-automerge.yaml
+    uses: ./.github/workflows/wc-enable-auto-merge.yaml
     needs:
       - status-check
     permissions: {}
@@ -65,22 +66,22 @@ jobs:
   status-check:
     runs-on: ubuntu-latest
     needs:
-      - test
       - conftest-verify
-      - opa-fmt
       - hide-comment
+      - opa-fmt
       - renovate-config-validator
+      - test
       - update-aqua-checksums
     if: failure()
     steps:
       - run: exit 1
 
-  test:
-    uses: ./.github/workflows/wc-test.yaml
-    if: 'false' # CHANGEME Please remove this.
+  conftest-verify:
+    uses: ./.github/workflows/wc-conftest-verify.yaml
     needs: path-filter
+    if: |
+      needs.path-filter.outputs.conftest-verify == 'true'
     permissions:
-      id-token: write
       contents: read
       pull-requests: write
     with:
@@ -88,14 +89,10 @@ jobs:
     secrets:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-      terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
-      secrets: ${{toJSON(secrets)}}
 
-  conftest-verify:
-    uses: ./.github/workflows/wc-conftest-verify.yaml
+  hide-comment:
+    uses: ./.github/workflows/wc-hide-comment.yaml
     needs: path-filter
-    if: |
-      needs.path-filter.outputs.conftest-verify == 'true'
     permissions:
       contents: read
       pull-requests: write
@@ -119,18 +116,6 @@ jobs:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
 
-  hide-comment:
-    uses: ./.github/workflows/wc-hide-comment.yaml
-    needs: path-filter
-    permissions:
-      contents: read
-      pull-requests: write
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
   renovate-config-validator:
     uses: ./.github/workflows/wc-renovate-config-validator.yaml
     needs: path-filter
@@ -139,6 +124,22 @@ jobs:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     permissions:
       contents: read
+
+  test:
+    uses: ./.github/workflows/wc-test.yaml
+    if: 'false' # CHANGEME Please remove this.
+    needs: path-filter
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    with:
+      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
+      secrets: ${{toJSON(secrets)}}
 
   update-aqua-checksums:
     uses: ./.github/workflows/wc-update-aqua-checksums.yaml

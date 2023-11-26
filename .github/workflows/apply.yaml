@@ -4,17 +4,13 @@ on:
   push:
     branches: [dummy] # Disabled. CHANGEME Replace dummy with main
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TFACTION_IS_APPLY: 'true'
-permissions:
-  actions: read
-  id-token: write
-  contents: read
-  issues: read # this is required to `gh pr list`'s `-l` option
-  pull-requests: write
 jobs:
   setup:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # For checkout a private repository
+      pull-requests: write # For ci-info and github-comment
     outputs:
       targets: ${{ steps.list-targets.outputs.targets }}
     steps:
@@ -39,49 +35,153 @@ jobs:
     env:
       TFACTION_TARGET: ${{matrix.target.target}}
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
+    permissions:
+      id-token: write # For OIDC
+      contents: read # To checkout a private repository
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: Generate token
-        id: generate_token
+
+      - name: Generate token for aqua-installer
+        id: aqua_installer_token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          # If you use private registries, contents:read is required
+          permissions: >-
+            {}
+          # If you use private registries, please add private repositories
+          repositories: >-
+            []
 
       - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
         with:
           aqua_version: v2.21.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
       - uses: suzuki-shunsuke/tfaction/export-secrets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
           secrets: ${{ toJSON(secrets) }}
 
+      - name: Generate token to download private Terraform Modules
+        id: gh_setup_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          # If you use private registries, contents:read is required
+          permissions: >-
+            {
+              "contents:read"
+            }
+          # private repositories hosting private modules
+          repositories: >-
+            []
+
       # This is required to download private modules in `terraform init`
       - run: gh auth setup-git
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.gh_setup_token.outputs.token }}
+
+      - name: Generate token to update drift issues
+        id: drift_issue_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          # issues:write - Create and update drift issues
+          permissions: >-
+            {
+              "issues": "write"
+            }
+          # GitHub Repository where Drift Detection issues are hosted
+          # https://suzuki-shunsuke.github.io/tfaction/docs/feature/drift-detection
+          repositories: >-
+            [
+              "test-tfaction-drift-issues"
+            ]
 
       - run: tfaction get-or-create-drift-issue
         shell: bash
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.drift_issue_token.outputs.token }}
+
+      - name: Generate token for setup
+        id: setup_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          # pull_requests:write - Post comments
+          # issues:write - Update drift issues
+          permissions: >-
+            {
+              "pull_requests": "write",
+              "issues": "write"
+            }
+          repositories: >-
+            [
+              "${{github.event.repository.name}}",
+              "test-tfaction-drift-issues"
+            ]
 
       - uses: suzuki-shunsuke/tfaction/setup@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
+
+      - name: Generate token for apply
+        id: apply_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          # pull_requests:write - Post comments
+          # actions:read - Download plan files
+          # issues:write - Update drift issues
+          permissions: >-
+            {
+              "pull_requests": "write",
+              "actions": "read",
+              "issues": "write"
+            }
+          repositories: >-
+            [
+              "${{github.event.repository.name}}",
+              "test-tfaction-drift-issues"
+            ]
 
       - uses: suzuki-shunsuke/tfaction/apply@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{ steps.apply_token.outputs.token }}
+
+      - name: Generate token for creating follow up pr
+        id: follow_up_pr_token
+        if: failure()
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          # contents:write - Push commits
+          # pull_requests:write - Create a pull request
+          permissions: >-
+            {
+              "contents": "write",
+              "pull_requests": "write"
+            }
+          repositories: >-
+            [
+              "${{github.event.repository.name}}"
+            ]
 
       - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         if: failure()
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_app_token: ${{steps.follow_up_pr_token.outputs.token}}
 
       - uses: suzuki-shunsuke/tfaction/update-drift-issue@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         if: always()
         with:
           status: ${{job.status}}
-          github_token: ${{steps.generate_token.outputs.token}}
+          github_token: ${{steps.drift_issue_token.outputs.token}}
