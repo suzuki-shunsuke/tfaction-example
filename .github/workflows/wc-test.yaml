@@ -29,14 +29,13 @@ permissions:
 jobs:
   setup:
     uses: ./.github/workflows/wc-setup.yaml
-    permissions:
-      contents: read
-      pull-requests: write
     with:
       ref: ${{inputs.ref}}
     secrets:
       gh_app_id: ${{secrets.gh_app_id}}
       gh_app_private_key: ${{secrets.gh_app_private_key}}
+    permissions:
+      contents: read
 
   test-module:
     uses: ./.github/workflows/wc-test-module.yaml
@@ -49,6 +48,8 @@ jobs:
     secrets:
       gh_app_id: ${{secrets.gh_app_id}}
       gh_app_private_key: ${{secrets.gh_app_private_key}}
+    permissions:
+      contents: read
 
   plan:
     uses: ./.github/workflows/wc-plan.yaml
@@ -61,3 +62,6 @@ jobs:
     secrets:
       gh_app_id: ${{secrets.gh_app_id}}
       gh_app_private_key: ${{secrets.gh_app_private_key}}
+    permissions:
+      id-token: write
+      contents: read
