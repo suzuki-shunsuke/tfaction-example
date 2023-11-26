@@ -15,12 +15,11 @@ on:
         required: false
 env:
   TFACTION_TARGET: ${{github.event.inputs.target}}
-permissions:
-  contents: read
-  pull-requests: write
 jobs:
   scaffold:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
@@ -30,12 +29,21 @@ jobs:
         with:
           app_id: ${{secrets.APP_ID}}
           private_key: ${{secrets.APP_PRIVATE_KEY}}
+          # pull_requests:write - Create pull requests
+          # contents:write - Push commits
+          permissions: >-
+            {
+              "pull_requests": "write",
+              "contents": "write"
+            }
+          repositories: >-
+            ["${{github.event.repository.name}}"]
 
       - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
         with:
           aqua_version: v2.21.0
         env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+          GITHUB_TOKEN: ${{github.token}}
 
       - uses: suzuki-shunsuke/tfaction/scaffold-tfmigrate@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
         with:

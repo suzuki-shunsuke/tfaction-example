@@ -7,8 +7,6 @@ on:
         required: false
         type: string
     secrets:
-      gh_token:
-        required: false
       gh_app_id:
         required: false
       gh_app_private_key:
@@ -16,7 +14,7 @@ on:
 jobs:
   update-aqua-checksums:
     # Update aqua-checksums.json and push a commit
-    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@9ccbd9ade4e8b92b0dd5757cacf6cd3ebcf7d876 # v0.1.8
+    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@3598c506108a2e0e9e31a0c6ef9c202c77049420 # v0.1.9
     permissions:
       contents: read
     with:
@@ -24,6 +22,5 @@ jobs:
       prune: true
       ref: ${{inputs.ref}}
     secrets:
-      gh_token: ${{secrets.gh_token}}
       gh_app_id: ${{secrets.gh_app_id}}
       gh_app_private_key: ${{secrets.gh_app_private_key}}

@@ -1,0 +1,146 @@
+---
+name: plan
+on:
+  workflow_call:
+    inputs:
+      targets:
+        required: true
+        type: string
+      ref:
+        required: true
+        type: string
+    secrets:
+      gh_app_id:
+        required: true
+      gh_app_private_key:
+        required: true
+
+jobs:
+  plan:
+    name: "plan (${{matrix.target.target}})"
+    runs-on: ${{fromJSON(matrix.target.runs-on)}}
+    permissions:
+      pull-requests: write # For tfcmt and github-comment and reviewdog
+      id-token: write # For OIDC
+      contents: write # To push commits
+    # if services is empty, the build job is skipped
+    env:
+      TFACTION_TARGET: ${{matrix.target.target}}
+      TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
+      GH_COMMENT_SHA1: ${{inputs.ref}}
+      TFCMT_SHA: ${{inputs.ref}}
+    strategy:
+      fail-fast: true
+      matrix:
+        target: ${{fromJSON(inputs.targets)}}
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          ref: ${{inputs.ref}}
+
+      - name: Generate token (aqua)
+        id: aqua_installer_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{secrets.gh_app_id}}
+          private_key: ${{secrets.gh_app_private_key}}
+          permissions: >-
+            {}
+          repositories: >-
+            []
+
+      - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
+        with:
+          aqua_version: v2.21.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{steps.aqua_installer_token.outputs.token}}
+
+      - uses: suzuki-shunsuke/tfaction/export-secrets@v0.7.3
+        with:
+          secrets: ${{toJSON(secrets)}}
+
+      - name: Generate token to download private Terraform Modules
+        id: gh_setup_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{ secrets.gh_app_id }}
+          private_key: ${{ secrets.gh_app_private_key }}
+          # If you use private registries, contents:read is required
+          permissions: >-
+            {
+              "contents:read"
+            }
+          # private repositories hosting private modules
+          repositories: >-
+            []
+
+      # This is required to download private modules in `terraform init`
+      - run: gh auth setup-git
+        env:
+          GITHUB_TOKEN: ${{steps.gh_setup_token.outputs.token}}
+
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{secrets.gh_app_id}}
+          private_key: ${{secrets.gh_app_private_key}}
+          # issues:write - Create labels
+          # pull_requests:write - Post comments and set labels
+          # contents:write - Push commits
+          permissions: >-
+            {
+              "pull_requests": "write",
+              "issues": "write",
+              "contents": "write"
+            }
+          repositories: >-
+            ["${{github.event.repository.name}}"]
+
+      - uses: suzuki-shunsuke/tfaction/setup@v0.7.3
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
+
+      - uses: suzuki-shunsuke/tfaction/get-target-config@v0.7.3
+        id: target-config
+
+      - name: Generate token (pull request write)
+        id: pull_request_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{secrets.gh_app_id}}
+          private_key: ${{secrets.gh_app_private_key}}
+          permissions: >-
+            {
+              "pull_requests": "write"
+            }
+          repositories: >-
+            ["${{github.event.repository.name}}"]
+
+      - run: |
+          set -euo pipefail
+          tfprovidercheck -v
+          github-comment exec -- terraform version -json | github-comment exec -- tfprovidercheck
+        working-directory: ${{ steps.target-config.outputs.working_directory }}
+        env:
+          TFPROVIDERCHECK_CONFIG_BODY: |
+            providers:
+              - name: registry.terraform.io/hashicorp/google
+              - name: registry.terraform.io/hashicorp/aws
+              - name: registry.terraform.io/hashicorp/null
+              - name: registry.terraform.io/integrations/github
+          GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
+
+      - uses: suzuki-shunsuke/tfaction/test@v0.7.3
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
+
+      - uses: suzuki-shunsuke/tfaction/plan@v0.7.3
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and tfcmt and github-comment
