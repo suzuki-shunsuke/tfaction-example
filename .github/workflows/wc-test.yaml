@@ -52,7 +52,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/list-targets@pr/1291
         id: list-targets
 
   test-module:
@@ -86,7 +86,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/test-module@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/test-module@pr/1291
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
@@ -121,7 +121,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/export-secrets@pr/1291
         with:
           secrets: ${{secrets.secrets}}
 
@@ -130,12 +130,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/setup@pr/1291
         with:
           github_app_token: ${{steps.token.outputs.token}}
           ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/get-target-config@pr/1291
         id: target-config
 
       - run: |
@@ -152,10 +152,10 @@ jobs:
               - name: registry.terraform.io/integrations/github
           GITHUB_TOKEN: ${{steps.token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/test@pr/1291
         with:
           github_app_token: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/plan@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/plan@pr/1291
         with:
           github_app_token: ${{steps.token.outputs.token}}
