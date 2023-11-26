@@ -39,6 +39,6 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/scaffold-tfmigrate@pr/1291
         with:
-          github_app_token: ${{steps.generate_token.outputs.token}}
+          github_token: ${{steps.generate_token.outputs.token}}
           migration_name: ${{github.event.inputs.migration_name}}
           pr_number: ${{inputs.pr_number}}

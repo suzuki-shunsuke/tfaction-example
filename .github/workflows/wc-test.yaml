@@ -88,7 +88,7 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/test-module@pr/1291
         with:
-          github_app_token: ${{steps.token.outputs.token}}
+          github_token: ${{steps.token.outputs.token}}
 
   plan:
     name: "plan (${{matrix.target.target}})"
@@ -132,7 +132,7 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/setup@pr/1291
         with:
-          github_app_token: ${{steps.token.outputs.token}}
+          github_token: ${{steps.token.outputs.token}}
           ssh_key: ${{secrets.terraform_private_module_ssh_key}} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
       - uses: suzuki-shunsuke/tfaction/get-target-config@pr/1291
@@ -154,8 +154,8 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/test@pr/1291
         with:
-          github_app_token: ${{steps.token.outputs.token}}
+          github_token: ${{steps.token.outputs.token}}
 
       - uses: suzuki-shunsuke/tfaction/plan@pr/1291
         with:
-          github_app_token: ${{steps.token.outputs.token}}
+          github_token: ${{steps.token.outputs.token}}

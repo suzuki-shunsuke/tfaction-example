@@ -56,21 +56,18 @@ jobs:
       - uses: suzuki-shunsuke/tfaction/setup@pr/1291
         with:
           github_token: ${{steps.generate_token.outputs.token}}
-          github_app_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
       - uses: suzuki-shunsuke/tfaction/test@pr/1291
         with:
           github_token: ${{steps.generate_token.outputs.token}}
-          github_app_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
       - uses: suzuki-shunsuke/tfaction/terraform-plan@pr/1291
         with:
           github_token: ${{steps.generate_token.outputs.token}}
-          github_app_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 

@@ -68,17 +68,17 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/setup@pr/1291
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_token: ${{ steps.generate_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
       - uses: suzuki-shunsuke/tfaction/apply@pr/1291
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_token: ${{ steps.generate_token.outputs.token }}
 
       - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@pr/1291
         if: failure()
         with:
-          github_app_token: ${{ steps.generate_token.outputs.token }}
+          github_token: ${{ steps.generate_token.outputs.token }}
 
       - uses: suzuki-shunsuke/tfaction/update-drift-issue@pr/1291
         if: always()
