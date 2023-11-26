@@ -7,12 +7,20 @@ on:
       module_path:
         description: 'module path'
         required: true
+      template_dir:
+        type: choice
+        default: templates/module-hello
+        options:
+          - templates/module-hello
 permissions:
   contents: read
   pull-requests: write
 jobs:
   scaffold:
     runs-on: ubuntu-latest
+    env:
+      TFACTION_MODULE_PATH: ${{inputs.module_path}}
+      TFACTION_MODULE_TEMPLATE_DIR: ${{inputs.template_dir}}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: aquaproj/aqua-installer@928a2ee4243a9ee8312d80dc8cbaca88fb602a91 # v2.2.0
@@ -28,5 +36,7 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/scaffold-module@pr/1291
         with:
-          github_token: ${{ steps.generate_token.outputs.token }}
-          module_path: ${{ github.event.inputs.module_path }}
+          github_token: ${{steps.generate_token.outputs.token}}
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-module-pr@pr/1291
+        with:
+          github_token: ${{steps.generate_token.outputs.token}} 
