@@ -19,7 +19,7 @@ jobs:
         with:
           aqua_version: v2.21.0
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/list-targets@pr/1291
         id: list-targets
 
   apply:
@@ -60,7 +60,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/export-secrets@pr/1291
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -126,7 +126,7 @@ jobs:
               "test-tfaction-drift-issues"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/setup@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/setup@pr/1291
         with:
           github_app_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
@@ -152,7 +152,7 @@ jobs:
               "test-tfaction-drift-issues"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/apply@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/apply@pr/1291
         with:
           github_app_token: ${{ steps.apply_token.outputs.token }}
 
@@ -175,12 +175,12 @@ jobs:
               "${{github.event.repository.name}}"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@pr/1291
         if: failure()
         with:
           github_app_token: ${{steps.follow_up_pr_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@pr/1291
         if: always()
         with:
           status: ${{job.status}}
