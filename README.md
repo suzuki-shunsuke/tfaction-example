@@ -35,6 +35,8 @@ To use this setup:
 
 1. Clone this repository as a starting point for your infrastructure code.
 2. Creat a GitHub App.
+  - You can use https://suzuki-shunsuke.github.io/tfaction/docs/ as Homepage URL
+  - Disable webhook
   - The App needs following permissions.
      | Name | Permission | Description|
      | ------------- | ----- | --------------- |
