@@ -44,10 +44,10 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-module@pr/1291
+      - uses: suzuki-shunsuke/tfaction/scaffold-module@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/create-scaffold-module-pr@pr/1291
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-module-pr@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
         with:
           github_token: ${{steps.generate_token.outputs.token}} 
