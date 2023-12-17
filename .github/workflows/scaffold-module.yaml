@@ -7,9 +7,17 @@ on:
       module_path:
         description: 'module path'
         required: true
+      template_dir:
+        type: choice
+        default: templates/module-hello
+        options:
+          - templates/module-hello
 jobs:
   scaffold:
     runs-on: ubuntu-latest
+    env:
+      TFACTION_MODULE_PATH: ${{inputs.module_path}}
+      TFACTION_MODULE_TEMPLATE_DIR: ${{inputs.template_dir}}
     permissions:
       contents: read
     steps:
@@ -36,7 +44,10 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-module@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/scaffold-module@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
         with:
-          github_token: ${{ steps.generate_token.outputs.token }}
-          module_path: ${{ github.event.inputs.module_path }}
+          github_token: ${{steps.generate_token.outputs.token}}
+
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-module-pr@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
+        with:
+          github_token: ${{steps.generate_token.outputs.token}} 

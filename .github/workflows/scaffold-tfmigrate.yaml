@@ -45,8 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-tfmigrate@5731fade20e41c1905c04095f0e3d68fac14a636 # v0.7.3
+      - uses: suzuki-shunsuke/tfaction/scaffold-tfmigrate@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
         with:
-          github_app_token: ${{steps.generate_token.outputs.token}}
+          github_token: ${{steps.generate_token.outputs.token}}
           migration_name: ${{github.event.inputs.migration_name}}
           pr_number: ${{inputs.pr_number}}
