@@ -53,7 +53,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.aqua_installer_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
+      - uses: suzuki-shunsuke/tfaction/export-secrets@233b3eebee1c48f18dfc917ef6a5cbc92510fc28 # v1.0.1-1
         with:
           secrets: ${{toJSON(secrets)}}
 
@@ -95,13 +95,13 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
+      - uses: suzuki-shunsuke/tfaction/setup@233b3eebee1c48f18dfc917ef6a5cbc92510fc28 # v1.0.1-1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
+      - uses: suzuki-shunsuke/tfaction/get-target-config@233b3eebee1c48f18dfc917ef6a5cbc92510fc28 # v1.0.1-1
         id: target-config
 
       - name: Generate token (pull request write)
@@ -131,13 +131,13 @@ jobs:
               - name: registry.terraform.io/integrations/github
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
+      - uses: suzuki-shunsuke/tfaction/test@233b3eebee1c48f18dfc917ef6a5cbc92510fc28 # v1.0.1-1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
-      - uses: suzuki-shunsuke/tfaction/plan@e14be0997deaf47227d65f02dcff960fd1dcc862 # v1.0.0-1
+      - uses: suzuki-shunsuke/tfaction/plan@233b3eebee1c48f18dfc917ef6a5cbc92510fc28 # v1.0.1-1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
