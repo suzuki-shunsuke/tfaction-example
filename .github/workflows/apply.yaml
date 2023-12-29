@@ -2,7 +2,7 @@
 name: apply
 on:
   push:
-    branches: [dummy] # Disabled. CHANGEME Replace dummy with main
+    branches: [main]
 env:
   TFACTION_IS_APPLY: 'true'
 jobs:
@@ -73,7 +73,7 @@ jobs:
           # If you use private registries, contents:read is required
           permissions: >-
             {
-              "contents:read"
+              "contents": "read"
             }
           # private repositories hosting private modules
           repositories: >-
