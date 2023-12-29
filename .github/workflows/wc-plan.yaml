@@ -18,7 +18,7 @@ on:
 jobs:
   plan:
     name: "plan (${{matrix.target.target}})"
-    runs-on: ${{fromJSON(matrix.target.runs-on)}}
+    runs-on: ${{fromJSON(matrix.target.runs_on)}}
     permissions:
       id-token: write # For OIDC
       contents: read # To checkout private repositories
