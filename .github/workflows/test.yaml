@@ -106,7 +106,6 @@ jobs:
 
   test:
     uses: ./.github/workflows/wc-test.yaml
-    if: 'false' # CHANGEME Please remove this.
     needs: path-filter
     permissions:
       id-token: write
