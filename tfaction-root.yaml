@@ -1,5 +1,5 @@
 ---
-plan_workflow_name: test # Mandatory
+plan_workflow_name: pull_request_target # Mandatory
 label_prefixes:
   tfmigrate: "migrate:"
 # skip_create_pr: true
