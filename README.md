@@ -24,14 +24,6 @@ Example usage of [tfaction](https://github.com/suzuki-shunsuke/tfaction)
   * [scaffold-module](.github/workflows/scaffold-module.yaml): Scaffold Terraform Modules
   * [release-module](.github/workflows/release-module.yaml): Release Terraform Modules
 
-## :warning: Note
-
-Note that in this repository some GitHub Actions Workflows are configured not to be launched intentionally, because these workflows require the access to AWS.
-
-## Getting Started
-
-[Getting Started](https://suzuki-shunsuke.github.io/tfaction/docs/getting-started)
-
 ## LICENSE
 
 [MIT](LICENSE)
