@@ -56,5 +56,5 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/list-targets@233b3eebee1c48f18dfc917ef6a5cbc92510fc28 # v1.0.1-1
         id: list-targets
-        env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
