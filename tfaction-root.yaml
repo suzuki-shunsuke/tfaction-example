@@ -29,7 +29,6 @@ target_groups:
 - working_directory: aws/
   target: aws/
   aws_region: ap-northeast-1
-  s3_bucket_name_plan_file: '<S3 Bucket Name for Terraform Plan File>'
   s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>'
   template_dir: templates/aws
 
@@ -45,7 +44,6 @@ target_groups:
 - working_directory: for-test/
   target: for-test/
   # aws_region: ap-northeast-1 # CHANGEME Fix the region if necessary
-  # s3_bucket_name_plan_file: '<S3 Bucket Name for Terraform Plan File>' # CHANGEME
   # s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>' # CHANGEME
   template_dir: templates/for-test
   # terraform_plan_config:
@@ -60,7 +58,6 @@ target_groups:
 - working_directory: github/services/
   target: github/
   aws_region: ap-northeast-1 # CHANGEME Fix the region if necessary
-  s3_bucket_name_plan_file: '<S3 Bucket Name for Terraform Plan File>' # CHANGEME
   s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>' # CHANGEME
   template_dir: templates/github
   terraform_plan_config:
@@ -74,7 +71,6 @@ target_groups:
 
 - working_directory: gcp/
   target: gcp/
-  gcs_bucket_name_plan_file: '<GCS Bucket Name for Terraform Plan File>'
   gcs_bucket_name_tfmigrate_history: '<GCS Bucket Name for tfmigrate history files>'
   template_dir: templates/gcp
   terraform_plan_config:
