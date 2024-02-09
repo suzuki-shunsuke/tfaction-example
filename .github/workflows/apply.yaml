@@ -140,10 +140,12 @@ jobs:
           # pull_requests:write - Post comments
           # actions:read - Download plan files
           # issues:write - Update drift issues
+          # contents:write - Update related pull requests
           permissions: >-
             {
               "pull_requests": "write",
               "actions": "read",
+              "contents": "write",
               "issues": "write"
             }
           repositories: >-
