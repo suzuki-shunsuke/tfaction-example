@@ -40,9 +40,14 @@ jobs:
       - renovate-config-validator
       - test
       - update-aqua-checksums
-    if: failure()
+    if: always()
     steps:
       - run: exit 1
+        if: >-
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}
 
   conftest-verify:
     uses: ./.github/workflows/wc-conftest-verify.yaml
