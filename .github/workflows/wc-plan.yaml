@@ -125,9 +125,10 @@ jobs:
         env:
           TFPROVIDERCHECK_CONFIG_BODY: |
             providers:
-              - name: registry.terraform.io/hashicorp/google
               - name: registry.terraform.io/hashicorp/aws
+              - name: registry.terraform.io/hashicorp/google
               - name: registry.terraform.io/hashicorp/null
+              - name: registry.terraform.io/hashicorp/tls
               - name: registry.terraform.io/integrations/github
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
