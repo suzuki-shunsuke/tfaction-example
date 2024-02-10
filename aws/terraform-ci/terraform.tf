@@ -6,11 +6,11 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket = "<S3 Bucket Name>"
-    key    = "aws/terraform-ci/v1/terraform.tfstate"
-    region = "us-east-1"
-  }
+  # backend "s3" {
+  #   bucket = "<S3 Bucket Name>"
+  #   key    = "aws/terraform-ci/v1/terraform.tfstate"
+  #   region = "us-east-1"
+  # }
 }
 
 provider "aws" {
