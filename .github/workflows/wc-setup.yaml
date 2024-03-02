@@ -50,11 +50,11 @@ jobs:
 
       - uses: aquaproj/aqua-installer@7c7338067bdb97d5bea2acc82b5870afca470d18 # v2.3.0
         with:
-          aqua_version: v2.23.1
+          aqua_version: v2.23.2
         env:
           AQUA_GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@58d26ec38d4b002a162a64eca4c3ebde64737a0c # v1.1.0
+      - uses: suzuki-shunsuke/tfaction/list-targets@b03dfcc9d26de824ca0d7fc385d0bb4986d6642e # v1.2.0
         id: list-targets
         with:
           github_token: ${{steps.generate_token.outputs.token}}
