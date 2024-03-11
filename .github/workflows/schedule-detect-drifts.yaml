@@ -18,7 +18,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@7c7338067bdb97d5bea2acc82b5870afca470d18 # v2.3.0
         with:
-          aqua_version: v2.23.2
+          aqua_version: v2.24.0
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
@@ -78,33 +78,33 @@ jobs:
 
       - uses: aquaproj/aqua-installer@7c7338067bdb97d5bea2acc82b5870afca470d18 # v2.3.0
         with:
-          aqua_version: v2.23.2
+          aqua_version: v2.24.0
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction/set-drift-env@b03dfcc9d26de824ca0d7fc385d0bb4986d6642e # v1.2.0
+      - uses: suzuki-shunsuke/tfaction/set-drift-env@72536e0b22961437dbca58cb4f3ea20a6b50b58f # v1.2.1
         with:
           issue: ${{toJSON(matrix.issue)}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@b03dfcc9d26de824ca0d7fc385d0bb4986d6642e # v1.2.0
+      - uses: suzuki-shunsuke/tfaction/setup@72536e0b22961437dbca58cb4f3ea20a6b50b58f # v1.2.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/test@b03dfcc9d26de824ca0d7fc385d0bb4986d6642e # v1.2.0
+      - uses: suzuki-shunsuke/tfaction/test@72536e0b22961437dbca58cb4f3ea20a6b50b58f # v1.2.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@b03dfcc9d26de824ca0d7fc385d0bb4986d6642e # v1.2.0
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@72536e0b22961437dbca58cb4f3ea20a6b50b58f # v1.2.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@b03dfcc9d26de824ca0d7fc385d0bb4986d6642e # v1.2.0
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@72536e0b22961437dbca58cb4f3ea20a6b50b58f # v1.2.1
         if: always()
         with:
           status: ${{job.status}}
