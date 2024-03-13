@@ -6,12 +6,6 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  # backend "s3" {
-  #   bucket = "<S3 Bucket Name>"
-  #   key    = "github/bar/v1/terraform.tfstate"
-  #   region = "ap-northeast-1"
-  # }
 }
 
 provider "github" {
