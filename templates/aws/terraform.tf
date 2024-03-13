@@ -1,10 +1,5 @@
 terraform {
   required_version = ">= 1.0"
-  backend "s3" {
-    bucket = "<S3 Bucket Name>"
-    key    = "%%TARGET%%/v1/terraform.tfstate"
-    region = "us-east-1"
-  }
 }
 
 terraform {
