@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: aquaproj/aqua-installer@7c7338067bdb97d5bea2acc82b5870afca470d18 # v2.3.0
         with:
-          aqua_version: v2.24.0
+          aqua_version: v2.24.1
 
       - uses: suzuki-shunsuke/tfaction/release-module@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
         with:
