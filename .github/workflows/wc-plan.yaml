@@ -53,7 +53,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.aqua_installer_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/export-secrets@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
           secrets: ${{toJSON(secrets)}}
 
@@ -95,13 +95,13 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/setup@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/get-target-config@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         id: target-config
 
       - name: Generate token (pull request write)
@@ -132,13 +132,13 @@ jobs:
               - name: registry.terraform.io/integrations/github
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/test@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
-      - uses: suzuki-shunsuke/tfaction/plan@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/plan@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
