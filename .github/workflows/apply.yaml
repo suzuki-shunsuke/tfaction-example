@@ -19,7 +19,7 @@ jobs:
         with:
           aqua_version: v2.24.1
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/list-targets@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         id: list-targets
 
   apply:
@@ -60,7 +60,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/export-secrets@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -126,7 +126,7 @@ jobs:
               "test-tfaction-drift-issues"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/setup@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/setup@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
           github_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
@@ -154,7 +154,7 @@ jobs:
               "test-tfaction-drift-issues"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/apply@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/apply@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
           github_token: ${{ steps.apply_token.outputs.token }}
 
@@ -177,12 +177,12 @@ jobs:
               "${{github.event.repository.name}}"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         if: failure()
         with:
           github_token: ${{steps.follow_up_pr_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@2169799fbfdc693c7d6a72a8c4e5f78c5a77a535 # v1.2.3
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         if: always()
         with:
           status: ${{job.status}}
