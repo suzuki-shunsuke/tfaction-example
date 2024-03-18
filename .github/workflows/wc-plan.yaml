@@ -55,6 +55,12 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/export-secrets@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
         with:
+          # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
+          # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
+          # If so, please pass secrets properly.
+          # 
+          # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
+          # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
           secrets: ${{toJSON(secrets)}}
 
       - name: Generate token to download private Terraform Modules
