@@ -1,29 +1,29 @@
 {
-  "extends": [
-    "config:base",
-    "github>aquaproj/aqua-renovate-config#2.2.0",
-    "github>aquaproj/aqua-renovate-config:file#2.2.0(^(.*/)?aqua/[^/]*\\.ya?ml$)",
-    "github>suzuki-shunsuke/renovate-config#2.3.0",
+  extends: [
+    'config:recommended',
+    'github>aquaproj/aqua-renovate-config#2.2.0',
+    'github>aquaproj/aqua-renovate-config:file#2.2.0(^(.*/)?aqua/[^/]*\\.ya?ml$)',
+    'github>suzuki-shunsuke/renovate-config#2.3.0',
   ],
-  "labels": [
-    "renovate:{{depName}}", "renovate:{{depName}}/{{newVersion}}",
-    "datasource:{{datasource}}"
+  labels: [
+    'renovate:{{depName}}',
+    'renovate:{{depName}}/{{newVersion}}',
+    'datasource:{{datasource}}',
   ],
-
-  "major": {
-    "automerge": false,
+  major: {
+    automerge: false,
   },
-  "automerge": true,
-
-  "prHourlyLimit": 10,
-  "prConcurrentLimit": 10,
-  "branchConcurrentLimit": 20,
-
-  "packageRules": [
+  automerge: true,
+  prHourlyLimit: 10,
+  prConcurrentLimit: 10,
+  branchConcurrentLimit: 20,
+  packageRules: [
     {
-      "additionalBranchPrefix": "{{packageFileDir}}-",
-      "commitMessageSuffix": "({{packageFileDir}})",
-      "matchPackagePatterns": [".*"]
+      additionalBranchPrefix: '{{packageFileDir}}-',
+      commitMessageSuffix: '({{packageFileDir}})',
+      matchPackagePatterns: [
+        '.*',
+      ],
     },
   ],
 }
