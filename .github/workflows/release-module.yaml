@@ -20,11 +20,11 @@ jobs:
       contents: write # To create a release
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - uses: aquaproj/aqua-installer@7c7338067bdb97d5bea2acc82b5870afca470d18 # v2.3.0
+      - uses: aquaproj/aqua-installer@fd2089d1f56724d6456f24d58605e6964deae124 # v2.3.2
         with:
-          aqua_version: v2.24.1
+          aqua_version: v2.25.0
 
-      - uses: suzuki-shunsuke/tfaction/release-module@ae351c9ff27a0626ce02861db502ce4fb11af71e # v1.3.0
+      - uses: suzuki-shunsuke/tfaction/release-module@485d499403ba988ceece3760099d1bcd8e5c109c # v1.3.1
         with:
           version: ${{ github.event.inputs.version }}
           module_path: ${{ github.event.inputs.module_path }}

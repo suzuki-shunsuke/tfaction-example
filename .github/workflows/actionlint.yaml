@@ -14,7 +14,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - uses: aquaproj/aqua-installer@7c7338067bdb97d5bea2acc82b5870afca470d18 # v2.3.0
+      - uses: aquaproj/aqua-installer@fd2089d1f56724d6456f24d58605e6964deae124 # v2.3.2
         with:
-          aqua_version: v2.24.1
+          aqua_version: v2.25.0
       - uses: suzuki-shunsuke/github-action-actionlint@60449a33b52da4f92a069b8af50d04515d6177bf # v0.1.3
