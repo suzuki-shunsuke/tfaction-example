@@ -18,9 +18,9 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: aquaproj/aqua-installer@4551ec64e21bf0f557c2525135ff0bd2cba40ec7 # v3.0.0
         with:
-          aqua_version: v2.25.1
+          aqua_version: v2.25.2
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@485d499403ba988ceece3760099d1bcd8e5c109c # v1.3.1
+      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
 
       - name: Generate token
         id: generate_token
@@ -38,6 +38,6 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@485d499403ba988ceece3760099d1bcd8e5c109c # v1.3.1
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
         with:
           github_token: ${{ steps.generate_token.outputs.token }}
