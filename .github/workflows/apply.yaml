@@ -19,7 +19,7 @@ jobs:
         with:
           aqua_version: v2.27.0
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
+      - uses: suzuki-shunsuke/tfaction/list-targets@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
         id: list-targets
 
   apply:
@@ -60,7 +60,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
+      - uses: suzuki-shunsuke/tfaction/export-secrets@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
         with:
           # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
           # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
@@ -132,7 +132,7 @@ jobs:
               "test-tfaction-drift-issues"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/setup@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
+      - uses: suzuki-shunsuke/tfaction/setup@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
         with:
           github_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
@@ -160,7 +160,7 @@ jobs:
               "test-tfaction-drift-issues"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/apply@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
+      - uses: suzuki-shunsuke/tfaction/apply@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
         with:
           github_token: ${{ steps.apply_token.outputs.token }}
 
@@ -183,12 +183,12 @@ jobs:
               "${{github.event.repository.name}}"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
         if: failure()
         with:
           github_token: ${{steps.follow_up_pr_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@ac2de2c8d88ff0e2e91388b434feee69c8373ad2 # v1.3.2
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
         if: always()
         with:
           status: ${{job.status}}
