@@ -32,7 +32,7 @@ jobs:
       matrix:
         target: ${{fromJSON(inputs.targets)}}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           ref: ${{inputs.ref}}
 
@@ -47,14 +47,20 @@ jobs:
           repositories: >-
             []
 
-      - uses: aquaproj/aqua-installer@7c7338067bdb97d5bea2acc82b5870afca470d18 # v2.3.0
+      - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
-          aqua_version: v2.24.0
+          aqua_version: v2.29.0
         env:
           AQUA_GITHUB_TOKEN: ${{steps.aqua_installer_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@5e98895b8f71fb5e100d0b14a0d306b04f5072f5 # v1.2.2
+      - uses: suzuki-shunsuke/tfaction/export-secrets@47a3dd56265ea78f7694e8402e84d4a6d79aab1a # v1.5.1
         with:
+          # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
+          # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
+          # If so, please pass secrets properly.
+          # 
+          # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
+          # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
           secrets: ${{toJSON(secrets)}}
 
       - name: Generate token to download private Terraform Modules
@@ -95,13 +101,13 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@5e98895b8f71fb5e100d0b14a0d306b04f5072f5 # v1.2.2
+      - uses: suzuki-shunsuke/tfaction/setup@47a3dd56265ea78f7694e8402e84d4a6d79aab1a # v1.5.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@5e98895b8f71fb5e100d0b14a0d306b04f5072f5 # v1.2.2
+      - uses: suzuki-shunsuke/tfaction/get-target-config@47a3dd56265ea78f7694e8402e84d4a6d79aab1a # v1.5.1
         id: target-config
 
       - name: Generate token (pull request write)
@@ -132,13 +138,13 @@ jobs:
               - name: registry.terraform.io/integrations/github
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@5e98895b8f71fb5e100d0b14a0d306b04f5072f5 # v1.2.2
+      - uses: suzuki-shunsuke/tfaction/test@47a3dd56265ea78f7694e8402e84d4a6d79aab1a # v1.5.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
-      - uses: suzuki-shunsuke/tfaction/plan@5e98895b8f71fb5e100d0b14a0d306b04f5072f5 # v1.2.2
+      - uses: suzuki-shunsuke/tfaction/plan@47a3dd56265ea78f7694e8402e84d4a6d79aab1a # v1.5.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:

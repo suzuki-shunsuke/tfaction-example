@@ -14,11 +14,11 @@ on:
 jobs:
   update-aqua-checksums:
     # Update aqua-checksums.json and push a commit
-    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@3598c506108a2e0e9e31a0c6ef9c202c77049420 # v0.1.9
+    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@75c72cdc372a43dd1b1ad0458748f5d6bfeac7b9 # v1.0.1
     permissions:
       contents: read
     with:
-      aqua_version: v2.24.0
+      aqua_version: v2.29.0
       prune: true
       ref: ${{inputs.ref}}
     secrets:
