@@ -7,6 +7,7 @@ on:
   #   - cron: '0 * * * *'
 jobs:
   pick-out-drift-issues:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,6 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
   detect-drift:
+    timeout-minutes: 30
     name: "detect-drift (${{matrix.issue.target}})"
     runs-on: ${{matrix.issue.runs_on}}
     needs: pick-out-drift-issues

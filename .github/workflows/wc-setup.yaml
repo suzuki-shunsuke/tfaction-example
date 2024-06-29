@@ -23,6 +23,7 @@ on:
         value: ${{jobs.setup.outputs.merge_commit_sha}}
 jobs:
   setup:
+    timeout-minutes: 30
     permissions:
       contents: read # For checkout a private repository
     runs-on: ubuntu-latest

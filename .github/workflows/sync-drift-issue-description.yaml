@@ -7,6 +7,7 @@ on:
 
 jobs:
   sync-issue:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     # PLEASE CHANGE github.actor
     if: |

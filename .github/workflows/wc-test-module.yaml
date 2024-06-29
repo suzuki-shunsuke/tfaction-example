@@ -16,6 +16,7 @@ on:
         required: true
 jobs:
   test-module:
+    timeout-minutes: 30
     name: "test-module (${{matrix.target}})"
     runs-on: ubuntu-latest
     permissions:

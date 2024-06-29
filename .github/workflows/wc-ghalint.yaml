@@ -15,6 +15,7 @@ env:
   GH_COMMENT_SHA1: ${{inputs.ref}}
 jobs:
   ghalint:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions:
       contents: read
