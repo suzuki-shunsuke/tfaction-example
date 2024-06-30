@@ -7,6 +7,7 @@ env:
   TFACTION_IS_APPLY: 'true'
 jobs:
   setup:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions:
       contents: read # For checkout a private repository
@@ -23,6 +24,7 @@ jobs:
         id: list-targets
 
   apply:
+    timeout-minutes: 30
     name: "apply (${{matrix.target.target}})"
     runs-on: ${{matrix.target.runs_on}}
     needs: setup

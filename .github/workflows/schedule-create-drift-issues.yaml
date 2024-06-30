@@ -7,6 +7,7 @@ on:
   #   - cron: '0 0 * * *'
 jobs:
   test:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions:
       contents: read

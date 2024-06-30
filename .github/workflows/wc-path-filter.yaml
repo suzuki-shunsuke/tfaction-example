@@ -24,6 +24,7 @@ on:
 jobs:
   path-filter:
     # Get changed files to filter jobs
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions: {}
     outputs:
