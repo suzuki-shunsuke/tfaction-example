@@ -17,6 +17,7 @@ on:
 
 jobs:
   plan:
+    timeout-minutes: 30
     name: "plan (${{matrix.target.target}})"
     runs-on: ${{matrix.target.runs_on}}
     permissions:
