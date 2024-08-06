@@ -21,8 +21,8 @@
     {
       additionalBranchPrefix: '{{packageFileDir}}-',
       commitMessageSuffix: '({{packageFileDir}})',
-      matchPackagePatterns: [
-        '.*',
+      matchPackageNames: [
+        '/.*/',
       ],
     },
   ],
