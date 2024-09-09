@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "<S3 Bucket Name>"
+    bucket = "tmp-hands-on-terraform-state-20240709080311470100000001"
     key    = "%%TARGET%%/v1/terraform.tfstate"
-    region = "us-east-1"
+    region = "ap-northeast-1"
   }
 }
