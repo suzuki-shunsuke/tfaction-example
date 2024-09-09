@@ -1,8 +1,8 @@
 terraform {
   # CHANGEME: Uncomment the following block to enable remote backend
-  # backend "s3" {
-  #   bucket = "<S3 Bucket Name>"
-  #   key    = "aws/terraform-ci/v1/terraform.tfstate"
-  #   region = "us-east-1"
-  # }
+  backend "s3" {
+    bucket = "tmp-hands-on-terraform-state-20240709080311470100000001"
+    key    = "aws/terraform-ci/v1/terraform.tfstate"
+    region = "ap-northeast-1"
+  }
 }
