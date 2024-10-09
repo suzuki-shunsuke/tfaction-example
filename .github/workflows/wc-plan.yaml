@@ -64,7 +64,7 @@ jobs:
           # 
           # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
           # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
-          secrets: ${{toJSON(secrets.secrets)}}
+          secrets: ${{secrets.secrets}}
 
       - name: Generate token to download private Terraform Modules
         id: gh_setup_token
