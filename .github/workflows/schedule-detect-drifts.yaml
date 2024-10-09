@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: read
     outputs:
       issues: ${{steps.pick-out-drift-issues.outputs.issues}}
       has_issues: ${{steps.pick-out-drift-issues.outputs.has_issues}}
@@ -23,27 +24,10 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
-        with:
-          app_id: ${{secrets.APP_ID}}
-          private_key: ${{secrets.APP_PRIVATE_KEY}}
-          # issues:read - List issues
-          permissions: >-
-            {
-              "issues": "read"
-            }
-          # repository where Drift Detection issues are hosted
-          repositories: >-
-            [
-              "tfaction-example"
-            ]
-
       - run: tfaction pick-out-drift-issues
         id: pick-out-drift-issues
         env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+          GITHUB_TOKEN: ${{github.token}}
 
   detect-drift:
     timeout-minutes: 30
