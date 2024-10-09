@@ -62,15 +62,15 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
-        with:
-          # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
-          # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
-          # If so, please pass secrets properly.
-          # 
-          # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
-          # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
-          secrets: ${{ toJSON(secrets) }}
+      # - uses: suzuki-shunsuke/tfaction/export-secrets@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
+      #   with:
+      #     # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
+      #     # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
+      #     # If so, please pass secrets properly.
+      #     # 
+      #     # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
+      #     # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
+      #     secrets: ${{ toJSON(secrets) }}
 
       - name: Generate token to download private Terraform Modules
         id: gh_setup_token
@@ -138,6 +138,8 @@ jobs:
         with:
           github_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
+        env:
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
 
       - name: Generate token for apply
         id: apply_token
@@ -165,6 +167,8 @@ jobs:
       - uses: suzuki-shunsuke/tfaction/apply@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           github_token: ${{ steps.apply_token.outputs.token }}
+        env:
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
 
       - name: Generate token for creating follow up pr
         id: follow_up_pr_token
