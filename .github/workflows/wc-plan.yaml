@@ -14,7 +14,7 @@ on:
         required: true
       gh_app_private_key:
         required: true
-      secrets:
+      TF_API_TOKEN:
         required: true
 
 jobs:
