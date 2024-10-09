@@ -37,7 +37,7 @@ jobs:
           # repository where Drift Detection issues are hosted
           repositories: >-
             [
-              "test-tfaction-drift-issues"
+              "tfaction-example"
             ]
 
       - run: tfaction pick-out-drift-issues
@@ -75,7 +75,7 @@ jobs:
           # issues of Drift Detection
           repositories: >-
             [
-              "test-tfaction-drift-issues"
+              "tfaction-example"
             ]
 
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1

@@ -107,7 +107,7 @@ jobs:
           # https://suzuki-shunsuke.github.io/tfaction/docs/feature/drift-detection
           repositories: >-
             [
-              "test-tfaction-drift-issues"
+              "tfaction-example"
             ]
 
       - run: tfaction get-or-create-drift-issue
@@ -131,7 +131,7 @@ jobs:
           repositories: >-
             [
               "${{github.event.repository.name}}",
-              "test-tfaction-drift-issues"
+              "tfaction-example"
             ]
 
       - uses: suzuki-shunsuke/tfaction/setup@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
@@ -161,7 +161,7 @@ jobs:
           repositories: >-
             [
               "${{github.event.repository.name}}",
-              "test-tfaction-drift-issues"
+              "tfaction-example"
             ]
 
       - uses: suzuki-shunsuke/tfaction/apply@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0

@@ -2,9 +2,9 @@ name: Create drift issues
 on:
   workflow_dispatch:
     inputs: {}
-  # schedule:
-  #   # daily
-  #   - cron: '0 0 * * *'
+  schedule:
+    # daily
+    - cron: '0 0 * * *'
 jobs:
   test:
     timeout-minutes: 30
@@ -27,7 +27,7 @@ jobs:
             }
           # repository where Drift Detection issues are hosted
           repositories: >-
-            ["test-tfaction-drift-issues"]
+            ["tfaction-example"]
 
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
