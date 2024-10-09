@@ -46,29 +46,29 @@
       "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.6.2/terraform_1.6.2_darwin_amd64.zip",
-      "checksum": "DA135FBC77D2184F97CFC6D60C48F3D0273B4C4B493CE8900C0C636D3EA4892726212A24CD14E6165BC4CCB3AC33A36F1FB9F34F0CF2716AC70B948AD59442F2",
-      "algorithm": "sha512"
+      "id": "http/releases.hashicorp.com/terraform/1.9.7/terraform_1.9.7_darwin_amd64.zip",
+      "checksum": "C35D5E978F5EDBC398BBC9CCC89840B173C66978E1CDB6FC8A48C5C42346DD55",
+      "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.6.2/terraform_1.6.2_darwin_arm64.zip",
-      "checksum": "E7CBA9809F89CB60E5BECED817A807355CD1FA19D98E09338BE4BFAA2812034FFB664BB6D61D0EABD2C5E866ECB5D691D5B5DE74EE66D252601C58EDDA669ADA",
-      "algorithm": "sha512"
+      "id": "http/releases.hashicorp.com/terraform/1.9.7/terraform_1.9.7_darwin_arm64.zip",
+      "checksum": "0CDC2E21D0843A14379414E722806954D78B0439E8A7001F7500276BFC12EED4",
+      "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.6.2/terraform_1.6.2_linux_amd64.zip",
-      "checksum": "9F025931AFE10E729253DBF9BA345FE9B9F9AF59EF34E61FAAE9AB26EB3DB437DB13DC4D9D344D5CF84A5934AF01E77E7C2FBCEE658A34294EEB5A571E92F74F",
-      "algorithm": "sha512"
+      "id": "http/releases.hashicorp.com/terraform/1.9.7/terraform_1.9.7_linux_amd64.zip",
+      "checksum": "76A77ED7E785EF354B7F565ABAA990E3E7B5232D3EC4AFB87E0F5A413FCBDAD1",
+      "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.6.2/terraform_1.6.2_linux_arm64.zip",
-      "checksum": "CB80BD7272D4B010AB8D10B3B06704954C0C8CD9A6F80A1B0567E06DB7440D2FE179E02801596F2AEA5FE739C74BF114A42C52765061E14D93268517028EAEC7",
-      "algorithm": "sha512"
+      "id": "http/releases.hashicorp.com/terraform/1.9.7/terraform_1.9.7_linux_arm64.zip",
+      "checksum": "8FC6F1172FF026ABC4F0C399996FA454E605BFC1DF6793AF82D922A66B5C41F8",
+      "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.6.2/terraform_1.6.2_windows_amd64.zip",
-      "checksum": "0D2C9CD2AD84969838099AF24E576D7087201E31AF9F1CC9697229696A0B5C3A3DC3E6B760481CBC9130657F85BE92AC27B5B49F3546D8B31D2DB68A908E246B",
-      "algorithm": "sha512"
+      "id": "http/releases.hashicorp.com/terraform/1.9.7/terraform_1.9.7_windows_amd64.zip",
+      "checksum": "0D0E36DB4CF32AA0CDE20CCDDD0E2E9FE1D132BCBFC5A34F8CE8398A4AE3FE1B",
+      "algorithm": "sha256"
     },
     {
       "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.206.0/registry.yaml",
