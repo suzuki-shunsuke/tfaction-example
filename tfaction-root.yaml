@@ -90,3 +90,7 @@ target_groups:
     # tfmigrate_apply_config:
     #   gcp_service_account: terraform-apply@example.iam.gserviceaccount.com
     #   gcp_workload_identity_provider: projects/000000000000/locations/global/workloadIdentityPools/github/providers/tfaction
+
+  - working_directory: tfe/
+    target: tfe/
+    template_dir: templates/tfe
