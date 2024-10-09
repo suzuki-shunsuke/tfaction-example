@@ -15,11 +15,11 @@ jobs:
       issues: ${{steps.pick-out-drift-issues.outputs.issues}}
       has_issues: ${{steps.pick-out-drift-issues.outputs.has_issues}}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
 
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
-          aqua_version: v2.31.0
+          aqua_version: v2.36.1
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
@@ -60,7 +60,7 @@ jobs:
       matrix:
         issue: ${{fromJSON(needs.pick-out-drift-issues.outputs.issues)}}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
       - name: Generate token
         id: generate_token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
@@ -80,33 +80,33 @@ jobs:
 
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
-          aqua_version: v2.31.0
+          aqua_version: v2.36.1
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction/set-drift-env@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/set-drift-env@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           issue: ${{toJSON(matrix.issue)}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/setup@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/test@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/test@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         if: always()
         with:
           status: ${{job.status}}

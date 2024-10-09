@@ -1,0 +1,66 @@
+---
+name: Generate code by terraform plan -generate-config-out
+run-name: Generate code by terraform plan -generate-config-out (${{inputs.working_dir}})
+on:
+  workflow_dispatch:
+    inputs:
+      working_dir:
+        description: working directory
+        required: true
+      file:
+        description: file name
+        required: true
+      branch:
+        description: branch name
+        required: true
+      
+env:
+  TFACTION_WORKING_DIR: ${{github.event.inputs.working_dir}}
+  TFACTION_JOB_TYPE: terraform
+  FILE: ${{inputs.file}}
+  BRANCH: ${{inputs.branch}}
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # For OIDC
+      contents: read # For checkout a private repository
+    steps:
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        with:
+          ref: ${{inputs.branch}}
+
+      - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
+        with:
+          aqua_version: v2.36.1
+          working_directory: ${{env.TFACTION_WORKING_DIR}}
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        with:
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
+          # contents:write - Push commits
+          permissions: >-
+            {
+              "pull_requests": "write",
+              "contents": "write"
+            }
+          repositories: >-
+            ["${{github.event.repository.name}}"]
+
+      - uses: suzuki-shunsuke/tfaction/setup@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
+        id: setup
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+
+      - uses: suzuki-shunsuke/tfaction/generate-config-out@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+        with:
+          github_token: ${{steps.generate_token.outputs.token}}
+          branch: ${{inputs.branch}}
+          file: ${{inputs.file}}
