@@ -14,6 +14,8 @@ on:
         required: true
       gh_app_private_key:
         required: true
+      TFE_TOKEN:
+        required: true
 
 jobs:
   plan:
@@ -33,7 +35,7 @@ jobs:
       matrix:
         target: ${{fromJSON(inputs.targets)}}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
         with:
           ref: ${{inputs.ref}}
 
@@ -50,19 +52,19 @@ jobs:
 
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
-          aqua_version: v2.31.0
+          aqua_version: v2.36.1
         env:
           AQUA_GITHUB_TOKEN: ${{steps.aqua_installer_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/export-secrets@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
-        with:
-          # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
-          # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
-          # If so, please pass secrets properly.
-          # 
-          # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
-          # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
-          secrets: ${{toJSON(secrets)}}
+      # - uses: suzuki-shunsuke/tfaction/export-secrets@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
+      #   with:
+      #     # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
+      #     # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
+      #     # If so, please pass secrets properly.
+      #     # 
+      #     # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
+      #     # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
+      #     secrets: ${{secrets.secrets}}
 
       - name: Generate token to download private Terraform Modules
         id: gh_setup_token
@@ -102,13 +104,15 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/setup@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
+          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # For tfe provider
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/get-target-config@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         id: target-config
 
       - name: Generate token (pull request write)
@@ -137,16 +141,19 @@ jobs:
               - name: registry.terraform.io/hashicorp/null
               - name: registry.terraform.io/hashicorp/tls
               - name: registry.terraform.io/integrations/github
+              - name: registry.terraform.io/hashicorp/tfe
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/test@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
-      - uses: suzuki-shunsuke/tfaction/plan@01829b75913b9424932c982b2d9e05ee908b647f # v1.5.2
+      - uses: suzuki-shunsuke/tfaction/plan@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and tfcmt and github-comment
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
+          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # For tfe provider
