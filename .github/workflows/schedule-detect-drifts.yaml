@@ -2,9 +2,9 @@ name: Detect drift
 on:
   workflow_dispatch:
     inputs: {}
-  # schedule:
-  #   # hourly
-  #   - cron: '0 * * * *'
+  schedule:
+    # hourly
+    - cron: '0 * * * *'
 jobs:
   pick-out-drift-issues:
     timeout-minutes: 30
