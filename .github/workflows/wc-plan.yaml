@@ -153,3 +153,4 @@ jobs:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and tfcmt and github-comment
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
