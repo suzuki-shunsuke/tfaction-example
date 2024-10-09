@@ -1,9 +1,9 @@
-terraform { 
-  cloud { 
-    organization = "suzuki-shunsuke" 
+terraform {
+  cloud {
+    organization = "suzuki-shunsuke"
 
-    workspaces { 
-      name = "tfe_workspaces" 
-    } 
-  } 
+    workspaces {
+      name = "tfe_workspaces"
+    }
+  }
 }
