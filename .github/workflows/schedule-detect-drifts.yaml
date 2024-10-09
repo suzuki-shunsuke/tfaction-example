@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: read
+      issues: write # To close issues
     outputs:
       issues: ${{steps.pick-out-drift-issues.outputs.issues}}
       has_issues: ${{steps.pick-out-drift-issues.outputs.has_issues}}
