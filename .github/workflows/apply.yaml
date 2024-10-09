@@ -168,7 +168,8 @@ jobs:
         with:
           github_token: ${{ steps.apply_token.outputs.token }}
         env:
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
+          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # For tfe provider
 
       - name: Generate token for creating follow up pr
         id: follow_up_pr_token
