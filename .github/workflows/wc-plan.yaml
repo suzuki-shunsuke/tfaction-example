@@ -110,7 +110,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
-          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # For tfe provider
 
       - uses: suzuki-shunsuke/tfaction/get-target-config@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
         id: target-config
