@@ -21,6 +21,7 @@ env:
   BRANCH: ${{inputs.branch}}
 jobs:
   import:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     permissions:
       id-token: write # For OIDC
