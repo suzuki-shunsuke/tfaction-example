@@ -56,7 +56,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction/test-module@53097591cf15d9eefd7ee9af0511c536e71e9a67 # v1.7.0
+      - uses: suzuki-shunsuke/tfaction/test-module@4fdef7854d0ba89602f5901cbd3df82b5413ab10 # v1.8.0
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
