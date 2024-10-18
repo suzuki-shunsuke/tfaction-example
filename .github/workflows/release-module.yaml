@@ -25,7 +25,7 @@ jobs:
         with:
           aqua_version: v2.36.1
 
-      - uses: suzuki-shunsuke/tfaction/release-module@c7a780ab152c2ca9cd91ec55fc7fa2bd4ea112d5 # v1.10.0
+      - uses: suzuki-shunsuke/tfaction/release-module@1114ba5c9cf3e970b4aab66efe0def205ef5088a # v1.11.0
         with:
           version: ${{ github.event.inputs.version }}
           module_path: ${{ github.event.inputs.module_path }}
