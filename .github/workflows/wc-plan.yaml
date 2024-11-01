@@ -27,6 +27,7 @@ jobs:
       contents: read # To checkout private repositories
     env:
       TFACTION_TARGET: ${{matrix.target.target}}
+      TFACTION_WORKING_DIR: ${{matrix.target.working_directory}}
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
       GH_COMMENT_SHA1: ${{inputs.ref}}
       TFCMT_SHA: ${{inputs.ref}}
@@ -103,6 +104,11 @@ jobs:
             }
           repositories: >-
             ["${{github.event.repository.name}}"]
+
+      - uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
+        with:
+          mode: check
+          key: ${{env.TFACTION_WORKING_DIR}}
 
       - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:

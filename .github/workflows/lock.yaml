@@ -1,0 +1,51 @@
+---
+name: Lock / Unlock
+run-name: ${{inputs.action}} ${{inputs.key}}
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: action
+        required: true
+        default: lock
+        type: choice
+        options:
+          - lock
+          - unlock
+          - check
+      working_dir:
+        description: working directory
+        required: true
+      message:
+        description: message
+        required: false
+jobs:
+  lock:
+    name: ${{inputs.action}}
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: |
+      contains(fromJSON('["lock", "unlock", "check"]'), inputs.action)
+    steps:
+      - name: ${{inputs.action}} ${{inputs.key}}
+        uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
+        id: lock
+        with:
+          mode: ${{inputs.action}}
+          key: ${{inputs.working_dir}}
+          message: ${{inputs.message}}
+          ignore_already_locked_error: "true"
+      - name: Output the result of check
+        run: |
+          echo "::notice::already_locked: $ALREADY_LOCKED" >&2
+          {
+            echo '```json' 
+            echo "$RESULT"
+            echo '```' 
+          } >> "$GITHUB_STEP_SUMMARY"
+        if: inputs.action == 'check'
+        env:
+          ALREADY_LOCKED: ${{steps.lock.outputs.already_locked}}
+          RESULT: ${{steps.lock.outputs.result}}
