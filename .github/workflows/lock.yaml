@@ -1,6 +1,7 @@
 ---
+# This workflow is optional. If you don't want lock mechanism, please remove this workflow.
 name: Lock / Unlock
-run-name: ${{inputs.action}} ${{inputs.key}}
+run-name: ${{inputs.action}} ${{inputs.working_dir}}
 on:
   workflow_dispatch:
     inputs:
@@ -26,10 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: |
-      contains(fromJSON('["lock", "unlock", "check"]'), inputs.action)
     steps:
-      - name: ${{inputs.action}} ${{inputs.key}}
+      - name: ${{inputs.action}} ${{inputs.working_dir}}
         uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
         id: lock
         with:
