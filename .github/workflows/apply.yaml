@@ -149,7 +149,13 @@ jobs:
           mode: check # If you want to acquire lock, please check this to `lock`
           key: ${{env.TFACTION_WORKING_DIR}}
       - run: |
-          github-comment post -k already-locked -var "result:$RESULT" -var "tfaction_target:${TFACTION_TARGET}"
+          github-comment post \
+            -k already-locked \
+            -var "actor:$ACTOR" \
+            -var "message:$MESSAGE" \
+            -var "workflow_url:$WORKFLOW_URL" \
+            -var "datetime:$DATETIME" \
+            -var "tfaction_target:${TFACTION_TARGET}"
           exit 1
         if: steps.check-lock.outputs.already_locked == 'true'
         env:

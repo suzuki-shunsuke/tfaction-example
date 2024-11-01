@@ -10,9 +10,14 @@ post:
 
       {{template "link" .}}
 
-      ```json
-      {{.Vars.result}}
-      ```
+      Please wait untile the lock is released.
+      Or if the lock wasn't released for any trouble, [you need to run the workflow to release the lock](https://github.com/suzuki-shunsuke/tfaction-example/actions/workflows/lock.yaml).
+
+      target: {{.Vars.tfaction_target}}
+      actor: {{.Vars.actor}}
+      datetime: {{.Vars.datetime}}
+      workflow_url: {{.Vars.workflow_url}}
+      message: {{.Vars.message}}
 
 exec:
   default:
