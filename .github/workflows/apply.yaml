@@ -135,6 +135,13 @@ jobs:
               "tfaction-example"
             ]
 
+      - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
+        with:
+          github_token: ${{ steps.setup_token.outputs.token }}
+          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
+        env:
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
+
       # These steps are optional. If you don't want lock mechanism, please remove them.
       - uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
         id: check-lock
@@ -147,13 +154,6 @@ jobs:
         if: steps.check-lock.outputs.already_locked == 'true'
         env:
           RESULT: ${{steps.check-lock.outputs.result}}
-
-      - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
-        with:
-          github_token: ${{ steps.setup_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-        env:
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
 
       - name: Generate token for apply
         id: apply_token
