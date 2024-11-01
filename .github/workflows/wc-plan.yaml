@@ -104,14 +104,14 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@50688bc5e4bf266c7db4b841d348eaff199bff95 # v1.11.1
+      - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@50688bc5e4bf266c7db4b841d348eaff199bff95 # v1.11.1
+      - uses: suzuki-shunsuke/tfaction/get-target-config@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         id: target-config
 
       - name: Generate token (pull request write)
@@ -143,13 +143,13 @@ jobs:
               - name: registry.terraform.io/hashicorp/tfe
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@50688bc5e4bf266c7db4b841d348eaff199bff95 # v1.11.1
+      - uses: suzuki-shunsuke/tfaction/test@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
-      - uses: suzuki-shunsuke/tfaction/plan@50688bc5e4bf266c7db4b841d348eaff199bff95 # v1.11.1
+      - uses: suzuki-shunsuke/tfaction/plan@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
