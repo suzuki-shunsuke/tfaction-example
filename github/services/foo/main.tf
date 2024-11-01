@@ -1,4 +1,3 @@
-
 resource "github_issue_label" "foo" {
   repository  = "tfaction-example"
   name        = "foo"
