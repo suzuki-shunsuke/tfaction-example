@@ -3,6 +3,17 @@
 hide:
   default: |
     Comment.HasMeta && Comment.Meta.SHA1 != Commit.SHA1 && ! (Comment.Meta.Program == "tfcmt" && Comment.Meta.Command == "apply")
+post:
+  already-locked:
+    template: |
+      ## :x: This target is being locked {{if .Vars.tfaction_target}}({{.Vars.tfaction_target}}){{end}}
+
+      {{template "link" .}}
+
+      ```json
+      {{.Vars.result}}
+      ```
+
 exec:
   default:
   - when: ExitCode != 0

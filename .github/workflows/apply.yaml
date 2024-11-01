@@ -36,6 +36,7 @@ jobs:
         target: ${{fromJSON(needs.setup.outputs.targets)}}
     env:
       TFACTION_TARGET: ${{matrix.target.target}}
+      TFACTION_WORKING_DIR: ${{matrix.target.working_directory}}
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
     permissions:
       id-token: write # For OIDC
@@ -140,6 +141,19 @@ jobs:
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
         env:
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
+
+      # These steps are optional. If you don't want lock mechanism, please remove them.
+      - uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
+        id: check-lock
+        with:
+          mode: check # If you want to acquire lock, please check this to `lock`
+          key: ${{env.TFACTION_WORKING_DIR}}
+      - run: |
+          github-comment post -k already-locked -var "result:$RESULT" -var "tfaction_target:${TFACTION_TARGET}"
+          exit 1
+        if: steps.check-lock.outputs.already_locked == 'true'
+        env:
+          RESULT: ${{steps.check-lock.outputs.result}}
 
       - name: Generate token for apply
         id: apply_token
