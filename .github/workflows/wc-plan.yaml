@@ -105,11 +105,18 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      # This step is optional. If you don't want lock mechanism, please remove this step.
+      # These steps are optional. If you don't want lock mechanism, please remove them.
       - uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
+        id: check-lock
         with:
           mode: check # If you want to acquire lock, please check this to `lock`
           key: ${{env.TFACTION_WORKING_DIR}}
+      - run: |
+          github-comment post -k already-locked -var "result:$RESULT"
+          exit 1
+        if: steps.check-lock.outputs.already_locked == 'true'
+        env:
+          RESULT: ${{steps.check-lock.outputs.result}}
 
       - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:
