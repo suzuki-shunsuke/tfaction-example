@@ -10,7 +10,7 @@ post:
 
       {{template "link" .}}
 
-      Please wait untile the lock is released.
+      Please wait until the lock is released.
       Or if the lock wasn't released for any trouble, [you need to run the workflow to release the lock](https://github.com/suzuki-shunsuke/tfaction-example/actions/workflows/lock.yaml).
 
       target: {{.Vars.tfaction_target}}
