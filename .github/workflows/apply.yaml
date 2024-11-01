@@ -154,6 +154,7 @@ jobs:
         if: steps.check-lock.outputs.already_locked == 'true'
         env:
           RESULT: ${{steps.check-lock.outputs.result}}
+          GITHUB_TOKEN: ${{steps.setup_token.outputs.token}}
 
       - name: Generate token for apply
         id: apply_token

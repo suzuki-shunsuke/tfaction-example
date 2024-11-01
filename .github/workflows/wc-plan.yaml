@@ -117,6 +117,7 @@ jobs:
         if: steps.check-lock.outputs.already_locked == 'true'
         env:
           RESULT: ${{steps.check-lock.outputs.result}}
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
       - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:
