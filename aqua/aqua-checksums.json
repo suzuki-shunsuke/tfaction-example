@@ -1,33 +1,33 @@
 {
   "checksums": [
     {
-      "id": "github_release/github.com/cli/cli/v2.58.0/gh_2.58.0_linux_amd64.tar.gz",
-      "checksum": "84FEAE3D143BC360EA1004B474F124C8CFD75363A5E197D3CE63FE23D9F3A2EA",
+      "id": "github_release/github.com/cli/cli/v2.60.1/gh_2.60.1_linux_amd64.tar.gz",
+      "checksum": "DFCD9926DE38A797E88E604C3111ECF9DDF13C524706712B2B0D2E2FC4A6ED7F",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/cli/cli/v2.58.0/gh_2.58.0_linux_arm64.tar.gz",
-      "checksum": "CA23D893A7705DB423F4C9B1D660CF2AC5EBF69CB4D8094496BA16756BFA26EE",
+      "id": "github_release/github.com/cli/cli/v2.60.1/gh_2.60.1_linux_arm64.tar.gz",
+      "checksum": "A2842ED6D1F9E260043305749383BB1EB77D817BB57E22CF8C01DA0A48CAFF66",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/cli/cli/v2.58.0/gh_2.58.0_macOS_amd64.zip",
-      "checksum": "757F004D55414FEF3FE1AF25E961AE291468C51D86ABEF7293EE10C8FB60E76B",
+      "id": "github_release/github.com/cli/cli/v2.60.1/gh_2.60.1_macOS_amd64.zip",
+      "checksum": "D44C5D0DACD23341293F18A17486A93392A29EF702EFA468FA3636A01637FE95",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/cli/cli/v2.58.0/gh_2.58.0_macOS_arm64.zip",
-      "checksum": "1861DEA614D23EDBF3CA05E0376171ED17667CEA26BCAC2EFD1A2C4952D4F8E9",
+      "id": "github_release/github.com/cli/cli/v2.60.1/gh_2.60.1_macOS_arm64.zip",
+      "checksum": "1930A3DB9A2D1C420E476D06F3D4A8F02DB8472D2630A1099968C3B82F231F1F",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/cli/cli/v2.58.0/gh_2.58.0_windows_amd64.zip",
-      "checksum": "ADE397B52F6228A06D2E95EDDCAEF306AAB712E7CA7308CEC66325063E11407B",
+      "id": "github_release/github.com/cli/cli/v2.60.1/gh_2.60.1_windows_amd64.zip",
+      "checksum": "2C56F2FE38A62C8135401CFCD6BEC2E8720FF8AE44176F15E90B0CAC8F293C85",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/cli/cli/v2.58.0/gh_2.58.0_windows_arm64.zip",
-      "checksum": "02B489BFF68E524E9733F5408A84144B3CF616B3E54C02620F9CC385ABAD034F",
+      "id": "github_release/github.com/cli/cli/v2.60.1/gh_2.60.1_windows_arm64.zip",
+      "checksum": "5DDB1D4D013A44C2E5DF027867C0D4161383EB7C16E569A86384AF52BFE09A65",
       "algorithm": "sha256"
     },
     {
@@ -86,58 +86,58 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/conftest/v0.55.0/conftest_0.55.0_Darwin_arm64.tar.gz",
-      "checksum": "C264ECBE79093E8A8C7CF04B00A759E9F839E212D4DCDF5032E96B085924B302",
+      "id": "github_release/github.com/open-policy-agent/conftest/v0.56.0/conftest_0.56.0_Darwin_arm64.tar.gz",
+      "checksum": "F84ECD403BF2F3ECFF508BBEE4F3A4EC7BEF5290A472C0E902501354A2277A59",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/conftest/v0.55.0/conftest_0.55.0_Darwin_x86_64.tar.gz",
-      "checksum": "FD60B3969B64981F5688F0539177DF44787B63E34932D01FBF1A6142DD3D71F5",
+      "id": "github_release/github.com/open-policy-agent/conftest/v0.56.0/conftest_0.56.0_Darwin_x86_64.tar.gz",
+      "checksum": "76864DBB51B1A932373375A9514802EBB65F9700470C1E69A692A2EC805CEC50",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/conftest/v0.55.0/conftest_0.55.0_Linux_arm64.tar.gz",
-      "checksum": "C46B050BD78FDA05FD018664F4E68E9D63CE87EBC2E87D067CC022F0985F5AE7",
+      "id": "github_release/github.com/open-policy-agent/conftest/v0.56.0/conftest_0.56.0_Linux_arm64.tar.gz",
+      "checksum": "86334E4CA57B991F0DCA0DD3D011270EDDA50FDFF2B2E208954EA639BB1C99EC",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/conftest/v0.55.0/conftest_0.55.0_Linux_x86_64.tar.gz",
-      "checksum": "1F2C78CDD2AD6BC4CBBDCE5CA3E0D15FDC7D10303A629A56118614089C311385",
+      "id": "github_release/github.com/open-policy-agent/conftest/v0.56.0/conftest_0.56.0_Linux_x86_64.tar.gz",
+      "checksum": "620F41640D63BBDE1646A108CE2816BA54C980466CEEBB7E754DDA2D508E8CD5",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/conftest/v0.55.0/conftest_0.55.0_Windows_arm64.zip",
-      "checksum": "AB8DAFAD001B1B8B4B3D6DF14BBE59553550EA63899E08F0B267A948854E602D",
+      "id": "github_release/github.com/open-policy-agent/conftest/v0.56.0/conftest_0.56.0_Windows_arm64.zip",
+      "checksum": "1AF2BE9202507A17B800E6E90923284FADCAF2BA6BEC75B0DA3D69549DCB291F",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/conftest/v0.55.0/conftest_0.55.0_Windows_x86_64.zip",
-      "checksum": "1A38CB5FC998A371E3F1DB86E5AAE8DB1C1ECC4F2FE25A9C21043FFABCB9CB29",
+      "id": "github_release/github.com/open-policy-agent/conftest/v0.56.0/conftest_0.56.0_Windows_x86_64.zip",
+      "checksum": "22806C17BCF7003139885526CD1DF158A6D3A141D9D92EE461F9AD679F0BAAE2",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v0.69.0/opa_darwin_amd64",
-      "checksum": "D23FD62BDAC2C44167206AEFD74D74AB67142B6460F3D7934B1DABA7216F94A5",
+      "id": "github_release/github.com/open-policy-agent/opa/v0.70.0/opa_darwin_amd64",
+      "checksum": "7827172827C6C7763FD36DD72052C318A6BEB18F7B907C5E67D847BB557AF1A1",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v0.69.0/opa_darwin_arm64_static",
-      "checksum": "4FEB04363E321AE7EDFB5B565C768DE4D5E6BFD57DAF0E8002A721C82879D961",
+      "id": "github_release/github.com/open-policy-agent/opa/v0.70.0/opa_darwin_arm64_static",
+      "checksum": "267608FE41DBA91FB23E2A69A439CB2A39710B3A069A828C744BD99BB3F94508",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v0.69.0/opa_linux_amd64_static",
-      "checksum": "C81AA9C1DA779D0A8646C837A96D52E1A7040FF562318D9743B8EF51C93B49D6",
+      "id": "github_release/github.com/open-policy-agent/opa/v0.70.0/opa_linux_amd64_static",
+      "checksum": "00D114B94FDB1606A48CCCDFC73C9CCDC62C38721150131AE578D5FF3DF5C084",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v0.69.0/opa_linux_arm64_static",
-      "checksum": "951CB3237A183A6259F68166B7D1DC66BDA330EF70D895452DB68E8261BED906",
+      "id": "github_release/github.com/open-policy-agent/opa/v0.70.0/opa_linux_arm64_static",
+      "checksum": "48061407A2D7B0B59440FC3A257E7BB251E9EC62F6CE7B1E45C142263AE24413",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v0.69.0/opa_windows_amd64.exe",
-      "checksum": "DCDCB53D76197AF9C61FC1BE7262D394E34475F781B7AC779E93DB97A3E99527",
+      "id": "github_release/github.com/open-policy-agent/opa/v0.70.0/opa_windows_amd64.exe",
+      "checksum": "19D00EEA60477A8F983C20AF690FEDCC8DA52AEF81922E570B27538CA88305A4",
       "algorithm": "sha256"
     },
     {
@@ -411,8 +411,8 @@
       "algorithm": "sha256"
     },
     {
-      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.235.0/registry.yaml",
-      "checksum": "08F5421BB3ECAF8C252A35FC47AF52264E8A3D1F43A821C19EA23773F67E7C56A715EE8E96B4217F4C3CB203D1D393C89EC9393E81A6C253280C205E9789D895",
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.246.0/registry.yaml",
+      "checksum": "0657DBD3A2D92E4F36FFBF6690A4D4B47B0CF99B12F63646A1ADE6A90D95F1B9A513E4CD92D652595A9749D281FB2FD4E3506E22DB0487B293B427F22B251204",
       "algorithm": "sha512"
     }
   ]

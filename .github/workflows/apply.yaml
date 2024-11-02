@@ -15,12 +15,12 @@ jobs:
     outputs:
       targets: ${{ steps.list-targets.outputs.targets }}
     steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
-          aqua_version: v2.36.1
+          aqua_version: v2.37.0
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@e27bdb36be639c0d30af1e63590f71453808bdee # v1.9.0
+      - uses: suzuki-shunsuke/tfaction/list-targets@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         id: list-targets
 
   apply:
@@ -36,12 +36,13 @@ jobs:
         target: ${{fromJSON(needs.setup.outputs.targets)}}
     env:
       TFACTION_TARGET: ${{matrix.target.target}}
+      TFACTION_WORKING_DIR: ${{matrix.target.working_directory}}
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
     permissions:
       id-token: write # For OIDC
       contents: read # To checkout a private repository
     steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Generate token for aqua-installer
         id: aqua_installer_token
@@ -58,7 +59,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
-          aqua_version: v2.36.1
+          aqua_version: v2.37.0
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
@@ -134,12 +135,32 @@ jobs:
               "tfaction-example"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/setup@e27bdb36be639c0d30af1e63590f71453808bdee # v1.9.0
+      - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:
           github_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
         env:
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
+
+      # These steps are optional. If you don't want lock mechanism, please remove them.
+      - uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
+        id: check-lock
+        with:
+          mode: check # If you want to acquire lock, please check this to `lock`
+          key: ${{env.TFACTION_WORKING_DIR}}
+      - run: |
+          github-comment post \
+            -k already-locked \
+            -var "actor:$ACTOR" \
+            -var "message:$MESSAGE" \
+            -var "workflow_url:$WORKFLOW_URL" \
+            -var "datetime:$DATETIME" \
+            -var "tfaction_target:${TFACTION_TARGET}"
+          exit 1
+        if: steps.check-lock.outputs.already_locked == 'true'
+        env:
+          RESULT: ${{steps.check-lock.outputs.result}}
+          GITHUB_TOKEN: ${{steps.setup_token.outputs.token}}
 
       - name: Generate token for apply
         id: apply_token
@@ -164,7 +185,7 @@ jobs:
               "tfaction-example"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/apply@e27bdb36be639c0d30af1e63590f71453808bdee # v1.9.0
+      - uses: suzuki-shunsuke/tfaction/apply@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         with:
           github_token: ${{ steps.apply_token.outputs.token }}
         env:
@@ -190,12 +211,12 @@ jobs:
               "${{github.event.repository.name}}"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@e27bdb36be639c0d30af1e63590f71453808bdee # v1.9.0
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         if: failure()
         with:
           github_token: ${{steps.follow_up_pr_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@e27bdb36be639c0d30af1e63590f71453808bdee # v1.9.0
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         if: always()
         with:
           status: ${{job.status}}

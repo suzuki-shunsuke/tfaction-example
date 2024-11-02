@@ -3,6 +3,22 @@
 hide:
   default: |
     Comment.HasMeta && Comment.Meta.SHA1 != Commit.SHA1 && ! (Comment.Meta.Program == "tfcmt" && Comment.Meta.Command == "apply")
+post:
+  already-locked:
+    template: |
+      ## :x: This target is being locked {{if .Vars.tfaction_target}}({{.Vars.tfaction_target}}){{end}}
+
+      {{template "link" .}}
+
+      Please wait until the lock is released.
+      Or if the lock wasn't released for any trouble, [you need to run the workflow to release the lock](https://github.com/suzuki-shunsuke/tfaction-example/actions/workflows/lock.yaml).
+
+      target: {{.Vars.tfaction_target}}
+      actor: {{.Vars.actor}}
+      datetime: {{.Vars.datetime}}
+      workflow_url: {{.Vars.workflow_url}}
+      message: {{.Vars.message}}
+
 exec:
   default:
   - when: ExitCode != 0

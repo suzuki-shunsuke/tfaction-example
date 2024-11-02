@@ -27,13 +27,13 @@ jobs:
       id-token: write # For OIDC
       contents: read # For checkout a private repository
     steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{inputs.branch}}
 
       - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
         with:
-          aqua_version: v2.36.1
+          aqua_version: v2.37.0
           working_directory: ${{env.TFACTION_WORKING_DIR}}
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
@@ -53,12 +53,12 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@e27bdb36be639c0d30af1e63590f71453808bdee # v1.9.0
+      - uses: suzuki-shunsuke/tfaction/setup@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         id: setup
         with:
           github_token: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/generate-config-out@e27bdb36be639c0d30af1e63590f71453808bdee # v1.9.0
+      - uses: suzuki-shunsuke/tfaction/generate-config-out@9751dd9b04be9d10d643c0a46d3c23ac21075c43 # v1.11.2
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
         with:
