@@ -15,4 +15,4 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: suzuki-shunsuke/tfaction/sync-drift-issue-description@pr/1988
+      - uses: suzuki-shunsuke/tfaction/sync-drift-issue-description@83e231ae2a2d2da48105f2ef9d6095964f70cd29 # v1.12.0
