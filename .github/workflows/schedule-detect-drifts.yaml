@@ -68,24 +68,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction/set-drift-env@pr/1982
+      - uses: suzuki-shunsuke/tfaction/set-drift-env@pr/1987
         with:
           issue: ${{toJSON(matrix.issue)}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@pr/1982
+      - uses: suzuki-shunsuke/tfaction/setup@pr/1987
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
 
-      - uses: suzuki-shunsuke/tfaction/test@pr/1982
+      - uses: suzuki-shunsuke/tfaction/test@pr/1987
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/terraform-plan@pr/1982
+      - uses: suzuki-shunsuke/tfaction/terraform-plan@pr/1987
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
@@ -93,7 +93,7 @@ jobs:
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
           TFE_TOKEN: ${{secrets.TFE_TOKEN}} # For tfe provider
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@pr/1982
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@pr/1987
         if: always()
         with:
           status: ${{job.status}}
