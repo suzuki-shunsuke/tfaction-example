@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - conftest-verify
+      - ghalint
       - hide-comment
       - opa-fmt
       - renovate-config-validator
