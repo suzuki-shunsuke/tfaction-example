@@ -143,7 +143,7 @@ jobs:
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
 
       # These steps are optional. If you don't want lock mechanism, please remove them.
-      - uses: suzuki-shunsuke/lock-action@227f207d49a2dd5698e385716517af847886172b # v0.1.2
+      - uses: suzuki-shunsuke/lock-action@c752be910ac812e0adc50316855416514d364b57 # v0.1.3
         id: check-lock
         with:
           mode: check # If you want to acquire lock, please check this to `lock`
