@@ -106,7 +106,7 @@ jobs:
             ["${{github.event.repository.name}}"]
 
       # These steps are optional. If you don't want lock mechanism, please remove them.
-      - uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
+      - uses: suzuki-shunsuke/lock-action@227f207d49a2dd5698e385716517af847886172b # v0.1.2
         id: check-lock
         with:
           mode: check # If you want to acquire lock, please check this to `lock`
