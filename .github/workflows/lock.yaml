@@ -29,7 +29,7 @@ jobs:
       contents: write
     steps:
       - name: ${{inputs.action}} ${{inputs.working_dir}}
-        uses: suzuki-shunsuke/lock-action@95020dd05b8976fd85ad4d777411a41d2d2928fa # v0.1.1
+        uses: suzuki-shunsuke/lock-action@227f207d49a2dd5698e385716517af847886172b # v0.1.2
         id: lock
         with:
           mode: ${{inputs.action}}
