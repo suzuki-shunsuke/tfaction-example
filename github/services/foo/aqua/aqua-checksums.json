@@ -1,23 +1,23 @@
 {
   "checksums": [
     {
-      "id": "github_release/github.com/aquasecurity/trivy/v0.57.0/trivy_0.57.0_Linux-64bit.tar.gz",
-      "checksum": "CF08A8CD861E5192631FC03BB21EFDE27C1D93E4407AB70BAB32E572BAFCBF07",
+      "id": "github_release/github.com/aquasecurity/trivy/v0.57.1/trivy_0.57.1_Linux-64bit.tar.gz",
+      "checksum": "858E9C389B9479DB85C83DD92A41F23EBD695F7C46E28E26FA2D5B5EC94CE6C4",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/aquasecurity/trivy/v0.57.0/trivy_0.57.0_Linux-ARM64.tar.gz",
-      "checksum": "29012FDB5BA18DA506D1C8B6F389C2EC9D113DB965C254971F35267EBB45DD64",
+      "id": "github_release/github.com/aquasecurity/trivy/v0.57.1/trivy_0.57.1_Linux-ARM64.tar.gz",
+      "checksum": "AC9EED821B368C110771A63AD4B131680671182540388DC673B27C7F371BC05F",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/aquasecurity/trivy/v0.57.0/trivy_0.57.0_macOS-64bit.tar.gz",
-      "checksum": "E7955B6D38D8125D4AA8936E6AF51B0DE2B0E0840B4FEB90B44002BF7F47BF13",
+      "id": "github_release/github.com/aquasecurity/trivy/v0.57.1/trivy_0.57.1_macOS-64bit.tar.gz",
+      "checksum": "AA03906167285C82788DB0AB647A0C3A2D33719D023B59BD06C3BED94EFA52BA",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/aquasecurity/trivy/v0.57.0/trivy_0.57.0_macOS-ARM64.tar.gz",
-      "checksum": "61230C8A56E463E8EBA2BF922BC688B7BD40352187E1F725C79861B0801437F0",
+      "id": "github_release/github.com/aquasecurity/trivy/v0.57.1/trivy_0.57.1_macOS-ARM64.tar.gz",
+      "checksum": "4E3490D33C8C35D0A189711E542EEC2F9F3FDD0FC1F988F1C3E5F23BC8727E04",
       "algorithm": "sha256"
     },
     {
@@ -71,8 +71,8 @@
       "algorithm": "sha256"
     },
     {
-      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.250.0/registry.yaml",
-      "checksum": "D96DE6492005DF84E0D02CF60B73EADA1867E6B078CD74E2AF70E9C2A9ABAD958ABA78A5F4C6F863D1CE2D9F77B5C21EDAAD1D09CF92C686C980F31CFB7F83CC",
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.255.0/registry.yaml",
+      "checksum": "412D4DC2FCEDDCC8E58A95BE6114D138C8A4973858EBDCA23DD968BAA51EE15E5EA28E9970A27447097C30926C580B900505463F43CA760947D61A90351628FB",
       "algorithm": "sha512"
     }
   ]

@@ -196,6 +196,36 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.3/tfaction_darwin_amd64.tar.gz",
+      "checksum": "A8117CEA55EFFFD2468FA81B856A447634F0D1A72FE81254765F08270A282A7D",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.3/tfaction_darwin_arm64.tar.gz",
+      "checksum": "54383EAACAE249CEBB5587B3B0883DDA8DCE2130982B24BA54DD284D983297DF",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.3/tfaction_linux_amd64.tar.gz",
+      "checksum": "AEACB544B8A338E845AED69F0B702DF42994EC932099D90B5BCD7801ADF5DF82",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.3/tfaction_linux_arm64.tar.gz",
+      "checksum": "570EFD8E3D5B47B675864A805C03603A5233FE21CB766FE3E065852CB8CA112F",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.3/tfaction_windows_amd64.tar.gz",
+      "checksum": "903E49D08ECC5ADB86BB143F6F76DEBBDF7A41CADA1FB9AFCAF2D2AC1C9939AE",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/suzuki-shunsuke/tfaction-go/v0.2.3/tfaction_windows_arm64.tar.gz",
+      "checksum": "916C06F5444C84CCE95D7F8CA05E68F657E80224B24CF21B49996B27744448A9",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.1/tfprovidercheck_darwin_amd64.tar.gz",
       "checksum": "B56D7866DE879ADA0FA78355831668ADE1B2EF7BA013917BDC1C67F18AF744E5",
       "algorithm": "sha256"
@@ -226,8 +256,8 @@
       "algorithm": "sha256"
     },
     {
-      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.250.0/registry.yaml",
-      "checksum": "D96DE6492005DF84E0D02CF60B73EADA1867E6B078CD74E2AF70E9C2A9ABAD958ABA78A5F4C6F863D1CE2D9F77B5C21EDAAD1D09CF92C686C980F31CFB7F83CC",
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.255.0/registry.yaml",
+      "checksum": "412D4DC2FCEDDCC8E58A95BE6114D138C8A4973858EBDCA23DD968BAA51EE15E5EA28E9970A27447097C30926C580B900505463F43CA760947D61A90351628FB",
       "algorithm": "sha512"
     }
   ]
