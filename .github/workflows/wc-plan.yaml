@@ -15,6 +15,7 @@ on:
       gh_app_private_key:
         required: true
       TFE_TOKEN:
+        # CHECK: Please remove this if you don't use Hashicorp Cloud Backend.
         required: true
 
 jobs:
@@ -41,6 +42,8 @@ jobs:
           ref: ${{inputs.ref}}
 
       - name: Generate token (aqua)
+        # CHECK: Maybe you can replace this with ${{github.token}}.
+        # It's up to you.
         id: aqua_installer_token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
         with:
@@ -72,6 +75,7 @@ jobs:
       #     secrets: ${{secrets.secrets}}
 
       - name: Generate token to download private Terraform Modules
+        # CHECK: You can remove this step if you don't use private modules
         id: gh_setup_token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
         with:
@@ -82,14 +86,16 @@ jobs:
             {
               "contents": "read"
             }
-          # private repositories hosting private modules
+          # CHECK: Private repositories hosting private modules. Please fix this properly.
           repositories: >-
             [
               "${{github.event.repository.name}}"
             ]
 
-      # This is required to download private modules in `terraform init`
-      - run: gh auth setup-git
+      - name: Set up git to checkout private Terraform Modules
+        run: gh auth setup-git
+        # CHECK: This is required to download private modules in `terraform init`
+        # You can remove this step if you don't use private modules
         env:
           GITHUB_TOKEN: ${{steps.gh_setup_token.outputs.token}}
 
@@ -111,13 +117,16 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      # These steps are optional. If you don't want lock mechanism, please remove them.
-      - uses: suzuki-shunsuke/lock-action@c752be910ac812e0adc50316855416514d364b57 # v0.1.3
+      - name: Check if the directory is locked
+        # CHECK: This step is optional. If you don't want lock mechanism, please remove them.
+        uses: suzuki-shunsuke/lock-action@c752be910ac812e0adc50316855416514d364b57 # v0.1.3
         id: check-lock
         with:
-          mode: check # If you want to acquire lock, please check this to `lock`
+          mode: check # CHECK: If you want to acquire lock, please check this to `lock`
           key: ${{env.TFACTION_WORKING_DIR}}
-      - run: |
+      - name: Post the error message
+        # CHECK: This step is optional. If you don't want lock mechanism, please remove them.
+        run: |
           github-comment post \
             -k already-locked \
             -var "actor:$ACTOR" \
@@ -135,17 +144,19 @@ jobs:
           DATETIME: ${{fromJSON(steps.check-lock.outputs.result).datetime}}
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/setup@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
+      - name: Set up
+        uses: suzuki-shunsuke/tfaction/setup@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # CHECK: For GitHub Provider. You can remove this if you don't use GitHub Provider.
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # CHECK: For Hashicorp Cloud Backend. Please remove this if you don't use Hashicorp Cloud Backend.
 
       - uses: suzuki-shunsuke/tfaction/get-target-config@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
+        # CHECK: You can remove this step if you don't want to validate Terraform Providers
         id: target-config
-
       - name: Generate token (pull request write)
+        # CHECK: You can remove this step if you don't want to validate Terraform Providers
         id: pull_request_token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
         with:
@@ -157,13 +168,15 @@ jobs:
             }
           repositories: >-
             ["${{github.event.repository.name}}"]
-
-      - run: |
+      - name: Validate if disallowed Terraform Providers are used
+        # CHECK: You can remove this step if you don't want to validate Terraform Providers
+        run: |
           set -euo pipefail
           tfprovidercheck -v
           github-comment exec -- terraform version -json | github-comment exec -- tfprovidercheck
         working-directory: ${{ steps.target-config.outputs.working_directory }}
         env:
+          # CHECK: Please modify the provider list.
           TFPROVIDERCHECK_CONFIG_BODY: |
             providers:
               - name: registry.terraform.io/hashicorp/aws
@@ -174,16 +187,18 @@ jobs:
               - name: registry.terraform.io/hashicorp/tfe
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
-      - uses: suzuki-shunsuke/tfaction/test@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
+      - name: Test
+        uses: suzuki-shunsuke/tfaction/test@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
-      - uses: suzuki-shunsuke/tfaction/plan@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
+      - name: Plan
+        uses: suzuki-shunsuke/tfaction/plan@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and tfcmt and github-comment
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
-          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # For tfe provider
+          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # CHECK: For Hashicorp Cloud Backend. Please remove this if you don't use Hashicorp Cloud Backend.
+          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # CHECK: For tfe provider. Please remove this if you don't use Hashicorp Cloud Backend.

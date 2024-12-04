@@ -1,4 +1,5 @@
 ---
+# This workflow is optional
 name: Generate code by terraform plan -generate-config-out
 run-name: Generate code by terraform plan -generate-config-out (${{inputs.working_dir}})
 on:
@@ -13,7 +14,7 @@ on:
       branch:
         description: branch name
         required: true
-      
+
 env:
   TFACTION_WORKING_DIR: ${{github.event.inputs.working_dir}}
   TFACTION_JOB_TYPE: terraform
