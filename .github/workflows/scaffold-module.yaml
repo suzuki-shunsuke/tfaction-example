@@ -1,11 +1,12 @@
 ---
+# This workflow is optional
 name: Scaffold Terraform Module
 run-name: Scaffold Terraform Module (${{inputs.module_path}})
 on:
   workflow_dispatch:
     inputs:
       module_path:
-        description: 'module path'
+        description: "module path"
         required: true
       template_dir:
         type: choice
@@ -51,4 +52,4 @@ jobs:
 
       - uses: suzuki-shunsuke/tfaction/create-scaffold-module-pr@2b9d52f60b37e9331ebfe8f06df7ec2d0ee493a6 # v1.12.1
         with:
-          github_token: ${{steps.generate_token.outputs.token}} 
+          github_token: ${{steps.generate_token.outputs.token}}

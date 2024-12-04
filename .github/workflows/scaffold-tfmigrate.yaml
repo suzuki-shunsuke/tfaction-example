@@ -1,11 +1,12 @@
 ---
+# This workflow is optional
 name: Scaffold tfmigrate
 run-name: Scaffold tfmigrate (${{inputs.target}})
 on:
   workflow_dispatch:
     inputs:
       target:
-        description: 'target'
+        description: "target"
         required: true
       migration_name:
         description: 'migration name. e.g. "import_foo"'

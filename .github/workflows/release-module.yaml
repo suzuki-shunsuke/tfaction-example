@@ -1,14 +1,15 @@
 ---
+# This workflow is optional
 name: Release a Terraform Module
 run-name: Release a Terraform Module (${{inputs.module_path}} ${{inputs.version}})
 on:
   workflow_dispatch:
     inputs:
       module_path:
-        description: 'Module path'
+        description: "Module path"
         required: true
       version:
-        description: 'Module version'
+        description: "Module version"
         required: true
 env:
   TFACTION_TARGET: ${{github.event.inputs.module_path}}

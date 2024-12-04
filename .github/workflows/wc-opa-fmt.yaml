@@ -1,4 +1,5 @@
 ---
+# This workflow is optional.
 name: opa-fmt
 on:
   workflow_call:
