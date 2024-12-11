@@ -46,28 +46,28 @@
       "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.10.1/terraform_1.10.1_darwin_amd64.zip",
-      "checksum": "9E3E0127C7DBEF8A34773820736ACBB312A0727149A3B5DF07B73F0CF859C261",
+      "id": "http/releases.hashicorp.com/terraform/1.10.2/terraform_1.10.2_darwin_amd64.zip",
+      "checksum": "68BD28CFE27B8720EC8D283C899A5275BEDB53EA6D8F31291409464E476D4AA9",
       "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.10.1/terraform_1.10.1_darwin_arm64.zip",
-      "checksum": "BAE8BEF4E19A404427A25E1DDC35EEFF4ED9AFB675C33E2988DFD47F1543AD3B",
+      "id": "http/releases.hashicorp.com/terraform/1.10.2/terraform_1.10.2_darwin_arm64.zip",
+      "checksum": "7328910F45DB254A59E4CCC6906AD3A595775A2AEDD74395978F2A81C9890137",
       "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.10.1/terraform_1.10.1_linux_amd64.zip",
-      "checksum": "D49D4D08ED092A8DEC335F1FE3E127D1A285F160557323DD5A84DDC0C8472E1A",
+      "id": "http/releases.hashicorp.com/terraform/1.10.2/terraform_1.10.2_linux_amd64.zip",
+      "checksum": "C347B0223C12D315BAF8C9CC69913D5DBEB4388E96ABE17805BE4DA9B63B5CDD",
       "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.10.1/terraform_1.10.1_linux_arm64.zip",
-      "checksum": "6375A763B7784E47B4314E939A8C15F357DB718D932E82825D87392ABB5D1E09",
+      "id": "http/releases.hashicorp.com/terraform/1.10.2/terraform_1.10.2_linux_arm64.zip",
+      "checksum": "C170B97362EBF685C616BE25F67E5FD7DC1014522595B0C55CD671BD3EB1D589",
       "algorithm": "sha256"
     },
     {
-      "id": "http/releases.hashicorp.com/terraform/1.10.1/terraform_1.10.1_windows_amd64.zip",
-      "checksum": "C73FF963038D151360928101BA7E228DFFBD362F9706499438BA590DB3B7EC2E",
+      "id": "http/releases.hashicorp.com/terraform/1.10.2/terraform_1.10.2_windows_amd64.zip",
+      "checksum": "29DB377E21243C869F63E66E7E8106ECDC61D3DAD32DDEBBD4283409DCCDB952",
       "algorithm": "sha256"
     },
     {
