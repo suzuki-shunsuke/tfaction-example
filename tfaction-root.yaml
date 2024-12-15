@@ -10,8 +10,9 @@ drift_detection:
   minimum_detection_interval: 120 # 120 hours (5 days)
   num_of_issues: 3 # 3 working directories are checked per workflow run. By default 1 working directory is checked.
 
-# tflint:
-#   enabled: true
+tflint:
+  enabled: true
+  fix: true # Auto fix by tflint --fix
 # tfsec:
 #   enabled: false
 # trivy:
