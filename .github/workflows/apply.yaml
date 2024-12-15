@@ -82,8 +82,8 @@ jobs:
         id: gh_setup_token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
         with:
-          app_id: ${{ secrets.gh_app_id }}
-          private_key: ${{ secrets.gh_app_private_key }}
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
           # If you use private registries, contents:read is required
           permissions: >-
             {
@@ -118,7 +118,7 @@ jobs:
           # https://suzuki-shunsuke.github.io/tfaction/docs/feature/drift-detection
           repositories: >-
             [
-              "tfaction-example"
+              "${{github.event.repository.name}}"
             ]
       - run: tfaction get-or-create-drift-issue
         # CHECK: You can remove this step if you don't use drift detection
@@ -141,8 +141,7 @@ jobs:
             }
           repositories: >-
             [
-              "${{github.event.repository.name}}",
-              "tfaction-example"
+              "${{github.event.repository.name}}"
             ]
 
       - name: Set up
@@ -192,8 +191,7 @@ jobs:
             }
           repositories: >-
             [
-              "${{github.event.repository.name}}",
-              "tfaction-example"
+              "${{github.event.repository.name}}"
             ]
 
       - name: Apply
