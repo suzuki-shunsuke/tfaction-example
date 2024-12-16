@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: aquaproj/aqua-installer@f13c5d2f0357708d85477aabe50fd3f725528745 # v3.1.0
         with:
-          aqua_version: v2.39.1
+          aqua_version: v2.40.0
 
       - uses: suzuki-shunsuke/tfaction/list-targets@1eb11300c759d17050d0a81c3e8f1c6fa89b39d9 # v1.13.1
         id: list-targets
@@ -63,7 +63,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@f13c5d2f0357708d85477aabe50fd3f725528745 # v3.1.0
         with:
-          aqua_version: v2.39.1
+          aqua_version: v2.40.0
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
