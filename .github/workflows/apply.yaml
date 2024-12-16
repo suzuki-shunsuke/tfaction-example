@@ -152,7 +152,7 @@ jobs:
         env:
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
 
-      - uses: suzuki-shunsuke/lock-action@c752be910ac812e0adc50316855416514d364b57 # v0.1.3
+      - uses: suzuki-shunsuke/lock-action@58ae637853d3fae20a174bad7b9dee2045a319b5 # v0.1.4
         # CHECK: You can remove this step if you don't want lock mechanism
         id: check-lock
         with:
