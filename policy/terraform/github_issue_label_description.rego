@@ -1,11 +1,13 @@
 package main
 
-allow_github_issue_label_description(values) {
+import rego.v1
+
+allow_github_issue_label_description(values) if {
 	values.description != null
 	values.description != ""
 }
 
-deny_github_issue_label_description[msg] {
+deny_github_issue_label_description contains msg if {
 	walk(input.planned_values.root_module, [path, value])
 	value.type == "github_issue_label"
 	not allow_github_issue_label_description(value.values)
