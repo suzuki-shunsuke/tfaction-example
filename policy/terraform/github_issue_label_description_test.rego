@@ -1,10 +1,12 @@
 package main
 
-test_deny_github_issue_label_description {
+import rego.v1
+
+test_deny_github_issue_label_description if {
 	not any_deny_github_issue_label_description
 }
 
-any_deny_github_issue_label_description {
+any_deny_github_issue_label_description if {
 	seeds := [
 		{
 			"exp": set(), "msg": "pass",
