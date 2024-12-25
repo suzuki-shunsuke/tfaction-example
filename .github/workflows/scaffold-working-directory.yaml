@@ -23,7 +23,7 @@ jobs:
         with:
           aqua_version: v2.40.0
 
-      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@db6f3ecc85f732742ff829366fce71e380d7328a # v1.13.2
+      - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@98da3c71e2f14697e6cd56217d4a62882586e4da # v1.13.3
 
       - name: Generate token
         id: generate_token
@@ -41,6 +41,6 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@db6f3ecc85f732742ff829366fce71e380d7328a # v1.13.2
+      - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@98da3c71e2f14697e6cd56217d4a62882586e4da # v1.13.3
         with:
           github_token: ${{ steps.generate_token.outputs.token }}
