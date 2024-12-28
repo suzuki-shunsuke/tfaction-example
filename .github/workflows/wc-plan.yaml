@@ -120,7 +120,7 @@ jobs:
 
       - name: Check if the directory is locked
         # CHECK: This step is optional. If you don't want lock mechanism, please remove them.
-        uses: suzuki-shunsuke/lock-action@58ae637853d3fae20a174bad7b9dee2045a319b5 # v0.1.4
+        uses: suzuki-shunsuke/lock-action@c610af3122da5e5b3cfa5ddfd580f037c7b529f3 # v0.1.5
         id: check-lock
         with:
           mode: check # CHECK: If you want to acquire lock, please check this to `lock`
