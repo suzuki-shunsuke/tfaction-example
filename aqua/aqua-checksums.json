@@ -226,33 +226,33 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.1/tfprovidercheck_darwin_amd64.tar.gz",
-      "checksum": "B56D7866DE879ADA0FA78355831668ADE1B2EF7BA013917BDC1C67F18AF744E5",
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.2/tfprovidercheck_darwin_amd64.tar.gz",
+      "checksum": "DA8141688B65C6DC3155C0C7802D001EC893FD92C88BE8BC19C9F8567E650747",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.1/tfprovidercheck_darwin_arm64.tar.gz",
-      "checksum": "4E444F43865F52C1D969A9AF9691F062F60E0BC64C713EE2E90C2163C8CE0D67",
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.2/tfprovidercheck_darwin_arm64.tar.gz",
+      "checksum": "6C95C1857DDCA6170B6C5823CE346C37B6E733B77FD536449698FBB882CBC939",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.1/tfprovidercheck_linux_amd64.tar.gz",
-      "checksum": "44E73DBAB3984F966BD6079622903C9F8BC842412171B28C5978D5FD4E0CD3CC",
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.2/tfprovidercheck_linux_amd64.tar.gz",
+      "checksum": "958F9779A551CDB5CB4F205694760C3B569466F295D5CF345F30074970107444",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.1/tfprovidercheck_linux_arm64.tar.gz",
-      "checksum": "2E04BBB96F952CE04C3BCBB2A04625AB9E5D371BC8C983CE6212B1951A6B302B",
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.2/tfprovidercheck_linux_arm64.tar.gz",
+      "checksum": "F6AE91387D8A97C73C31CF3D047E89DCCAC8AB64D09560523401CE7AA292FE0C",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.1/tfprovidercheck_windows_amd64.zip",
-      "checksum": "5179E88EC78A0215A415137125043610BFFD7C649CD61AFA2C2CAFE0D6CCE686",
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.2/tfprovidercheck_windows_amd64.zip",
+      "checksum": "3412C91E51260F7134DF63E1DA6BC98510B656912D47814DDE54E8D0361BDB20",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.1/tfprovidercheck_windows_arm64.zip",
-      "checksum": "C18CF257C8B09BD1F951B56857148ED123B9E182CF813107A7243850D1E2C5A8",
+      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.2/tfprovidercheck_windows_arm64.zip",
+      "checksum": "9DDDA2625395F0ED2BC97BC6656F7296B8AD890FEAE3614FBAFF54F21F0CCCAA",
       "algorithm": "sha256"
     },
     {
