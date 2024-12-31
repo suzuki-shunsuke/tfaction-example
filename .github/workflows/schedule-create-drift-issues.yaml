@@ -7,7 +7,7 @@ on:
     # daily
     - cron: "0 0 * * *"
 jobs:
-  test:
+  create-drift-issues:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions:
