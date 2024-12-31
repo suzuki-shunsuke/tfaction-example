@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
       - uses: aquaproj/aqua-installer@f13c5d2f0357708d85477aabe50fd3f725528745 # v3.1.0
         with:
-          aqua_version: v2.40.0
+          aqua_version: v2.41.0
 
       - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@1bfb14d12411f6872d897f96865ae0c9cebe2fe3 # v1.14.0
 
