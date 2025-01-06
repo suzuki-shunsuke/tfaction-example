@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
       - uses: aquaproj/aqua-installer@f13c5d2f0357708d85477aabe50fd3f725528745 # v3.1.0
         with:
-          aqua_version: v2.42.0
+          aqua_version: v2.42.1
 
       - uses: suzuki-shunsuke/tfaction/list-targets@d4b16993b0b434b36c1a94c25c2fcb0c18d867d4 # v1.15.0
         id: list-targets
@@ -67,7 +67,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@f13c5d2f0357708d85477aabe50fd3f725528745 # v3.1.0
         with:
-          aqua_version: v2.42.0
+          aqua_version: v2.42.1
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
