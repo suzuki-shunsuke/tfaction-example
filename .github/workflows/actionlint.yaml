@@ -20,5 +20,5 @@ jobs:
           persist-credentials: false
       - uses: aquaproj/aqua-installer@f13c5d2f0357708d85477aabe50fd3f725528745 # v3.1.0
         with:
-          aqua_version: v2.41.0
+          aqua_version: v2.42.0
       - uses: suzuki-shunsuke/github-action-actionlint@4f0298e8f8b13fffbdc13207463d65e92205ad0c # v0.1.5
