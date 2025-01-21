@@ -56,28 +56,28 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.0.0/opa_darwin_amd64",
-      "checksum": "859ACBAB43124A43DD6D454DE57E2F3C867D451AFA289562B872F35CCEDFE1F2",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.0.1/opa_darwin_amd64",
+      "checksum": "48AEC3A9C7C9F54200DC213010905369F1C14ECC0594585B3FA41AE7A218C753",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.0.0/opa_darwin_arm64_static",
-      "checksum": "836CFEAA6713C59AE681E4F1E2F510980AE3DF15112ADC30DC6CEBC5FF636DB4",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.0.1/opa_darwin_arm64_static",
+      "checksum": "50D4A57DFAD46F63332C2A48B5FEC641ECD6AE925399D3B08E9FC90DE47BF1E6",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.0.0/opa_linux_amd64_static",
-      "checksum": "3985FB4814B3860511BEAC516F59C5509EEE9FDC83DBE910B67F3999F743B901",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.0.1/opa_linux_amd64_static",
+      "checksum": "6D81BE862E412AF910EACFAD489E3D77AFBFCF4B958EA4E839B7F38C9EEC4D87",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.0.0/opa_linux_arm64_static",
-      "checksum": "E1A35B18FC7778534F17AD599378373D43E026AA677D9A7F388CDEA83A008C51",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.0.1/opa_linux_arm64_static",
+      "checksum": "6EDC31F51377ABEE0C7F07FF01622C2B03346F18483D95AD84F239AAE5C9F6A8",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.0.0/opa_windows_amd64.exe",
-      "checksum": "F910BC4F4E27FE27F861EC3EA4EC58CA859EC7245007DF4D3AB6D53058745991",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.0.1/opa_windows_amd64.exe",
+      "checksum": "100C670C28844018C8F5ED90E9FED4866F39EB03C79BE59426DFD54AD79C9FC3",
       "algorithm": "sha256"
     },
     {
