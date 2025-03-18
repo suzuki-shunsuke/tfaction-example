@@ -1,8 +1,8 @@
 {
   extends: [
-    'github>aquaproj/aqua-renovate-config#2.3.1',
-    'github>aquaproj/aqua-renovate-config:file#2.3.1(aqua/imports/[^/]*\\.ya?ml$)',
-    'github>suzuki-shunsuke/renovate-config#2.5.0',
+    'github>aquaproj/aqua-renovate-config#2.7.5',
+    'github>aquaproj/aqua-renovate-config:file#2.7.5(aqua/imports/[^/]*\\.ya?ml$)',
+    'github>suzuki-shunsuke/renovate-config#3.0.0',
   ],
   labels: [
     'renovate:{{depName}}',
@@ -16,7 +16,7 @@
     {
       additionalBranchPrefix: '{{packageFileDir}}-',
       commitMessageSuffix: '({{packageFileDir}})',
-      matchPackagePatterns: [
+      matchPackageNames: [
         '.*',
       ],
     },
