@@ -1,120 +1,26 @@
 ---
 name: pull_request_target
 on: pull_request_target
-
 concurrency:
   group: ${{ github.workflow }}--${{ github.head_ref }} # github.ref is unavailable in case of pull_request_target
   cancel-in-progress: true
-
 permissions: {}
-
 jobs:
-  path-filter:
-    uses: ./.github/workflows/wc-path-filter.yaml
-    permissions: {}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-  # This job is used for branch protection rule
-  # Add this job to `Status checks that are required`
   status-check:
-    timeout-minutes: 30
-    runs-on: ubuntu-latest
-    needs:
-      - conftest-verify
-      - ghalint
-      - hide-comment
-      - opa-fmt
-      - renovate-config-validator
-      - test
-      - update-aqua-checksums
+    runs-on: ubuntu-24.04
     if: failure()
+    timeout-minutes: 10
+    permissions: {}
+    needs:
+      - test
     steps:
       - run: exit 1
-
-  conftest-verify:
-    uses: ./.github/workflows/wc-conftest-verify.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.conftest-verify == 'true'
-    permissions:
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
+  test:
+    uses: .github/workflows/workflow_call_test.yaml
     secrets:
       gh_app_id: ${{secrets.APP_ID}}
       gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-  ghalint:
-    uses: ./.github/workflows/wc-ghalint.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.ghalint == 'true'
-    permissions:
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-  hide-comment:
-    uses: ./.github/workflows/wc-hide-comment.yaml
-    needs: path-filter
-    permissions:
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-  opa-fmt:
-    uses: ./.github/workflows/wc-opa-fmt.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.opa-fmt == 'true'
     permissions:
       contents: read
       pull-requests: write
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-
-  renovate-config-validator:
-    uses: ./.github/workflows/wc-renovate-config-validator.yaml
-    needs: path-filter
-    if: needs.path-filter.outputs.renovate-config-validator == 'true'
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    permissions:
-      contents: read
-
-  test:
-    uses: ./.github/workflows/wc-test.yaml
-    needs: path-filter
-    permissions:
       id-token: write
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
-      terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
-      TFE_TOKEN: ${{secrets.TFE_TOKEN}}
-
-  update-aqua-checksums:
-    uses: ./.github/workflows/wc-update-aqua-checksums.yaml
-    needs: path-filter
-    if: needs.path-filter.outputs.update-aqua-checksums == 'true'
-    permissions:
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
