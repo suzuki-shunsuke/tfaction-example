@@ -3,18 +3,22 @@ name: test (workflow_call)
 on:
   workflow_call:
     secrets:
-      - gh_app_id:
-          required: true
-      - gh_app_private_key:
-          required: true
+      gh_app_id:
+        required: true
+      gh_app_private_key:
+        required: true
+      TFE_TOKEN:
+        required: false
+      terraform_private_module_ssh_key:
+        required: false
 permissions: {}
 jobs:
   path-filter:
     uses: ./.github/workflows/wc-path-filter.yaml
     permissions: {}
     secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
 
   conftest-verify:
     uses: ./.github/workflows/wc-conftest-verify.yaml
@@ -26,8 +30,8 @@ jobs:
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
 
   ghalint:
     uses: ./.github/workflows/wc-ghalint.yaml
@@ -39,8 +43,8 @@ jobs:
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
 
   hide-comment:
     uses: ./.github/workflows/wc-hide-comment.yaml
@@ -50,8 +54,8 @@ jobs:
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
 
   opa-fmt:
     uses: ./.github/workflows/wc-opa-fmt.yaml
@@ -64,8 +68,8 @@ jobs:
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
 
   renovate-config-validator:
     uses: ./.github/workflows/wc-renovate-config-validator.yaml
@@ -85,8 +89,8 @@ jobs:
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
       terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
       TFE_TOKEN: ${{secrets.TFE_TOKEN}}
 
@@ -99,5 +103,5 @@ jobs:
     with:
       ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
-      gh_app_id: ${{secrets.APP_ID}}
-      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_id: ${{secrets.gh_app_id}}
+      gh_app_private_key: ${{secrets.gh_app_private_key}}
