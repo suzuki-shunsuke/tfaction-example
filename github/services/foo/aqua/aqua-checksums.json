@@ -21,6 +21,11 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/aquasecurity/trivy/v0.60.0/trivy_0.60.0_windows-64bit.zip",
+      "checksum": "2946EBC26D697551A4D180896E2274E304DA6685A6184396AF1B29DE983FF2C8",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/terraform-linters/tflint/v0.55.1/tflint_darwin_amd64.zip",
       "checksum": "98B1C04030F24B98398413A3A82A9646CD607A958D07576F0151773A6DED30FC",
       "algorithm": "sha256"
@@ -71,8 +76,8 @@
       "algorithm": "sha256"
     },
     {
-      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.330.0/registry.yaml",
-      "checksum": "BF04384362D22B2798E2D13792369092ACA20B800341F27DAA8341B1E6F0772C",
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.331.0/registry.yaml",
+      "checksum": "C6888DFD35B3CD7596C1134D696C61EF79F0699DEEC4781D6F9E4C813251A3CF",
       "algorithm": "sha256"
     }
   ]
