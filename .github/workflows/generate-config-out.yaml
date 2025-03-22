@@ -55,12 +55,12 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@003b2a800539fe9c8f483b7f87f95b17d8c65ce8 # v1.16.0
+      - uses: suzuki-shunsuke/tfaction/setup@18b4dc6d6eced922db7d4eb90ea71330969725d4 # v1.16.1
         id: setup
         with:
           github_token: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/generate-config-out@003b2a800539fe9c8f483b7f87f95b17d8c65ce8 # v1.16.0
+      - uses: suzuki-shunsuke/tfaction/generate-config-out@18b4dc6d6eced922db7d4eb90ea71330969725d4 # v1.16.1
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
         with:
