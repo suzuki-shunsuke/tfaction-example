@@ -1,0 +1,84 @@
+{
+  "checksums": [
+    {
+      "id": "github_release/github.com/aquasecurity/trivy/v0.60.0/trivy_0.60.0_Linux-64bit.tar.gz",
+      "checksum": "8CF51065F3658DFC402E794590801C84509998FE12ACAB8C4E90DF6257366FF7",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/aquasecurity/trivy/v0.60.0/trivy_0.60.0_Linux-ARM64.tar.gz",
+      "checksum": "DF5094134134B79C928D3F3C8A611B992FD583134823924D30CA0AFC0F86507D",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/aquasecurity/trivy/v0.60.0/trivy_0.60.0_macOS-64bit.tar.gz",
+      "checksum": "0F22197051F28CAE120494D67862E1252099339BDBD536AAABCDA56CE203963E",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/aquasecurity/trivy/v0.60.0/trivy_0.60.0_macOS-ARM64.tar.gz",
+      "checksum": "B017CFDD640DCF4F7ED6C87E0E7337155F32C07530A086CB08DC8DC270AE2382",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/aquasecurity/trivy/v0.60.0/trivy_0.60.0_windows-64bit.zip",
+      "checksum": "2946EBC26D697551A4D180896E2274E304DA6685A6184396AF1B29DE983FF2C8",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/terraform-linters/tflint/v0.55.1/tflint_darwin_amd64.zip",
+      "checksum": "98B1C04030F24B98398413A3A82A9646CD607A958D07576F0151773A6DED30FC",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/terraform-linters/tflint/v0.55.1/tflint_darwin_arm64.zip",
+      "checksum": "E1F9F843A7BC4CF9631B30E7D65BEDA6FD5E8013DAA91D3A35E23C606A360E50",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/terraform-linters/tflint/v0.55.1/tflint_linux_amd64.zip",
+      "checksum": "53379F38BC1E86C18885BFC85DC5FE2CD1F59729AE9A2AFA16905189C1D67AA9",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/terraform-linters/tflint/v0.55.1/tflint_linux_arm64.zip",
+      "checksum": "3D5D6E1E749AE1D46C153DD6FAC358CDFA76DF475DE8F2660A91FF531021F93B",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/terraform-linters/tflint/v0.55.1/tflint_windows_amd64.zip",
+      "checksum": "667E8333EED843298BA1FD1120776784C0DACC17DE25E253BC8A67B03ADBE87D",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/releases.hashicorp.com/terraform/1.11.2/terraform_1.11.2_darwin_amd64.zip",
+      "checksum": "1C3D0E2A35667E4C45D16DF0AFE5001B36958B647DDF2276F60691A42B3EFF60",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/releases.hashicorp.com/terraform/1.11.2/terraform_1.11.2_darwin_arm64.zip",
+      "checksum": "E1DE9CFA8F4B9CF31CE5F88FE4C55E1939CB2D2F23480B1520A37B596CD75414",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/releases.hashicorp.com/terraform/1.11.2/terraform_1.11.2_linux_amd64.zip",
+      "checksum": "B94F7C5080196081EA5180E8512EDD3C2037F28445CE3562CFB0ADFD0AAB64CA",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/releases.hashicorp.com/terraform/1.11.2/terraform_1.11.2_linux_arm64.zip",
+      "checksum": "1F162F947E346F75AC3F6CCFDF5E6910924839F688F0773DE9A79BC2E0B4CA94",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/releases.hashicorp.com/terraform/1.11.2/terraform_1.11.2_windows_amd64.zip",
+      "checksum": "686093A77606AA9B31FEC2428D52A7C8FE4B7F4BF19E9ADEE26D3A3462A8D443",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.331.0/registry.yaml",
+      "checksum": "C6888DFD35B3CD7596C1134D696C61EF79F0699DEEC4781D6F9E4C813251A3CF",
+      "algorithm": "sha256"
+    }
+  ]
+}
