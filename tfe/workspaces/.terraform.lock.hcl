@@ -2,31 +2,31 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/hashicorp/tfe" {
-  version     = "0.64.0"
-  constraints = "0.64.0"
+  version     = "0.65.0"
+  constraints = "0.65.0"
   hashes = [
-    "h1:1H3oszYcDUHMP2KCqlFxXZOfAjt16BVB/ZeQMkfmj3M=",
-    "h1:BdHUOdbkCRSzcQgydkuzQZjX1U1zFPWAhV+Uo6KDtRk=",
-    "h1:J20qUnCSu9acZ1ek+ilRmWdbPe1O18D8Q4ECjCstcuU=",
-    "h1:d9bd4PoU2xgut1NfhLRwQZLUVE/OGKBJbcApNYr4mPo=",
-    "h1:gxIbs2upwNYpQbwFNh/lfaS0gPFP5Kk5Bnmb4tCGFug=",
-    "h1:h/MpdVJKiR0PNAhKseUhp0axtgdhbEAwD7BonZz1oes=",
-    "h1:lGSYXNwpp6LT/FUIC1qpxZD8CMIml7WfNPG5A+NK5Mw=",
-    "h1:lM6oA8emnrISLPBxp1Vp5nDwberRK5gxRYZus6nLArk=",
-    "h1:nya8+FnhxmAqAdb0aysNb0Gve8QQBD/EQuJ3PGeRbo4=",
-    "h1:sIRcUZoaShl50HQ1PF0hGNRC+eoLK/o/BvSUsQQNGlU=",
-    "h1:uG9c5YE3JwdMfvgjuMsUHwXqrlYIV1apSYHDB7NnFic=",
-    "zh:0948735de4179bcf27323d021f3bdc8732be047125a3f2191826df7f1174b7ac",
-    "zh:19a2727c3c30af9266fd8c5fda6012505fc3754a167b809b8cd8a7b38b4ba5f1",
-    "zh:20c82fb6d3b3a9ce5e14043c6ee96a9c3f963dbfb3b466031221de6bcb953983",
-    "zh:99efb898c4747e54ae4f2e2a4248b25168146a54e094d70fea09c328a36bb38b",
-    "zh:a6fa0461a6beb043724f845654daefd472109203d9b0ca550df4d5ff330bddf9",
-    "zh:ad712e503799f4eb2f9f1d403032241a9d20c09163465b754eafd86a50c445b2",
-    "zh:c2b4b79256d2b975826eaea57d74730e51b2b1813ed0a19097f80954e456fb23",
-    "zh:d5f952a76e06f2470ae6defd7cf013ba67771a58976e519887fac01bf95763a3",
+    "h1:6fs/T2Qr74jZrRTKlRw4tLSLaTMqHMrl0+ZXeyxVnEc=",
+    "h1:A4LiGWwqHqVDDh5Gn3AW3EmyM6GYVZuW4srDPvPnH10=",
+    "h1:B1DWP0bMJnD/8kOD6PpAV09FL0NV4bBRpqSj0ashUCM=",
+    "h1:E7HLbN/yZeJ1KM8aAMB0TTdVnVKLk4Hg+1zzpz27Sas=",
+    "h1:HgfJ+ku6LPRfDO7BPFrnqSllEEkFCZTAs0GZHd1QVhM=",
+    "h1:SvIxG+K81jPQT7mh8CKSNc5M/rIQ0CqQwh0JljeuB9g=",
+    "h1:dzZxqfqwl+0z5OhhUstJKUAKHrMZ4VNE4xd47HTJ58c=",
+    "h1:jngfmt0lQ8wNrQjvvMM1xWFypFbNGrd+OvnHPw9Gi+4=",
+    "h1:mfGif7kprcx4rb/r+CWFmY4tOnbMLL9iFdiHAr3bTns=",
+    "h1:p0jfNQYHC71/ZT1X7YsVgNPmnVEDaKsSgpseCmnSZts=",
+    "h1:w4UgRFKjrDGUD9X2ZrrGTiL7wrA+4ne7HfHuUwno80o=",
+    "zh:2166cf67271764bd5f2cda51e5a7d0add1cd61a39007f9fc712f8ad6cd86aaf2",
+    "zh:2d19a03c9b6eeefa330f4efc10833cad5a017ca3b1f68b2c48e7b2e2831163e7",
+    "zh:5250c4fe707baf53a1af079e80e19217d7530478c060fee695422f43d3fb12c8",
+    "zh:5fbbcdd968d5063f3287df3b09fe2d9c7746dd388d49adefebc7ff66c3d9ad2f",
+    "zh:6b5d50d63ec91cf2bf9504a251829728c089ce2aaa2d2bf0a70f07b74986b403",
+    "zh:70ed04a11a462658dc9b394999afdc4705148b43178bf7a4f9dc766470b59a6a",
+    "zh:72e4cfef57c4811534081bc9337cef36383a712415b034b4552a83c21f06eede",
+    "zh:789b7fe69f1992a5fd1d920c53901ffadc4a3dfb5429cae8dd1b4caa8e6a37db",
+    "zh:bf282da07b6bbae6d4358b0191380dda1a5f13bb7c2c00464f4e386d557f2bc4",
+    "zh:ca5c29ace861b1042a8dd9eb22072a1866089df00c79f961c921be3d6d259a2a",
+    "zh:d648fdecfa2116c2c13c3be22f025f9ce30f929fb8edb7bde208d04904c253fb",
     "zh:d95ec293fa70e946b6cd657912b33155f8be3413e6128ed2bfa5a493f788e439",
-    "zh:e5eb9ffd00935f03ae97547bbd6a554e7b6b193b2a9e8ca1f820a226dceef88e",
-    "zh:fd2c4662c30c59f7bf9693b42faec43ef16d19986a79817497231dc0c7693db2",
-    "zh:fe9c54cec08f8c8bc9bd52bf724a5fae2539a644801353e6d79623a44fc537eb",
   ]
 }
