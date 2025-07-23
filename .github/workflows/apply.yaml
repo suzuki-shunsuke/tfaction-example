@@ -22,7 +22,7 @@ jobs:
         with:
           aqua_version: v2.53.6
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@fe01abc967d9c7a9889abbb8502e2947a1dfece3 # v1.17.0
+      - uses: suzuki-shunsuke/tfaction/list-targets@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
         id: list-targets
 
   apply:
@@ -149,7 +149,7 @@ jobs:
             ]
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction/setup@fe01abc967d9c7a9889abbb8502e2947a1dfece3 # v1.17.0
+        uses: suzuki-shunsuke/tfaction/setup@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
         with:
           github_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
@@ -199,7 +199,7 @@ jobs:
             ]
 
       - name: Apply
-        uses: suzuki-shunsuke/tfaction/apply@fe01abc967d9c7a9889abbb8502e2947a1dfece3 # v1.17.0
+        uses: suzuki-shunsuke/tfaction/apply@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
         with:
           github_token: ${{ steps.apply_token.outputs.token }}
         env:
@@ -225,12 +225,12 @@ jobs:
               "${{github.event.repository.name}}"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@fe01abc967d9c7a9889abbb8502e2947a1dfece3 # v1.17.0
+      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
         if: failure()
         with:
           github_token: ${{steps.follow_up_pr_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@fe01abc967d9c7a9889abbb8502e2947a1dfece3 # v1.17.0
+      - uses: suzuki-shunsuke/tfaction/update-drift-issue@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
         # CHECK: You can remove this step if you don't use drift detection
         if: always()
         with:
