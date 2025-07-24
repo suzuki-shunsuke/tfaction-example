@@ -146,14 +146,14 @@ jobs:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction/setup@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
+        uses: suzuki-shunsuke/tfaction/setup@ad9fde4cffa474f32a40490b736d6f94fe6ad620 # v1.18.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # CHECK: For GitHub Provider. You can remove this if you don't use GitHub Provider.
           TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # CHECK: For Hashicorp Cloud Backend. Please remove this if you don't use Hashicorp Cloud Backend.
 
-      - uses: suzuki-shunsuke/tfaction/get-target-config@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
+      - uses: suzuki-shunsuke/tfaction/get-target-config@ad9fde4cffa474f32a40490b736d6f94fe6ad620 # v1.18.1
         # CHECK: You can remove this step if you don't want to validate Terraform Providers
         id: target-config
       - name: Generate token (pull request write)
@@ -189,14 +189,14 @@ jobs:
           GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
       - name: Test
-        uses: suzuki-shunsuke/tfaction/test@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
+        uses: suzuki-shunsuke/tfaction/test@ad9fde4cffa474f32a40490b736d6f94fe6ad620 # v1.18.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and reviewdog and github-comment
 
       - name: Plan
-        uses: suzuki-shunsuke/tfaction/plan@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
+        uses: suzuki-shunsuke/tfaction/plan@ad9fde4cffa474f32a40490b736d6f94fe6ad620 # v1.18.1
         with:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
