@@ -56,7 +56,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@138c4eae9ff0db9d512d45fc83b6be9489fad188 # v1.18.0
+      - uses: suzuki-shunsuke/tfaction/list-targets@ad9fde4cffa474f32a40490b736d6f94fe6ad620 # v1.18.1
         id: list-targets
         with:
           github_token: ${{steps.generate_token.outputs.token}}
