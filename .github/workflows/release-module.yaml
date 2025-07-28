@@ -26,7 +26,7 @@ jobs:
           persist-credentials: false
       - uses: aquaproj/aqua-installer@d1fe50798dbadd4eb5b98957290ca175f6b4870f # v4.0.2
         with:
-          aqua_version: v2.53.6
+          aqua_version: v2.53.7
 
       - uses: suzuki-shunsuke/tfaction/release-module@ff86e9200d26a237d1f59953c554804920c27d2f # v1.18.2
         with:
