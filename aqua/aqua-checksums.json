@@ -1,28 +1,28 @@
 {
   "checksums": [
     {
-      "id": "github_release/github.com/koalaman/shellcheck/v0.10.0/shellcheck-v0.10.0.darwin.aarch64.tar.xz",
-      "checksum": "BBD2F14826328EEE7679DA7221F2BC3AFB011F6A928B848C80C321F6046DDF81",
+      "id": "github_release/github.com/koalaman/shellcheck/v0.11.0/shellcheck-v0.11.0.darwin.aarch64.tar.xz",
+      "checksum": "56AFFDD8DE5527894DCA6DC3D7E0A99A873B0F004D7AABC30AE407D3F48B0A79",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/koalaman/shellcheck/v0.10.0/shellcheck-v0.10.0.darwin.x86_64.tar.xz",
-      "checksum": "EF27684F23279D112D8AD84E0823642E43F838993BBB8C0963DB9B58A90464C2",
+      "id": "github_release/github.com/koalaman/shellcheck/v0.11.0/shellcheck-v0.11.0.darwin.x86_64.tar.xz",
+      "checksum": "3C89DB4EDCAB7CF1C27BFF178882E0F6F27F7AFDF54E859FA041FCA10FEBE4C6",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/koalaman/shellcheck/v0.10.0/shellcheck-v0.10.0.linux.aarch64.tar.xz",
-      "checksum": "324A7E89DE8FA2AED0D0C28F3DAB59CF84C6D74264022C00C22AF665ED1A09BB",
+      "id": "github_release/github.com/koalaman/shellcheck/v0.11.0/shellcheck-v0.11.0.linux.aarch64.tar.xz",
+      "checksum": "12B331C1D2DB6B9EB13CFCA64306B1B157A86EB69DB83023E261EAA7E7C14588",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/koalaman/shellcheck/v0.10.0/shellcheck-v0.10.0.linux.x86_64.tar.xz",
-      "checksum": "6C881AB0698E4E6EA235245F22832860544F17BA386442FE7E9D629F8CBEDF87",
+      "id": "github_release/github.com/koalaman/shellcheck/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz",
+      "checksum": "8C3BE12B05D5C177A04C29E3C78CE89AC86F1595681CAB149B65B97C4E227198",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/koalaman/shellcheck/v0.10.0/shellcheck-v0.10.0.zip",
-      "checksum": "EB6CD53A54EA97A56540E9D296CE7E2FA68715AA507FF23574646C1E12B2E143",
+      "id": "github_release/github.com/koalaman/shellcheck/v0.11.0/shellcheck-v0.11.0.zip",
+      "checksum": "8A4E35AB0B331C85D73567B12F2A444DF187F483E5079CEFFA6BDA1FAA2E740E",
       "algorithm": "sha256"
     },
     {
@@ -56,28 +56,28 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.6.0/opa_darwin_amd64",
-      "checksum": "B8448045BFE68A898BA517A8B363AD2523B390847CA635841ECA0A86117DCF73",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_darwin_amd64",
+      "checksum": "51DA8FA6CE4AC9B963D4BABBD78714E98880B20E74F30A3F45A96334E12830BD",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.6.0/opa_darwin_arm64_static",
-      "checksum": "5677598CFC4F4A5AE9DC3E3D67922F6479B6B76917A359BE68B2FA65351B0E3C",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_darwin_arm64_static",
+      "checksum": "FE2A14B6BA7F587CAEB62EF93EF62D1E713776A6E470F4E87326468A8ECFBFBD",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.6.0/opa_linux_amd64_static",
-      "checksum": "0DEB8A2D40FC5D75316530F50F63456A3000B20B50EF4158A81003B4AEBF4892",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_linux_amd64_static",
+      "checksum": "86CF5E8D189F5D56CC2B05A7920B557C61338AA088334AD2FB3F6DE0EC931F04",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.6.0/opa_linux_arm64_static",
-      "checksum": "540E7AA50BEB9DA7D0CF979BD485BF59E5BCA26FA90CE02D0B469F81A822B98E",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_linux_arm64_static",
+      "checksum": "A81AF8CD767F1870E9E23B8ED0AD8F40B24E5C0A64C5768C75D5C292AAA81E54",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.6.0/opa_windows_amd64.exe",
-      "checksum": "BFC0C7FEC18D7F690DFAECBAB3EC87758A899587A5125CADA3E0F1A5D58CE667",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_windows_amd64.exe",
+      "checksum": "205F87D0FD1E2673C3A6F9CAF9D9655290E478A93EEB3EF9F211ACDAA214A9CA",
       "algorithm": "sha256"
     },
     {
