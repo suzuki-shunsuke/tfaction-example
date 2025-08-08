@@ -1,2 +1,2 @@
 packages:
-- name: open-policy-agent/opa@v1.6.0
+- name: open-policy-agent/opa@v1.7.1
