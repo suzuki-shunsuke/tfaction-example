@@ -56,28 +56,28 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_darwin_amd64",
-      "checksum": "51DA8FA6CE4AC9B963D4BABBD78714E98880B20E74F30A3F45A96334E12830BD",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.8.0/opa_darwin_amd64",
+      "checksum": "7690C21FBCD2ED99606B5423002597A5C147330C8B276A020AC7AFF263768248",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_darwin_arm64_static",
-      "checksum": "FE2A14B6BA7F587CAEB62EF93EF62D1E713776A6E470F4E87326468A8ECFBFBD",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.8.0/opa_darwin_arm64_static",
+      "checksum": "43033787FB29F6CB4C90DD7AFB552883AC9D1BF2A652F9D4B694ECF73738FD7E",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_linux_amd64_static",
-      "checksum": "86CF5E8D189F5D56CC2B05A7920B557C61338AA088334AD2FB3F6DE0EC931F04",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.8.0/opa_linux_amd64_static",
+      "checksum": "1359B1BFF233FC0A290066E864C75B8158E52756319757B6854DF467FE7FC146",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_linux_arm64_static",
-      "checksum": "A81AF8CD767F1870E9E23B8ED0AD8F40B24E5C0A64C5768C75D5C292AAA81E54",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.8.0/opa_linux_arm64_static",
+      "checksum": "BFA757971D62CBD5C35322DFF2B837A2EF03EE587AF34E999E03FDD903D586E4",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.7.1/opa_windows_amd64.exe",
-      "checksum": "205F87D0FD1E2673C3A6F9CAF9D9655290E478A93EEB3EF9F211ACDAA214A9CA",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.8.0/opa_windows_amd64.exe",
+      "checksum": "6EE60D6EAFBAB591560989E30A990D39ED442C7C3F6E5E1A29F95144CCAA30E2",
       "algorithm": "sha256"
     },
     {
@@ -261,8 +261,8 @@
       "algorithm": "sha256"
     },
     {
-      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.407.0/registry.yaml",
-      "checksum": "42EAEACA57BFA53BD71C31B71249137B164C6335D001C50D6C4BB384C47E5E2DE24AF3E85D34801692B86F1C5212CA280CA2B81843F1A684C821820CA1703D38",
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.407.1/registry.yaml",
+      "checksum": "57A5F76CE42288F1E51AB1AD7DDD5E6ADC7B471167B312EDDC99B2B4CD51E6E7786B7E3E8885A7DB6ACEC92499AA723BA5007AEA4194A1710657BE170F95B223",
       "algorithm": "sha512"
     }
   ]
