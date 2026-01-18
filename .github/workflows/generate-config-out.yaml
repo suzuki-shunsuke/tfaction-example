@@ -35,7 +35,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
         with:
-          aqua_version: v2.56.3
+          aqua_version: v2.56.4
           working_directory: ${{env.TFACTION_WORKING_DIR}}
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
