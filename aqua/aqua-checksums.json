@@ -56,28 +56,28 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.12.2/opa_darwin_amd64",
-      "checksum": "7967158A4060917ACE95147F5DF216828DB1A9F74BA3733CD67FBE400CCE2463",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.12.3/opa_darwin_amd64",
+      "checksum": "7E73857730B3AE1DCAF26782884B40CB289B07E600D464B31FB274554A48EF90",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.12.2/opa_darwin_arm64_static",
-      "checksum": "E2B7DB8EA7068A762A6A9B91C6D059732A45540687550E5B14DBA49DD7FAEAC3",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.12.3/opa_darwin_arm64_static",
+      "checksum": "6696E04E2140400D93CE36BCE5C908B000D07DFDAB8FC30D08F5E744F6E29BBC",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.12.2/opa_linux_amd64_static",
-      "checksum": "A4BA8734ED95CEAAC850C12684A42467ED6B0DC9633A9DB8DD14D47D05E37751",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.12.3/opa_linux_amd64_static",
+      "checksum": "4BC84EB39209026AFE368B6B8A7BE3574C67CA5F98D61DD32532CB38426344E0",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.12.2/opa_linux_arm64_static",
-      "checksum": "3A09E3F40066723F9D13470C1FBA05EE3F012C2FE5E9DDEDAC91C6108BDC19CB",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.12.3/opa_linux_arm64_static",
+      "checksum": "99221C71193971105306CF1C63051C958C6CC3E9A9C293A2F9ED3080E9338BD8",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/open-policy-agent/opa/v1.12.2/opa_windows_amd64.exe",
-      "checksum": "020D77B16BB608393B3E0CFCADADAE887F929F0FE3F5EE8CAAEB1CB374A7800D",
+      "id": "github_release/github.com/open-policy-agent/opa/v1.12.3/opa_windows_amd64.exe",
+      "checksum": "6597CAE28764A366E4B368088A0E693586F76074B119954B5516E15654206B3D",
       "algorithm": "sha256"
     },
     {
