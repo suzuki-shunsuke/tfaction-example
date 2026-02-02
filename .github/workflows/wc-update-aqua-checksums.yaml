@@ -18,7 +18,7 @@ jobs:
     permissions:
       contents: read
     with:
-      aqua_version: v2.56.5
+      aqua_version: v2.56.6
       prune: true
       ref: ${{inputs.ref}}
     secrets:
