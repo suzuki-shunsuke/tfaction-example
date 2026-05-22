@@ -3,6 +3,8 @@ checksum:
   require_checksum: true
 registries:
   - type: standard
-    ref: v4.433.0 # renovate: depName=aquaproj/aqua-registry
+    ref: v4.515.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - import: imports/*.yaml
+  - name: aquasecurity/trivy@v0.70.0
+  - name: terraform-linters/tflint@v0.62.1
