@@ -22,8 +22,10 @@ jobs:
         with:
           aqua_version: v2.59.0
 
-      - uses: suzuki-shunsuke/tfaction/list-targets@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
+      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         id: list-targets
+        with:
+          action: list-targets
 
   apply:
     timeout-minutes: 30
@@ -40,6 +42,7 @@ jobs:
       TFACTION_TARGET: ${{matrix.target.target}}
       TFACTION_WORKING_DIR: ${{matrix.target.working_directory}}
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
+      TFACTION_SKIP_TERRAFORM: "${{matrix.target.skip_terraform}}"
     permissions:
       id-token: write # For OIDC
       contents: read # To checkout a private repository
@@ -71,15 +74,6 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
-      # - uses: suzuki-shunsuke/tfaction/export-secrets@v1.12.0
-      #   with:
-      #     # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
-      #     # If you use reusable workflows, maybe secrets aren't passed to the reusable workflow.
-      #     # If so, please pass secrets properly.
-      #     #
-      #     # - https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow
-      #     # - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
-      #     secrets: ${{ toJSON(secrets) }}
       - name: Generate token to download private Terraform Modules
         # CHECK: You can remove this step if you don't use private modules
         id: gh_setup_token
@@ -123,11 +117,11 @@ jobs:
             [
               "${{github.event.repository.name}}"
             ]
-      - run: tfaction get-or-create-drift-issue
+      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         # CHECK: You can remove this step if you don't use drift detection
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ steps.drift_issue_token.outputs.token }}
+        with:
+          action: get-or-create-drift-issue
+          github_token: ${{ steps.drift_issue_token.outputs.token }}
 
       - name: Generate token for setup
         id: setup_token
@@ -148,8 +142,16 @@ jobs:
             ]
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction/setup@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        id: setup
         with:
+          action: setup
+          github_token: ${{ steps.setup_token.outputs.token }}
+
+      - name: terraform init
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        with:
+          action: terraform-init
           github_token: ${{ steps.setup_token.outputs.token }}
 
       - uses: suzuki-shunsuke/lock-action@4a69996f86294a4eacc7450392eb70804b6543c4 # v0.2.0
@@ -195,8 +197,17 @@ jobs:
             ]
 
       - name: Apply
-        uses: suzuki-shunsuke/tfaction/apply@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
+        id: apply
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         with:
+          action: apply
+          github_token: ${{ steps.apply_token.outputs.token }}
+
+      - name: Update related PR branches
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        if: always()
+        with:
+          action: update-pr-branch
           github_token: ${{ steps.apply_token.outputs.token }}
 
       - name: Generate token for creating follow up pr
@@ -218,14 +229,16 @@ jobs:
               "${{github.event.repository.name}}"
             ]
 
-      - uses: suzuki-shunsuke/tfaction/create-follow-up-pr@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
+      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         if: failure()
         with:
+          action: create-follow-up-pr
           github_token: ${{steps.follow_up_pr_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/update-drift-issue@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
+      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         # CHECK: You can remove this step if you don't use drift detection
         if: always()
         with:
+          action: update-drift-issue
           status: ${{job.status}}
           github_token: ${{steps.drift_issue_token.outputs.token}}
