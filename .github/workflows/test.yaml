@@ -1,8 +1,8 @@
 ---
 name: pull_request_target
-on: pull_request_target
+on: pull_request
 concurrency:
-  group: ${{ github.workflow }}--${{ github.head_ref }} # github.ref is unavailable in case of pull_request_target
+  group: ${{ github.workflow }}--${{ github.ref }} # github.ref is unavailable in case of pull_request_target
   cancel-in-progress: true
 permissions: {}
 jobs:
