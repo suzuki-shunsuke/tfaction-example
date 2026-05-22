@@ -166,23 +166,6 @@ jobs:
             }
           repositories: >-
             ["${{github.event.repository.name}}"]
-      - name: Validate if disallowed Terraform Providers are used
-        # CHECK: You can remove this step if you don't want to validate Terraform Providers
-        run: |
-          set -euo pipefail
-          tfprovidercheck -v
-          github-comment exec -- terraform version -json | github-comment exec -- tfprovidercheck
-        working-directory: ${{ steps.target-config.outputs.working_directory }}
-        env:
-          # CHECK: Please modify the provider list.
-          TFPROVIDERCHECK_CONFIG_BODY: |
-            providers:
-              - name: registry.terraform.io/hashicorp/aws
-              - name: registry.terraform.io/hashicorp/google
-              - name: registry.terraform.io/hashicorp/null
-              - name: registry.terraform.io/hashicorp/tls
-              - name: registry.terraform.io/integrations/github
-          GITHUB_TOKEN: ${{steps.pull_request_token.outputs.token}} # For github-comment
 
       - name: Test
         uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
