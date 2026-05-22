@@ -201,36 +201,6 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.7/tfprovidercheck_darwin_amd64.tar.gz",
-      "checksum": "A72CD3322E3BCA105752E43C61D7B3A88C1C7A5436451D02B45AAD4AFEEE98BF",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.7/tfprovidercheck_darwin_arm64.tar.gz",
-      "checksum": "C95E787C3ADE838FFD03236F46C554BE159E7910E0AEB80914BD726DAFD762D3",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.7/tfprovidercheck_linux_amd64.tar.gz",
-      "checksum": "359F87994FEECDB3E5F2F53FAB81EE06F793395714C17EA5E310925EA494585A",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.7/tfprovidercheck_linux_arm64.tar.gz",
-      "checksum": "809DA89AB4AC255DEA24A1F8DC929B6CD4FD27D61559DBF1969690F9FCA45DFE",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.7/tfprovidercheck_windows_amd64.zip",
-      "checksum": "25669F68FC1741176EF2D1F4A4EAFE71DA72E3E93F4A1850BAE969E642348BEF",
-      "algorithm": "sha256"
-    },
-    {
-      "id": "github_release/github.com/suzuki-shunsuke/tfprovidercheck/v1.0.7/tfprovidercheck_windows_arm64.zip",
-      "checksum": "B42850199F3E5D4087A77928326F24C75D74370BBE771AE03CEAE178805E80E5",
-      "algorithm": "sha256"
-    },
-    {
       "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.433.0/registry.yaml",
       "checksum": "731B0130B2222F170D38E9F03223A286BFFF02043B5B17E46E15569A7CFF5D0F0D149C7120BEEF32BCBF0A2285543AA379BF3A6F67DEC6FC91091B9AA0A0826D",
       "algorithm": "sha512"

@@ -5,10 +5,7 @@ label_prefixes:
 # skip_create_pr: true
 
 available_providers:
-  - name: registry.terraform.io/hashicorp/aws
-  - name: registry.terraform.io/hashicorp/google
   - name: registry.terraform.io/hashicorp/null
-  - name: registry.terraform.io/hashicorp/tls
   - name: registry.terraform.io/integrations/github
 
 replace_target:
