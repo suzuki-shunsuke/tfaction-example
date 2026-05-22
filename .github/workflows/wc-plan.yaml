@@ -14,9 +14,6 @@ on:
         required: true
       gh_app_private_key:
         required: true
-      TFE_TOKEN:
-        # CHECK: Please remove this if you don't use Hashicorp Cloud Backend.
-        required: true
 
 jobs:
   plan:
@@ -64,7 +61,6 @@ jobs:
           aqua_version: v2.59.0
         env:
           AQUA_GITHUB_TOKEN: ${{steps.aqua_installer_token.outputs.token}}
-
 
       # - uses: suzuki-shunsuke/tfaction/export-secrets@v1.12.0
       #   with:
@@ -151,7 +147,6 @@ jobs:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # CHECK: For GitHub Provider. You can remove this if you don't use GitHub Provider.
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # CHECK: For Hashicorp Cloud Backend. Please remove this if you don't use Hashicorp Cloud Backend.
 
       - uses: suzuki-shunsuke/tfaction/get-target-config@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
         # CHECK: You can remove this step if you don't want to validate Terraform Providers
@@ -201,5 +196,3 @@ jobs:
           github_token: ${{steps.generate_token.outputs.token}}
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}} # For GitHub Provider and tfcmt and github-comment
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # CHECK: For Hashicorp Cloud Backend. Please remove this if you don't use Hashicorp Cloud Backend.
-          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # CHECK: For tfe provider. Please remove this if you don't use Hashicorp Cloud Backend.

@@ -7,8 +7,6 @@ on:
         required: true
       gh_app_private_key:
         required: true
-      TFE_TOKEN:
-        required: false
       terraform_private_module_ssh_key:
         required: false
 permissions: {}
@@ -92,7 +90,6 @@ jobs:
       gh_app_id: ${{secrets.gh_app_id}}
       gh_app_private_key: ${{secrets.gh_app_private_key}}
       terraform_private_module_ssh_key: ${{secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY}}
-      TFE_TOKEN: ${{secrets.TFE_TOKEN}}
 
   update-aqua-checksums:
     uses: ./.github/workflows/wc-update-aqua-checksums.yaml

@@ -13,11 +13,9 @@ on:
         required: false
       terraform_private_module_ssh_key: # This isn't needed if you don't use SSH key to checkout private Terraform Modules
         required: false
-      TFE_TOKEN:
-        required: false
 
 env:
-  TFACTION_IS_APPLY: 'false'
+  TFACTION_IS_APPLY: "false"
   GH_COMMENT_SHA1: ${{inputs.ref}}
   TFCMT_SHA: ${{inputs.ref}}
 
@@ -59,7 +57,6 @@ jobs:
     secrets:
       gh_app_id: ${{secrets.gh_app_id}}
       gh_app_private_key: ${{secrets.gh_app_private_key}}
-      TFE_TOKEN: ${{secrets.TFE_TOKEN}}
     permissions:
       id-token: write
       contents: read
