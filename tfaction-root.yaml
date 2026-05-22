@@ -1,8 +1,20 @@
 ---
-plan_workflow_name: pull_request_target # Mandatory
+plan_workflow_name: test.yaml # Mandatory
 label_prefixes:
   tfmigrate: "migrate:"
 # skip_create_pr: true
+
+available_providers:
+  - name: registry.terraform.io/hashicorp/aws
+  - name: registry.terraform.io/hashicorp/google
+  - name: registry.terraform.io/hashicorp/null
+  - name: registry.terraform.io/hashicorp/tls
+  - name: registry.terraform.io/integrations/github
+
+replace_target:
+  patterns:
+    - regexp: /services/
+      replace: /
 
 drift_detection:
   # issue_repo_owner:
@@ -13,10 +25,13 @@ drift_detection:
 tflint:
   enabled: true
   fix: true # Auto fix by tflint --fix
-# tfsec:
-#   enabled: false
 # trivy:
 #   enabled: true
+
+conftest:
+  policies:
+    - policy: policy
+      plan: true
 
 # scaffold_working_directory:
 #   skip_adding_aqua_packages: true
@@ -29,10 +44,9 @@ aqua:
     prune: true # default is false
 
 target_groups:
-  - working_directory: github/services/
-    target: github/
+  - working_directory: github/services/**
     aws_region: ap-northeast-1 # CHANGEME Fix the region if necessary
-    s3_bucket_name_tfmigrate_history: '<S3 Bucket Name for tfmigrate history files>' # CHANGEME
+    s3_bucket_name_tfmigrate_history: "<S3 Bucket Name for tfmigrate history files>" # CHANGEME
     template_dir: templates/github
     # terraform_plan_config:
     #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_plan # CHANGEME
@@ -42,7 +56,3 @@ target_groups:
     #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply # CHANGEME
     # tfmigrate_apply_config:
     #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply # CHANGEME
-
-  - working_directory: tfe/
-    target: tfe/
-    template_dir: templates/tfe

@@ -55,15 +55,23 @@ jobs:
           repositories: >-
             ["${{github.event.repository.name}}"]
 
-      - uses: suzuki-shunsuke/tfaction/setup@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
+      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         id: setup
         with:
+          action: setup
           github_token: ${{steps.generate_token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction/generate-config-out@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
+      - name: terraform init
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        with:
+          action: terraform-init
+          github_token: ${{steps.generate_token.outputs.token}}
+
+      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
         with:
+          action: generate-config-out
           github_token: ${{steps.generate_token.outputs.token}}
           branch: ${{inputs.branch}}
           file: ${{inputs.file}}
