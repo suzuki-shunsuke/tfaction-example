@@ -71,7 +71,6 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{ steps.aqua_installer_token.outputs.token }}
 
-
       # - uses: suzuki-shunsuke/tfaction/export-secrets@v1.12.0
       #   with:
       #     # If this action doesn't export secrets as you expect, please check if secrets are passed to this action properly.
@@ -153,8 +152,6 @@ jobs:
         with:
           github_token: ${{ steps.setup_token.outputs.token }}
           ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-        env:
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}}
 
       - uses: suzuki-shunsuke/lock-action@4a69996f86294a4eacc7450392eb70804b6543c4 # v0.2.0
         # CHECK: You can remove this step if you don't want lock mechanism
@@ -202,9 +199,6 @@ jobs:
         uses: suzuki-shunsuke/tfaction/apply@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
         with:
           github_token: ${{ steps.apply_token.outputs.token }}
-        env:
-          TF_TOKEN_app_terraform_io: ${{secrets.TFE_TOKEN}} # For Hashicorp Cloud Backend
-          TFE_TOKEN: ${{secrets.TFE_TOKEN}} # For tfe provider
 
       - name: Generate token for creating follow up pr
         id: follow_up_pr_token
