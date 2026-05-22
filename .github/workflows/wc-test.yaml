@@ -11,8 +11,6 @@ on:
         required: false
       gh_app_private_key:
         required: false
-      terraform_private_module_ssh_key: # This isn't needed if you don't use SSH key to checkout private Terraform Modules
-        required: false
 
 env:
   TFACTION_IS_APPLY: "false"

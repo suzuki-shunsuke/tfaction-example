@@ -151,7 +151,6 @@ jobs:
         uses: suzuki-shunsuke/tfaction/setup@4562d910bbacecf384c8aeda25332284fcf05f38 # v1.20.1
         with:
           github_token: ${{ steps.setup_token.outputs.token }}
-          ssh_key: ${{ secrets.TERRAFORM_PRIVATE_MODULE_SSH_KEY }} # This isn't needed if you don't use SSH key to checkout private Terraform Modules
 
       - uses: suzuki-shunsuke/lock-action@4a69996f86294a4eacc7450392eb70804b6543c4 # v0.2.0
         # CHECK: You can remove this step if you don't want lock mechanism
