@@ -22,8 +22,8 @@ drift_detection:
 tflint:
   enabled: true
   fix: true # Auto fix by tflint --fix
-# trivy:
-#   enabled: true
+trivy:
+  enabled: true
 
 conftest:
   policies:
