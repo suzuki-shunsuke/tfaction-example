@@ -25,6 +25,7 @@ target_groups:
     #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_plan # CHANGEME
     # tfmigrate_apply_config:
     #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply # CHANGEME
+  - working_directory: test/**
 
 # Optional
 
