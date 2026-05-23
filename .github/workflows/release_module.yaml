@@ -1,5 +1,6 @@
 ---
 # This workflow is optional
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/module
 name: Release a Terraform Module
 run-name: Release a Terraform Module (${{inputs.module_path}} ${{inputs.version}})
 on:
@@ -15,9 +16,9 @@ env:
   TFACTION_TARGET: ${{github.event.inputs.module_path}}
 jobs:
   release-module:
-    timeout-minutes: 30
+    timeout-minutes: 10
     name: "release-module (${{github.event.inputs.module_path}})"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write # To create a release
     steps:

@@ -1,0 +1,25 @@
+# This workflow is optional.
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
+name: Synchronize drift issue description
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  sync-issue:
+    timeout-minutes: 10
+    runs-on: ubuntu-slim
+    # CHECK: PLEASE CHANGE github.actor
+    if: |
+      !github.event.issue.pull_request &&
+      startsWith(github.event.issue.title, 'Terraform Drift (') && endsWith(github.event.issue.title, ')') &&
+      github.actor == 'suzuki-shunsuke'
+    permissions:
+      issues: write
+    steps:
+      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
+        with:
+          action: sync-drift-issue-description

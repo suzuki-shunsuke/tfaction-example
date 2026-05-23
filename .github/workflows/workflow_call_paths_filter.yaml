@@ -1,0 +1,56 @@
+---
+name: Path filter
+on:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        required: false
+    outputs:
+      update-aqua-checksums:
+        value: ${{jobs.path-filter.outputs.update-aqua-checksums}}
+      renovate-config-validator:
+        value: ${{jobs.path-filter.outputs.renovate-config-validator}}
+      conftest-verify:
+        value: ${{jobs.path-filter.outputs.conftest-verify}}
+      opa-fmt:
+        value: ${{jobs.path-filter.outputs.opa-fmt}}
+
+jobs:
+  path-filter:
+    # Get changed files to filter jobs
+    timeout-minutes: 10
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
+      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
+      conftest-verify: ${{steps.changes.outputs.conftest-verify}}
+      opa-fmt: ${{steps.changes.outputs.opa-fmt}}
+    steps:
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: changes
+        with:
+          filters: |
+            update-aqua-checksums:
+              - aqua/**
+              - .github/workflows/test.yaml
+              - .github/workflows/workflow_call_update_aqua_checksums.yaml
+
+            renovate-config-validator:
+              - renovate.json5
+              - .github/workflows/test.yaml
+              - .github/workflows/workflow_call_renovate_config_validator.yaml
+
+            conftest-verify:
+              - "**.rego"
+              - aqua/imports/conftest.yaml
+              - .github/workflows/workflow_call_conftest_verify.yaml
+              - .github/workflows/test.yaml
+
+            opa-fmt:
+              - "**.rego"
+              - .github/workflows/workflow_call_opa_fmt.yaml
+              - .github/workflows/test.yaml
+              - aqua/imports/opa.yaml

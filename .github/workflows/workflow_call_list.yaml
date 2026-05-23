@@ -1,0 +1,46 @@
+---
+name: List Changed Modules
+on:
+  workflow_call:
+    inputs:
+      is_apply:
+        type: boolean
+        default: false
+    secrets:
+      APP_PRIVATE_KEY:
+        required: true
+    outputs:
+      targets:
+        description: targets
+        value: ${{jobs.list.outputs.targets}}
+      modules:
+        description: targets
+        value: ${{jobs.list.outputs.modules}}
+jobs:
+  list:
+    timeout-minutes: 15
+    permissions:
+      contents: read # For checkout a private repository
+      pull-requests: write # Delete comments and get PR changed files
+    runs-on: ubuntu-slim
+    env:
+      TFACTION_IS_APPLY: ${{inputs.is_apply}}
+    outputs:
+      targets: ${{steps.list-targets.outputs.targets}}
+      modules: ${{steps.list-targets.outputs.modules}}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Delete old comments
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/hide-or-delete-old-comment
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        with:
+          action: delete-comment
+
+      - name: List Changed Modules
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        id: list-targets
+        with:
+          action: list-targets
