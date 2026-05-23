@@ -44,6 +44,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      pull-requests: write
     secrets:
       APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
 
