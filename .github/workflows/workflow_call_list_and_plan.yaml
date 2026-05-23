@@ -10,7 +10,7 @@ jobs:
   list:
     uses: ./.github/workflows/workflow_call_list.yaml
     with:
-      is_apply: "false"
+      is_apply: false
     secrets:
       APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
     permissions:
