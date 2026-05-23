@@ -1,8 +1,10 @@
 package main
 
+import rego.v1
+
 import data.tfaction
 
-deny_gcs_backend_prefix[msg] {
+deny_gcs_backend_prefix contains msg if {
 	file := input[_]
 	prefix := file.contents.terraform[_].backend.gcs.prefix
 	prefix != concat("", [tfaction.working_directory, "/v1"])
