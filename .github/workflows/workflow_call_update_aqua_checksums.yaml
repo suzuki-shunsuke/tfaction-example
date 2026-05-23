@@ -4,7 +4,7 @@ on:
   workflow_call:
     secrets:
       APP_PRIVATE_KEY:
-        required: false
+        required: true
 jobs:
   update-aqua-checksums:
     # Update aqua-checksums.json and push a commit
@@ -16,4 +16,4 @@ jobs:
       prune: true
     secrets:
       gh_app_id: ${{vars.APP_ID}}
-      APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
