@@ -24,7 +24,7 @@ jobs:
       TFACTION_JOB_TYPE: ${{matrix.target.job_type}}
       TFACTION_SKIP_TERRAFORM: "${{matrix.target.skip_terraform}}"
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         target: ${{fromJSON(inputs.targets)}}
     steps:
