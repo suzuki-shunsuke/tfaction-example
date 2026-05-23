@@ -1,5 +1,6 @@
 ---
 # This workflow is optional
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/terraform-plan-generate-config-out
 name: Generate code by terraform plan -generate-config-out
 run-name: Generate code by terraform plan -generate-config-out (${{inputs.working_dir}})
 on:
@@ -40,38 +41,33 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+      - name: Generate a GitHub access token
+        id: token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
         with:
-          app_id: ${{secrets.APP_ID}}
-          private_key: ${{secrets.APP_PRIVATE_KEY}}
-          # contents:write - Push commits
-          permissions: >-
-            {
-              "pull_requests": "write",
-              "contents": "write"
-            }
-          repositories: >-
-            ["${{github.event.repository.name}}"]
+          client-id: ${{ vars.CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write # Push commits
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - name: Set up
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         id: setup
         with:
           action: setup
-          github_token: ${{steps.generate_token.outputs.token}}
+          github_token: ${{steps.token.outputs.token}}
 
       - name: terraform init
         uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         with:
           action: terraform-init
-          github_token: ${{steps.generate_token.outputs.token}}
+          github_token: ${{steps.token.outputs.token}}
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
-        env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+      - name: Generate and push generated code by terraform plan -generate-config-out
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/terraform-plan-generate-config-out
+        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         with:
           action: generate-config-out
-          github_token: ${{steps.generate_token.outputs.token}}
+          # contents: write - push a commit
+          github_token: ${{steps.token.outputs.token}}
           branch: ${{inputs.branch}}
           file: ${{inputs.file}}

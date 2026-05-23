@@ -1,0 +1,24 @@
+---
+# This workflow is optional.
+name: conftest verify
+on: workflow_call
+jobs:
+  conftest-verify:
+    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Install conftest and github-comment
+        uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
+        with:
+          aqua_version: v2.59.0
+
+      - name: conftest verify
+        run: github-comment exec -- conftest verify --no-color -p policy/terraform
+        env:
+          GITHUB_TOKEN: ${{github.token}}

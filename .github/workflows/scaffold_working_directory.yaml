@@ -1,4 +1,5 @@
 ---
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/scaffold-working-directory
 name: Scaffold a working directory
 run-name: Scaffold a working directory (${{inputs.working_dir}})
 on:
@@ -12,7 +13,7 @@ env:
 jobs:
   scaffold:
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
@@ -24,26 +25,21 @@ jobs:
           aqua_version: v2.59.0
 
       - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/scaffold-working-directory
         with:
           action: scaffold-working-dir
 
-      - name: Generate token
+      - name: Generate a GitHub access token
         id: generate_token
-        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-          # pull_requests:write - Create pull requests
-          # contents:write - Push commits
-          permissions: >-
-            {
-              "pull_requests": "write",
-              "contents": "write"
-            }
-          repositories: >-
-            ["${{github.event.repository.name}}"]
+          client-id: ${{ vars.CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write # Push a commit
+          permission-pull-requests: write # Create a pull request
 
       - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/scaffold-working-directory
         with:
           action: create-scaffold-pr
           github_token: ${{ steps.generate_token.outputs.token }}

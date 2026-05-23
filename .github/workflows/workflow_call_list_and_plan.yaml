@@ -1,0 +1,30 @@
+---
+name: test
+on:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        required: false
+
+jobs:
+  list:
+    uses: ./.github/workflows/workflow_call_list.yaml
+    with:
+      is_apply: "false"
+    secrets:
+      APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
+    permissions:
+      contents: read
+
+  plan:
+    uses: ./.github/workflows/workflow_call_plan.yaml
+    needs: list
+    # if services is empty, the build job is skipped
+    if: "join(fromJSON(needs.list.outputs.targets), '') != ''"
+    with:
+      targets: ${{needs.list.outputs.targets}}
+    secrets:
+      APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
+    permissions:
+      id-token: write
+      contents: read
