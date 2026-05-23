@@ -28,10 +28,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Generate token for creating follow up pr
-        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/follow-up-pr
-        id: generate_token
-        if: failure()
+      - name: Generate token
+        id: token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           client-id: ${{ vars.CLIENT_ID }}
@@ -42,13 +40,11 @@ jobs:
       - uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
         with:
           aqua_version: v2.59.0
-        env:
-          GITHUB_TOKEN: ${{github.token}}
 
       - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/tfmigrate
         with:
           action: scaffold-tfmigrate
-          github_token: ${{steps.generate_token.outputs.token}}
+          github_token: ${{steps.token.outputs.token}}
           migration_name: ${{github.event.inputs.migration_name}}
           pr_number: ${{inputs.pr_number}}
