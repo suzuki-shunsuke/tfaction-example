@@ -28,7 +28,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         id: pick-out-drift-issues
         with:
@@ -60,31 +60,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
           action: set-drift-env
           issue: ${{toJSON(matrix.issue)}}
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         id: setup
         with:
           action: setup
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         with:
           action: terraform-init
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         with:
           action: test
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         with:
           action: plan
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         if: always()
         with:

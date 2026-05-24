@@ -50,21 +50,21 @@ jobs:
           permission-contents: write # Push commits
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         id: setup
         with:
           action: setup
           github_token: ${{steps.token.outputs.token}}
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         with:
           action: terraform-init
           github_token: ${{steps.token.outputs.token}}
 
       - name: Generate and push generated code by terraform plan -generate-config-out
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/terraform-plan-generate-config-out
-        uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+        uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         with:
           action: generate-config-out
           # contents: write - push a commit
