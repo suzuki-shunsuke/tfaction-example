@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
       - uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
         with:
-          aqua_version: v2.59.0
+          aqua_version: v2.59.1
 
       - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
         id: list-targets
@@ -55,7 +55,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
         with:
-          aqua_version: v2.59.0
+          aqua_version: v2.59.1
 
       - name: Set up git to checkout private Terraform Modules
         run: gh auth setup-git
