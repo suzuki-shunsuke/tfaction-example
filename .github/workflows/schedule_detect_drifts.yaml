@@ -28,7 +28,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
+      - uses: suzuki-shunsuke/tfaction@5d2ecf0f4898a0b3ecc6b536e9a3f4691f46bfad # v2.0.0
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         id: pick-out-drift-issues
         with:
@@ -60,31 +60,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
+      - uses: suzuki-shunsuke/tfaction@5d2ecf0f4898a0b3ecc6b536e9a3f4691f46bfad # v2.0.0
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
           action: set-drift-env
           issue: ${{toJSON(matrix.issue)}}
 
-      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
+      - uses: suzuki-shunsuke/tfaction@5d2ecf0f4898a0b3ecc6b536e9a3f4691f46bfad # v2.0.0
         id: setup
         with:
           action: setup
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
+        uses: suzuki-shunsuke/tfaction@5d2ecf0f4898a0b3ecc6b536e9a3f4691f46bfad # v2.0.0
         with:
           action: terraform-init
 
-      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
+      - uses: suzuki-shunsuke/tfaction@5d2ecf0f4898a0b3ecc6b536e9a3f4691f46bfad # v2.0.0
         with:
           action: test
 
-      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
+      - uses: suzuki-shunsuke/tfaction@5d2ecf0f4898a0b3ecc6b536e9a3f4691f46bfad # v2.0.0
         with:
           action: plan
 
-      - uses: suzuki-shunsuke/tfaction@e73362800a67d5f85079894929acf7251cf5dbea # v2.0.0-9
+      - uses: suzuki-shunsuke/tfaction@5d2ecf0f4898a0b3ecc6b536e9a3f4691f46bfad # v2.0.0
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         if: always()
         with:
