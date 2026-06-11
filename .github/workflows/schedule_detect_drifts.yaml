@@ -28,7 +28,7 @@ jobs:
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+      - uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         id: pick-out-drift-issues
         with:
@@ -60,31 +60,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
 
-      - uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+      - uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
           action: set-drift-env
           issue: ${{toJSON(matrix.issue)}}
 
-      - uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+      - uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         id: setup
         with:
           action: setup
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         with:
           action: terraform-init
 
-      - uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+      - uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         with:
           action: test
 
-      - uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+      - uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         with:
           action: plan
 
-      - uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+      - uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         if: always()
         with:

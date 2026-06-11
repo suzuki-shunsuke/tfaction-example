@@ -22,7 +22,7 @@ jobs:
         with:
           aqua_version: v2.60.0
 
-      - uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+      - uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         id: list-targets
         with:
           action: list-targets
@@ -66,7 +66,7 @@ jobs:
           GH_HOST: github.com
 
       - name: Get or create a drift issue
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         # CHECK: You can remove this step if you don't use drift detection
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
@@ -83,7 +83,7 @@ jobs:
           permission-pull-requests: write
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         id: setup
         with:
           action: setup
@@ -91,21 +91,21 @@ jobs:
           github_token: ${{ steps.token.outputs.token }}
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         with:
           # pull-requests:write
           action: terraform-init
 
       - name: Apply
         id: apply
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         with:
           # pull-requests:write
           action: apply
 
       - name: Update related PR branches
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/update-pr-branch
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         if: always()
         with:
           action: update-pr-branch
@@ -116,7 +116,7 @@ jobs:
       - name: Create follow up PR
         if: failure()
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/follow-up-pr
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         with:
           action: create-follow-up-pr
           # pull-requests:write
@@ -127,7 +127,7 @@ jobs:
         if: always()
         # CHECK: You can remove this step if you don't use drift detection
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
-        uses: suzuki-shunsuke/tfaction@6ad59de70ee7e9c0a11c665c4439b5c148c74328 # v2.0.1
+        uses: suzuki-shunsuke/tfaction@92afb0ac879cf9c560fe1160a9bbde50b11ff119 # v2.0.2
         with:
           action: update-drift-issue
           status: ${{job.status}}
