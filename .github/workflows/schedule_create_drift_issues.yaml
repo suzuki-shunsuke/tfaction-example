@@ -21,7 +21,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
         with:
-          aqua_version: v2.60.0
+          aqua_version: v2.60.1
 
       - uses: suzuki-shunsuke/tfaction@45bd9d6d7f1c396b5f1ca6f4d31dd8247e812539 # v2.0.3
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
