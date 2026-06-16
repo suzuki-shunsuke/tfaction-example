@@ -16,7 +16,7 @@ jobs:
       - name: Install conftest and github-comment
         uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
         with:
-          aqua_version: v2.60.0
+          aqua_version: v2.60.1
 
       - name: conftest verify
         run: github-comment exec -- conftest verify --no-color -p policy/terraform
