@@ -1,5 +1,6 @@
 ---
 # This workflow is optional
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/module
 name: Release a Terraform Module
 run-name: Release a Terraform Module (${{inputs.module_path}} ${{inputs.version}})
 on:
@@ -15,20 +16,20 @@ env:
   TFACTION_TARGET: ${{github.event.inputs.module_path}}
 jobs:
   release-module:
-    timeout-minutes: 30
+    timeout-minutes: 10
     name: "release-module (${{github.event.inputs.module_path}})"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write # To create a release
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
+      - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
         with:
-          aqua_version: v2.59.0
+          aqua_version: v2.60.2
 
-      - uses: suzuki-shunsuke/tfaction@f24a40308c268d6597a72eab8da2edf9cc87da1d # v2.0.0-8
+      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
         with:
           action: release-module
           version: ${{ github.event.inputs.version }}

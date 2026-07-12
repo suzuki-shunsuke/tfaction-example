@@ -1,37 +1,122 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/suzuki-shunsuke/tfaction/refs/heads/latest/schema/tfaction-root.json
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/json-schema
+
+# Required
+
 plan_workflow_name: test.yaml # Mandatory
-label_prefixes:
-  tfmigrate: "migrate:"
-# skip_create_pr: true
 
 available_providers:
   - name: registry.terraform.io/hashicorp/null
   - name: registry.terraform.io/integrations/github
 
+target_groups:
+  - working_directory: github/services/**
+    aws_region: ap-northeast-1 # CHANGEME Fix the region if necessary
+    s3_bucket_name_tfmigrate_history: "<S3 Bucket Name for tfmigrate history files>" # CHANGEME
+    template_dir: templates/github
+    # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/aws
+    # terraform_plan_config:
+    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_plan # CHANGEME
+    # terraform_apply_config:
+    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply # CHANGEME
+    # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/tfmigrate
+    # tfmigrate_plan_config:
+    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_plan # CHANGEME
+    # tfmigrate_apply_config:
+    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply # CHANGEME
+  - working_directory: test/**
+
+# Optional
+
+test_workflow:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/test-workflow
+  only_plan:
+    working_directories:
+      # If no working directories are modified, plan is run on the directories specified here.
+      # apply is NOT run on these directories.
+      - test/only_plan
+    changed_files:
+      # Run plan-only workflow tests when these files are changed
+      - .github/workflows/workflow_call_list_and_plan.yaml
+      - .github/workflows/workflow_call_list.yaml
+      - .github/workflows/workflow_call_plan.yaml
+  plan_and_apply:
+    working_directories:
+      # If no working directories are modified, plan and apply are run on the directories specified here
+      - test/plan_and_apply
+    changed_files:
+      # Run plan-and-apply workflow tests when these files are changed
+      - .github/workflows/apply.yaml
+
+label_prefixes:
+  tfmigrate: "migrate:"
+
+limit_changed_dirs:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/limit-max-changed-dirs
+  working_dirs: 5 # Upper limit for root modules
+  modules: 5 # Upper limit for modules
+
+auto_apps:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/auto-app
+  logins:
+    - "renovate[bot]"
+    - "dependabot[bot]"
+
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/opentofu-terragrunt
+terraform_command: terraform
+
+skip_terraform_files:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/skip-terraform
+  - "**/*.md" # Ignore markdown edits. Paths are relative to each working directory
+  - "!README.md" # Do not ignore README.md at the working directory root
+
+# csm_actions:
+#   # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/csm-actions
+#   server_repository: csm-actions-server
+#   pull_request:
+#     base_branch: main
+
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/skip-create-pr
+skip_create_pr: false
+
 replace_target:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/target
   patterns:
     - regexp: /services/
       replace: /
 
 drift_detection:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
   # issue_repo_owner:
   # issue_repo_name:
   minimum_detection_interval: 120 # 120 hours (5 days)
   num_of_issues: 3 # 3 working directories are checked per workflow run. By default 1 working directory is checked.
 
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/lint
 tflint:
   enabled: true
   fix: true # Auto fix by tflint --fix
 trivy:
   enabled: true
 
+dismiss_approval_before_plan:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/dismiss-approval-before-plan
+  enabled: true # true by default
+  skip_app_no_change: true # true by default
+
 conftest:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/lint
   policies:
     - policy: policy
       plan: true
 
-# scaffold_working_directory:
-#   skip_adding_aqua_packages: true
+update_local_path_module_caller:
+  # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/detect-module-dependency
+  enabled: false
+
+scaffold_working_directory:
+  skip_adding_aqua_packages: false
 
 aqua:
   update_checksum:
@@ -39,17 +124,3 @@ aqua:
     enabled: true # default is false
     skip_push: false # default is false
     prune: true # default is false
-
-target_groups:
-  - working_directory: github/services/**
-    aws_region: ap-northeast-1 # CHANGEME Fix the region if necessary
-    s3_bucket_name_tfmigrate_history: "<S3 Bucket Name for tfmigrate history files>" # CHANGEME
-    template_dir: templates/github
-    # terraform_plan_config:
-    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_plan # CHANGEME
-    # tfmigrate_plan_config:
-    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_plan # CHANGEME
-    # terraform_apply_config:
-    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_terraform_apply # CHANGEME
-    # tfmigrate_apply_config:
-    #   aws_assume_role_arn: arn:aws:iam::000000000000:role/GitHubActions_Terraform_github_tfmigrate_apply # CHANGEME

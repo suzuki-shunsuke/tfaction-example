@@ -1,0 +1,34 @@
+---
+# This workflow is optional.
+name: opa-fmt
+on:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        required: true
+jobs:
+  opa-fmt:
+    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read # To checkout private repositories
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Generate token
+        id: token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write # Push commits
+
+      - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
+        with:
+          aqua_version: v2.60.2
+
+      - uses: suzuki-shunsuke/github-action-opa-fmt@59d2b3726741e2aeb3fc96ba2cbdfd05ae879f28 # v0.1.0
+        with:
+          github_token: ${{steps.token.outputs.token}}

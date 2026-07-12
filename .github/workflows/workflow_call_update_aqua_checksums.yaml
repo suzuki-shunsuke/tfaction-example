@@ -1,0 +1,19 @@
+---
+name: update-aqua-checksums
+on:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        required: true
+jobs:
+  update-aqua-checksums:
+    # Update aqua-checksums.json and push a commit
+    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@d3ab3ae1f9db2320a23efeaf9baaafeaae45af56 # v1.0.6
+    permissions:
+      contents: read
+    with:
+      aqua_version: v2.60.2
+      prune: true
+    secrets:
+      gh_app_id: ${{vars.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
