@@ -3,99 +3,56 @@ name: test (workflow_call)
 on:
   workflow_call:
     secrets:
-      gh_app_id:
-        required: true
-      gh_app_private_key:
+      APP_PRIVATE_KEY:
         required: true
 permissions: {}
 jobs:
-  path-filter:
-    uses: ./.github/workflows/wc-path-filter.yaml
-    permissions: {}
-    secrets:
-      gh_app_id: ${{secrets.gh_app_id}}
-      gh_app_private_key: ${{secrets.gh_app_private_key}}
+  paths-filter:
+    uses: ./.github/workflows/workflow_call_paths_filter.yaml
+    permissions:
+      contents: read
+      pull-requests: read
 
   conftest-verify:
-    uses: ./.github/workflows/wc-conftest-verify.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.conftest-verify == 'true'
-    permissions:
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.gh_app_id}}
-      gh_app_private_key: ${{secrets.gh_app_private_key}}
-
-  ghalint:
-    uses: ./.github/workflows/wc-ghalint.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.ghalint == 'true'
-    permissions:
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.gh_app_id}}
-      gh_app_private_key: ${{secrets.gh_app_private_key}}
-
-  hide-comment:
-    uses: ./.github/workflows/wc-hide-comment.yaml
-    needs: path-filter
-    permissions:
-      contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
-    secrets:
-      gh_app_id: ${{secrets.gh_app_id}}
-      gh_app_private_key: ${{secrets.gh_app_private_key}}
-
-  opa-fmt:
-    uses: ./.github/workflows/wc-opa-fmt.yaml
-    needs: path-filter
-    if: |
-      needs.path-filter.outputs.opa-fmt == 'true'
+    uses: ./.github/workflows/workflow_call_conftest_verify.yaml
+    needs: paths-filter
+    if: needs.paths-filter.outputs.conftest-verify == 'true'
     permissions:
       contents: read
       pull-requests: write
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
+
+  opa-fmt:
+    uses: ./.github/workflows/workflow_call_opa_fmt.yaml
+    needs: paths-filter
+    if: needs.paths-filter.outputs.opa-fmt == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
     secrets:
-      gh_app_id: ${{secrets.gh_app_id}}
-      gh_app_private_key: ${{secrets.gh_app_private_key}}
+      APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
 
   renovate-config-validator:
-    uses: ./.github/workflows/wc-renovate-config-validator.yaml
-    needs: path-filter
-    if: needs.path-filter.outputs.renovate-config-validator == 'true'
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
+    uses: ./.github/workflows/workflow_call_renovate_config_validator.yaml
+    needs: paths-filter
+    if: needs.paths-filter.outputs.renovate-config-validator == 'true'
     permissions:
       contents: read
 
-  test:
-    uses: ./.github/workflows/wc-test.yaml
-    needs: path-filter
+  list_and_plan:
+    uses: ./.github/workflows/workflow_call_list_and_plan.yaml
+    needs: paths-filter
     permissions:
       id-token: write
       contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
+      pull-requests: write
     secrets:
-      gh_app_id: ${{secrets.gh_app_id}}
-      gh_app_private_key: ${{secrets.gh_app_private_key}}
+      APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
 
   update-aqua-checksums:
-    uses: ./.github/workflows/wc-update-aqua-checksums.yaml
-    needs: path-filter
-    if: needs.path-filter.outputs.update-aqua-checksums == 'true'
+    uses: ./.github/workflows/workflow_call_update_aqua_checksums.yaml
+    needs: paths-filter
+    if: needs.paths-filter.outputs.update-aqua-checksums == 'true'
     permissions:
       contents: read
-    with:
-      ref: ${{needs.path-filter.outputs.merge_commit_sha}}
     secrets:
-      gh_app_id: ${{secrets.gh_app_id}}
-      gh_app_private_key: ${{secrets.gh_app_private_key}}
+      APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}

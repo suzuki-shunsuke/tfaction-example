@@ -1,0 +1,92 @@
+# This workflow is optional.
+# https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
+name: Detect drift
+on:
+  workflow_dispatch:
+    inputs: {}
+  schedule:
+    # hourly
+    - cron: "0 * * * *"
+jobs:
+  pick-out-drift-issues:
+    timeout-minutes: 10
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+      issues: write # To close issues
+    outputs:
+      issues: ${{steps.pick-out-drift-issues.outputs.issues}}
+      has_issues: ${{steps.pick-out-drift-issues.outputs.has_issues}}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
+        with:
+          aqua_version: v2.60.2
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+
+      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
+        id: pick-out-drift-issues
+        with:
+          action: pick-out-drift-issues
+          github_token: ${{github.token}}
+
+  detect-drift:
+    timeout-minutes: 30
+    name: "detect-drift (${{matrix.issue.target}})"
+    runs-on: ${{matrix.issue.runs_on}}
+    needs: pick-out-drift-issues
+    permissions:
+      issues: write # For github-comment and tfcmt
+      contents: write # To push commits
+      id-token: write # For OIDC
+    if: fromJSON(needs.pick-out-drift-issues.outputs.has_issues)
+    strategy:
+      fail-fast: false
+      matrix:
+        issue: ${{fromJSON(needs.pick-out-drift-issues.outputs.issues)}}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
+        with:
+          aqua_version: v2.60.2
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+
+      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
+        with:
+          action: set-drift-env
+          issue: ${{toJSON(matrix.issue)}}
+
+      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        id: setup
+        with:
+          action: setup
+
+      - name: terraform init
+        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        with:
+          action: terraform-init
+
+      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        with:
+          action: test
+
+      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        with:
+          action: plan
+
+      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
+        if: always()
+        with:
+          action: update-drift-issue
+          status: ${{job.status}}
