@@ -15,14 +15,14 @@ jobs:
     outputs:
       targets: ${{ steps.list-targets.outputs.targets }}
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
         with:
-          aqua_version: v2.60.2
+          aqua_version: v2.62.1
 
-      - uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+      - uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         id: list-targets
         with:
           action: list-targets
@@ -50,13 +50,13 @@ jobs:
       issues: write # For drift detection
       actions: "read" # To download plan files from GitHub Artifacts
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
         with:
-          aqua_version: v2.60.2
+          aqua_version: v2.62.1
 
       - name: Set up git to checkout private Terraform Modules
         run: gh auth setup-git
@@ -66,7 +66,7 @@ jobs:
           GH_HOST: github.com
 
       - name: Get or create a drift issue
-        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         # CHECK: You can remove this step if you don't use drift detection
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
@@ -83,7 +83,7 @@ jobs:
           permission-pull-requests: write
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         id: setup
         with:
           action: setup
@@ -91,21 +91,21 @@ jobs:
           github_token: ${{ steps.token.outputs.token }}
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         with:
           # pull-requests:write
           action: terraform-init
 
       - name: Apply
         id: apply
-        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         with:
           # pull-requests:write
           action: apply
 
       - name: Update related PR branches
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/update-pr-branch
-        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         if: always()
         with:
           action: update-pr-branch
@@ -116,7 +116,7 @@ jobs:
       - name: Create follow up PR
         if: failure()
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/follow-up-pr
-        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         with:
           action: create-follow-up-pr
           # pull-requests:write
@@ -127,7 +127,7 @@ jobs:
         if: always()
         # CHECK: You can remove this step if you don't use drift detection
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
-        uses: suzuki-shunsuke/tfaction@0627b0a1dfec9479a3fa73a5831be7979661b7eb # v2.0.4
+        uses: suzuki-shunsuke/tfaction@d0d52eb8b2ff13d6e27ac9653d038df384e58827 # v2.0.5
         with:
           action: update-drift-issue
           status: ${{job.status}}
