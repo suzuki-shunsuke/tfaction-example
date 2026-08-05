@@ -23,7 +23,7 @@ jobs:
         with:
           aqua_version: v2.62.3
 
-      - uses: suzuki-shunsuke/tfaction@4fc32a7692e857bad031bc9e0324e7135c45742b # v2.0.6
+      - uses: suzuki-shunsuke/tfaction@f62d11ce89de2aa26b00efaa266e449769f70442 # v2.1.0
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
           # issues:write
