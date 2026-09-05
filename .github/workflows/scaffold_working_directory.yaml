@@ -24,7 +24,7 @@ jobs:
         with:
           aqua_version: v2.62.3
 
-      - uses: suzuki-shunsuke/tfaction@f62d11ce89de2aa26b00efaa266e449769f70442 # v2.1.0
+      - uses: suzuki-shunsuke/tfaction@93bf76c239f5120cf83ec5149a1591c25412f9b4 # v2.1.1
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/scaffold-working-directory
         with:
           action: scaffold-working-dir
@@ -38,7 +38,7 @@ jobs:
           permission-contents: write # Push a commit
           permission-pull-requests: write # Create a pull request
 
-      - uses: suzuki-shunsuke/tfaction@f62d11ce89de2aa26b00efaa266e449769f70442 # v2.1.0
+      - uses: suzuki-shunsuke/tfaction@93bf76c239f5120cf83ec5149a1591c25412f9b4 # v2.1.1
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/scaffold-working-directory
         with:
           action: create-scaffold-pr
