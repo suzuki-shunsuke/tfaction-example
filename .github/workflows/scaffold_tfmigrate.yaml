@@ -39,7 +39,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
         with:
-          aqua_version: v2.62.3
+          aqua_version: v2.63.0
 
       - uses: suzuki-shunsuke/tfaction@9fdf06dabe8e3d9acb003939af57e477a0d3090e # v2.2.0
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/tfmigrate
