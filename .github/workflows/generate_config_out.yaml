@@ -36,7 +36,7 @@ jobs:
 
       - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
         with:
-          aqua_version: v2.62.3
+          aqua_version: v2.63.0
           working_directory: ${{env.TFACTION_WORKING_DIR}}
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
@@ -50,21 +50,21 @@ jobs:
           permission-contents: write # Push commits
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction@93bf76c239f5120cf83ec5149a1591c25412f9b4 # v2.1.1
+        uses: suzuki-shunsuke/tfaction@9fdf06dabe8e3d9acb003939af57e477a0d3090e # v2.2.0
         id: setup
         with:
           action: setup
           github_token: ${{steps.token.outputs.token}}
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@93bf76c239f5120cf83ec5149a1591c25412f9b4 # v2.1.1
+        uses: suzuki-shunsuke/tfaction@9fdf06dabe8e3d9acb003939af57e477a0d3090e # v2.2.0
         with:
           action: terraform-init
           github_token: ${{steps.token.outputs.token}}
 
       - name: Generate and push generated code by terraform plan -generate-config-out
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/terraform-plan-generate-config-out
-        uses: suzuki-shunsuke/tfaction@93bf76c239f5120cf83ec5149a1591c25412f9b4 # v2.1.1
+        uses: suzuki-shunsuke/tfaction@9fdf06dabe8e3d9acb003939af57e477a0d3090e # v2.2.0
         with:
           action: generate-config-out
           # contents: write - push a commit
