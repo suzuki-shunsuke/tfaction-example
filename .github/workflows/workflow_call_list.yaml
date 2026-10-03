@@ -35,12 +35,12 @@ jobs:
 
       - name: Delete old comments
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/hide-or-delete-old-comment
-        uses: suzuki-shunsuke/tfaction@9b6f6fb49f27d3ff63a9b7896cd661f3b9a26955 # v2.3.1
+        uses: suzuki-shunsuke/tfaction@07a983968cbace490e9059103a7019a638c65e10 # v2.3.3
         with:
           action: delete-comment
 
       - name: List Changed Modules
-        uses: suzuki-shunsuke/tfaction@9b6f6fb49f27d3ff63a9b7896cd661f3b9a26955 # v2.3.1
+        uses: suzuki-shunsuke/tfaction@07a983968cbace490e9059103a7019a638c65e10 # v2.3.3
         id: list-targets
         with:
           action: list-targets
