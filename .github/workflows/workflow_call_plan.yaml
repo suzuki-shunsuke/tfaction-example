@@ -46,25 +46,25 @@ jobs:
           permission-pull-requests: write # Create PR comments and labels
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction@e71f80efd3d0eeaca305cb93267e7274d9c6f8c9 # v2.3.2
+        uses: suzuki-shunsuke/tfaction@07a983968cbace490e9059103a7019a638c65e10 # v2.3.3
         with:
           action: setup
           github_token: ${{steps.token.outputs.token}}
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@e71f80efd3d0eeaca305cb93267e7274d9c6f8c9 # v2.3.2
+        uses: suzuki-shunsuke/tfaction@07a983968cbace490e9059103a7019a638c65e10 # v2.3.3
         with:
           action: terraform-init
           github_token: ${{steps.token.outputs.token}}
 
       - name: Test
-        uses: suzuki-shunsuke/tfaction@e71f80efd3d0eeaca305cb93267e7274d9c6f8c9 # v2.3.2
+        uses: suzuki-shunsuke/tfaction@07a983968cbace490e9059103a7019a638c65e10 # v2.3.3
         with:
           action: test
           github_token: ${{steps.token.outputs.token}}
 
       - name: Plan
-        uses: suzuki-shunsuke/tfaction@e71f80efd3d0eeaca305cb93267e7274d9c6f8c9 # v2.3.2
+        uses: suzuki-shunsuke/tfaction@07a983968cbace490e9059103a7019a638c65e10 # v2.3.3
         with:
           action: plan
           github_token: ${{steps.token.outputs.token}}
