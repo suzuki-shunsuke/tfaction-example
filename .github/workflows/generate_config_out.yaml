@@ -24,7 +24,7 @@ env:
 jobs:
   import:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       id-token: write # For OIDC
       contents: read # For checkout a private repository

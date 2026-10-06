@@ -8,7 +8,7 @@ env:
 jobs:
   setup:
     timeout-minutes: 10
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read # For checkout a private repository
       pull-requests: write # For ci-info and github-comment
