@@ -6,5 +6,5 @@ registries:
     ref: v4.576.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - import: imports/*.yaml
-  - name: aquasecurity/trivy@v0.76.0
+  - name: aquasecurity/trivy@v0.76.1
   - name: terraform-linters/tflint@v0.64.0
