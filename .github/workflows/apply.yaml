@@ -15,14 +15,14 @@ jobs:
     outputs:
       targets: ${{ steps.list-targets.outputs.targets }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
-      - uses: aquaproj/aqua-installer@611554c6f0137ba41c8dd15aca8bee82504ea461 # v4.1.1
+      - uses: aquaproj/aqua-installer@v4.1.1
         with:
           aqua_version: v2.65.2
 
-      - uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+      - uses: suzuki-shunsuke/tfaction@v2.3.4
         id: list-targets
         with:
           action: list-targets
@@ -50,11 +50,11 @@ jobs:
       issues: write # For drift detection
       actions: "read" # To download plan files from GitHub Artifacts
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: aquaproj/aqua-installer@611554c6f0137ba41c8dd15aca8bee82504ea461 # v4.1.1
+      - uses: aquaproj/aqua-installer@v4.1.1
         with:
           aqua_version: v2.65.2
 
@@ -66,7 +66,7 @@ jobs:
           GH_HOST: github.com
 
       - name: Get or create a drift issue
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         # CHECK: You can remove this step if you don't use drift detection
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
@@ -75,7 +75,7 @@ jobs:
 
       - name: Create a GitHub App installation access token
         id: token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        uses: actions/create-github-app-token@v3.3.0
         with:
           client-id: ${{ vars.CLIENT_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -83,7 +83,7 @@ jobs:
           permission-pull-requests: write
 
       - name: Set up
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         id: setup
         with:
           action: setup
@@ -91,21 +91,21 @@ jobs:
           github_token: ${{ steps.token.outputs.token }}
 
       - name: terraform init
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         with:
           # pull-requests:write
           action: terraform-init
 
       - name: Apply
         id: apply
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         with:
           # pull-requests:write
           action: apply
 
       - name: Update related PR branches
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/update-pr-branch
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         if: always()
         with:
           action: update-pr-branch
@@ -116,7 +116,7 @@ jobs:
       - name: Create follow up PR
         if: failure()
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/follow-up-pr
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         with:
           action: create-follow-up-pr
           # pull-requests:write
@@ -127,7 +127,7 @@ jobs:
         if: always()
         # CHECK: You can remove this step if you don't use drift detection
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         with:
           action: update-drift-issue
           status: ${{job.status}}
