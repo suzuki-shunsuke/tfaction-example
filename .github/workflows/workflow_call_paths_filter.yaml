@@ -8,8 +8,6 @@ on:
     outputs:
       update-aqua-checksums:
         value: ${{jobs.path-filter.outputs.update-aqua-checksums}}
-      renovate-config-validator:
-        value: ${{jobs.path-filter.outputs.renovate-config-validator}}
       conftest-verify:
         value: ${{jobs.path-filter.outputs.conftest-verify}}
       opa-fmt:
@@ -25,7 +23,6 @@ jobs:
       pull-requests: read
     outputs:
       update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
-      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
       conftest-verify: ${{steps.changes.outputs.conftest-verify}}
       opa-fmt: ${{steps.changes.outputs.opa-fmt}}
     steps:
@@ -37,11 +34,6 @@ jobs:
               - aqua/**
               - .github/workflows/test.yaml
               - .github/workflows/workflow_call_update_aqua_checksums.yaml
-
-            renovate-config-validator:
-              - renovate.json5
-              - .github/workflows/test.yaml
-              - .github/workflows/workflow_call_renovate_config_validator.yaml
 
             conftest-verify:
               - "**.rego"

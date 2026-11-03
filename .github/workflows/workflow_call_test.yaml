@@ -31,12 +31,13 @@ jobs:
     secrets:
       APP_PRIVATE_KEY: ${{secrets.APP_PRIVATE_KEY}}
 
-  renovate-config-validator:
-    uses: ./.github/workflows/workflow_call_renovate_config_validator.yaml
-    needs: paths-filter
-    if: needs.paths-filter.outputs.renovate-config-validator == 'true'
+  test-workflow:
+    uses: suzuki-shunsuke/test-workflow/.github/workflows/test.yaml@0b89b9b4314282810bc944364380568708208eaa # v0.0.2
+    with:
+      aqua_version: v2.66.0
     permissions:
       contents: read
+      pull-requests: read
 
   list_and_plan:
     uses: ./.github/workflows/workflow_call_list_and_plan.yaml
