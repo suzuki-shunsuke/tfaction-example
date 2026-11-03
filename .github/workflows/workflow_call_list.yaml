@@ -29,18 +29,18 @@ jobs:
       targets: ${{steps.list-targets.outputs.targets}}
       modules: ${{steps.list-targets.outputs.modules}}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Delete old comments
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/hide-or-delete-old-comment
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         with:
           action: delete-comment
 
       - name: List Changed Modules
-        uses: suzuki-shunsuke/tfaction@e892f1d582adb0c401caee0e768c9bd7b063e86e # v2.3.4
+        uses: suzuki-shunsuke/tfaction@v2.3.4
         id: list-targets
         with:
           action: list-targets
