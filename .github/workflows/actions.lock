@@ -61,7 +61,6 @@ workflows:
         - 'actions/create-github-app-token@v3.3.0'
         - 'aquaproj/aqua-installer@v4.1.1'
         - 'suzuki-shunsuke/tfaction@v2.3.4'
-    '.github/workflows/workflow_call_renovate_config_validator.yaml': []
     '.github/workflows/workflow_call_test.yaml': []
     '.github/workflows/workflow_call_update_aqua_checksums.yaml': []
 dependencies:
