@@ -7,4 +7,4 @@ registries:
 packages:
   - import: imports/*.yaml
   - name: aquasecurity/trivy@v0.76.2
-  - name: terraform-linters/tflint@v0.65.0
+  - name: terraform-linters/tflint@v0.66.0
