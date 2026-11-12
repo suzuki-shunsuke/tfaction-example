@@ -41,7 +41,7 @@ jobs:
         with:
           aqua_version: v2.66.1
 
-      - uses: suzuki-shunsuke/tfaction@v2.3.4
+      - uses: suzuki-shunsuke/tfaction@v2.3.5
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/tfmigrate
         with:
           action: scaffold-tfmigrate
