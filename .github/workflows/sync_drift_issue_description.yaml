@@ -19,7 +19,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: suzuki-shunsuke/tfaction@v2.3.4
+      - uses: suzuki-shunsuke/tfaction@v2.3.5
         # https://suzuki-shunsuke.github.io/tfaction/docs/unreleased/drift-detection
         with:
           action: sync-drift-issue-description
