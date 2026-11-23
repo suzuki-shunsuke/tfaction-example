@@ -25,7 +25,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           permission-contents: write # Push commits
 
-      - uses: aquaproj/aqua-installer@v4.1.1
+      - uses: aquaproj/aqua-installer@v4.1.2
         with:
           aqua_version: v2.66.1
 

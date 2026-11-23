@@ -9,42 +9,42 @@ workflows:
     '.github/workflows/apply.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/create-github-app-token@v3.4.0'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/check_commit_signing.yaml': []
     '.github/workflows/generate_config_out.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/create-github-app-token@v3.4.0'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/release_module.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/scaffold_tfmigrate.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/create-github-app-token@v3.4.0'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/scaffold_working_directory.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/create-github-app-token@v3.4.0'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/schedule_create_drift_issues.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/schedule_detect_drifts.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/sync_drift_issue_description.yaml':
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/test.yaml': []
     '.github/workflows/workflow_call_conftest_verify.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
     '.github/workflows/workflow_call_list.yaml':
         - 'actions/checkout@v7.0.1'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
@@ -52,14 +52,14 @@ workflows:
     '.github/workflows/workflow_call_opa_fmt.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/create-github-app-token@v3.4.0'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/github-action-opa-fmt@v0.1.0'
     '.github/workflows/workflow_call_paths_filter.yaml':
         - 'dorny/paths-filter@v4.0.3'
     '.github/workflows/workflow_call_plan.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/create-github-app-token@v3.4.0'
-        - 'aquaproj/aqua-installer@v4.1.1'
+        - 'aquaproj/aqua-installer@v4.1.2'
         - 'suzuki-shunsuke/tfaction@v2.3.5'
     '.github/workflows/workflow_call_test.yaml': []
     '.github/workflows/workflow_call_update_aqua_checksums.yaml': []
@@ -74,9 +74,9 @@ dependencies:
         commit: 'sha1-f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc'
         owner_id: 44036562
         repo_id: 642580244
-    'aquaproj/aqua-installer@v4.1.1':
-        ref: 'v4.1.1'
-        commit: 'sha1-611554c6f0137ba41c8dd15aca8bee82504ea461'
+    'aquaproj/aqua-installer@v4.1.2':
+        ref: 'v4.1.2'
+        commit: 'sha1-b8be739961814ee66b9e0d505f4d5de0d2eff047'
         owner_id: 95116411
         repo_id: 400140776
     'dorny/paths-filter@v4.0.3':
